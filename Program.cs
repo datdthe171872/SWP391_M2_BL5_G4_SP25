@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.Models;
+
 namespace SWP391_M2_BL5_G4_SP25
 {
     public class Program
@@ -5,7 +8,8 @@ namespace SWP391_M2_BL5_G4_SP25
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddDbContext<MyDBContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
             // Add services to the container.
             builder.Services.AddRazorPages();
 
