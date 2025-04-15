@@ -8,9 +8,9 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationID { get; set; }
-        public int JobID { get; set; }
+        public int? JobID { get; set; }
 
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
 
         [Required]
         public string Message { get; set; }

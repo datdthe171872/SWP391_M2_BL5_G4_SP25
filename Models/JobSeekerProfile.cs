@@ -18,6 +18,5 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public string Education { get; set; } // lieasence
         public bool isDelete { get; set; }
         public User User { get; set; }
-        public List<Skills> Skills { get; set; }
     }
 }

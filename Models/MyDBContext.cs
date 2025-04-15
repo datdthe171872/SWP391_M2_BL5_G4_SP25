@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.Models.Enum;
 
 namespace SWP391_M2_BL5_G4_SP25.Models
 {
@@ -9,7 +10,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public DbSet<User> Users { get; set; }
         public DbSet<ClientProfile> ClientProfiles { get; set; }
         public DbSet<JobSeekerProfile> JobSeekerProfiles { get; set; }
-        public DbSet<Skills> Skills { get; set; }
         public DbSet<JobCategory> JobCategories { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Job> Jobs { get; set; }
@@ -27,9 +27,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure enums as strings
-            modelBuilder.Entity<Skills>()
-                .Property(s => s.ProficiencyLevel)
-                .HasConversion<string>();
 
             modelBuilder.Entity<Job>()
                 .Property(j => j.JobType)
@@ -45,19 +42,20 @@ namespace SWP391_M2_BL5_G4_SP25.Models
 
             // Seed data for Roles
             modelBuilder.Entity<Role>().HasData(
-                new Role { RoleID = 1, RoleName = "JobSeeker", Description = "User looking for job opportunities" },
+                new Role { RoleID = 1, RoleName = "Job Seeker", Description = "User looking for job opportunities" },
                 new Role { RoleID = 2, RoleName = "Employer", Description = "User representing a company posting jobs" },
                 new Role { RoleID = 3, RoleName = "Admin", Description = "System administrator" }
             );
 
             // Seed data for JobCategories
             modelBuilder.Entity<JobCategory>().HasData(
-                new JobCategory { JobCategoryID = 1, CategoryName = "Software Development", Description = "Jobs related to software engineering and development" },
-                new JobCategory { JobCategoryID = 2, CategoryName = "Marketing", Description = "Jobs in marketing and advertising" },
-                new JobCategory { JobCategoryID = 3, CategoryName = "Finance", Description = "Jobs in finance and accounting" },
-                new JobCategory { JobCategoryID = 4, CategoryName = "Human Resources", Description = "Jobs in HR and recruitment" },
-                new JobCategory { JobCategoryID = 5, CategoryName = "Design", Description = "Jobs in graphic and UI/UX design" }
+                new JobCategory { JobCategoryID = 1, CategoryName = "Information Technology", Description = "Programming, software development, network administration" },
+                new JobCategory { JobCategoryID = 2, CategoryName = "Marketing", Description = "Marketing, advertising, communications" },
+                new JobCategory { JobCategoryID = 3, CategoryName = "Business", Description = "Sales, customer management, business development" },
+                new JobCategory { JobCategoryID = 4, CategoryName = "Human Resources", Description = "Recruitment, training, personnel management" },
+                new JobCategory { JobCategoryID = 5, CategoryName = "Accounting - Finance", Description = "Accounting, auditing, financial analysis" }
             );
+
         }
     }
 }

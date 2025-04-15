@@ -14,6 +14,7 @@ namespace SWP391_M2_BL5_G4_SP25.Models
 
         public DateTime ApplicationDate { get; set; } = DateTime.Now;
         public string CoverLetter { get; set; }
+        public string CVFile { get; set; }
         public string Status { get; set; } = "Pending"; // "Pending", "Reviewed", "Accepted", "Rejected"
         public bool isDelete { get; set; }
         public Job Job { get; set; }

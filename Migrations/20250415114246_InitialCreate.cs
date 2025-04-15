@@ -163,8 +163,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         name: "FK_CompanyReviews_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "UserID"
-                        );
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -178,9 +177,11 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Salary = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Exp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salary = table.Column<int>(type: "int", nullable: false),
+                    SkillsRequired = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     JobType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -210,6 +211,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     UserID = table.Column<int>(type: "int", nullable: false),
                     ApplicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CVFile = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -226,8 +228,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         name: "FK_JobApplications_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "UserID"
-                        );
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -236,8 +237,8 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 {
                     NotificationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JobID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<int>(type: "int", nullable: false),
+                    JobID = table.Column<int>(type: "int", nullable: true),
+                    UserID = table.Column<int>(type: "int", nullable: true),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsRead = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -250,42 +251,12 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         name: "FK_Notifications_Jobs_JobID",
                         column: x => x.JobID,
                         principalTable: "Jobs",
-                        principalColumn: "JobID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "JobID");
                     table.ForeignKey(
                         name: "FK_Notifications_Users_UserID",
                         column: x => x.UserID,
                         principalTable: "Users",
-                        principalColumn: "UserID"
-                        );
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skills",
-                columns: table => new
-                {
-                    SkillID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    JobID = table.Column<int>(type: "int", nullable: false),
-                    SkillName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ProficiencyLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    isDelete = table.Column<bool>(type: "bit", nullable: false),
-                    JobSeekerProfileID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skills", x => x.SkillID);
-                    table.ForeignKey(
-                        name: "FK_Skills_JobSeekerProfiles_JobSeekerProfileID",
-                        column: x => x.JobSeekerProfileID,
-                        principalTable: "JobSeekerProfiles",
-                        principalColumn: "JobSeekerProfileID");
-                    table.ForeignKey(
-                        name: "FK_Skills_Jobs_JobID",
-                        column: x => x.JobID,
-                        principalTable: "Jobs",
-                        principalColumn: "JobID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.InsertData(
@@ -293,11 +264,11 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 columns: new[] { "JobCategoryID", "CategoryName", "Description", "isDelete" },
                 values: new object[,]
                 {
-                    { 1, "Software Development", "Jobs related to software engineering and development", false },
-                    { 2, "Marketing", "Jobs in marketing and advertising", false },
-                    { 3, "Finance", "Jobs in finance and accounting", false },
-                    { 4, "Human Resources", "Jobs in HR and recruitment", false },
-                    { 5, "Design", "Jobs in graphic and UI/UX design", false }
+                    { 1, "Information Technology", "Programming, software development, network administration", false },
+                    { 2, "Marketing", "Marketing, advertising, communications", false },
+                    { 3, "Business", "Sales, customer management, business development", false },
+                    { 4, "Human Resources", "Recruitment, training, personnel management", false },
+                    { 5, "Accounting - Finance", "Accounting, auditing, financial analysis", false }
                 });
 
             migrationBuilder.InsertData(
@@ -305,7 +276,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 columns: new[] { "RoleID", "Description", "RoleName", "isDelete" },
                 values: new object[,]
                 {
-                    { 1, "User looking for job opportunities", "JobSeeker", false },
+                    { 1, "User looking for job opportunities", "Job Seeker", false },
                     { 2, "User representing a company posting jobs", "Employer", false },
                     { 3, "System administrator", "Admin", false }
                 });
@@ -369,16 +340,6 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skills_JobID",
-                table: "Skills",
-                column: "JobID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Skills_JobSeekerProfileID",
-                table: "Skills",
-                column: "JobSeekerProfileID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleID",
                 table: "Users",
                 column: "RoleID");
@@ -394,13 +355,10 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 name: "JobApplications");
 
             migrationBuilder.DropTable(
-                name: "Notifications");
-
-            migrationBuilder.DropTable(
-                name: "Skills");
-
-            migrationBuilder.DropTable(
                 name: "JobSeekerProfiles");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "Jobs");

@@ -12,7 +12,7 @@ using SWP391_M2_BL5_G4_SP25.Models;
 namespace SWP391_M2_BL5_G4_SP25.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20250414162316_InitialCreate")]
+    [Migration("20250415114246_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -145,6 +145,10 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Exp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("JobCategoryID")
                         .HasColumnType("int");
 
@@ -157,13 +161,16 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("PostedDate")
+                    b.Property<DateTime>("PostDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Salary")
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SkillsRequired")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -196,6 +203,10 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
                     b.Property<DateTime>("ApplicationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CVFile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverLetter")
                         .IsRequired()
@@ -251,36 +262,36 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         new
                         {
                             JobCategoryID = 1,
-                            CategoryName = "Software Development",
-                            Description = "Jobs related to software engineering and development",
+                            CategoryName = "Information Technology",
+                            Description = "Programming, software development, network administration",
                             isDelete = false
                         },
                         new
                         {
                             JobCategoryID = 2,
                             CategoryName = "Marketing",
-                            Description = "Jobs in marketing and advertising",
+                            Description = "Marketing, advertising, communications",
                             isDelete = false
                         },
                         new
                         {
                             JobCategoryID = 3,
-                            CategoryName = "Finance",
-                            Description = "Jobs in finance and accounting",
+                            CategoryName = "Business",
+                            Description = "Sales, customer management, business development",
                             isDelete = false
                         },
                         new
                         {
                             JobCategoryID = 4,
                             CategoryName = "Human Resources",
-                            Description = "Jobs in HR and recruitment",
+                            Description = "Recruitment, training, personnel management",
                             isDelete = false
                         },
                         new
                         {
                             JobCategoryID = 5,
-                            CategoryName = "Design",
-                            Description = "Jobs in graphic and UI/UX design",
+                            CategoryName = "Accounting - Finance",
+                            Description = "Accounting, auditing, financial analysis",
                             isDelete = false
                         });
                 });
@@ -338,14 +349,14 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 
-                    b.Property<int>("JobID")
+                    b.Property<int?>("JobID")
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("int");
 
                     b.Property<bool>("isDelete")
@@ -389,7 +400,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         {
                             RoleID = 1,
                             Description = "User looking for job opportunities",
-                            RoleName = "JobSeeker",
+                            RoleName = "Job Seeker",
                             isDelete = false
                         },
                         new
@@ -406,41 +417,6 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                             RoleName = "Admin",
                             isDelete = false
                         });
-                });
-
-            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Skills", b =>
-                {
-                    b.Property<int>("SkillID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillID"));
-
-                    b.Property<int>("JobID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("JobSeekerProfileID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProficiencyLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SkillName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("isDelete")
-                        .HasColumnType("bit");
-
-                    b.HasKey("SkillID");
-
-                    b.HasIndex("JobID");
-
-                    b.HasIndex("JobSeekerProfileID");
-
-                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.User", b =>
@@ -584,34 +560,15 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 {
                     b.HasOne("SWP391_M2_BL5_G4_SP25.Models.Job", "Job")
                         .WithMany()
-                        .HasForeignKey("JobID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("JobID");
 
                     b.HasOne("SWP391_M2_BL5_G4_SP25.Models.User", "User")
                         .WithMany("Notifications")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Job");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Skills", b =>
-                {
-                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.Job", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.JobSeekerProfile", null)
-                        .WithMany("Skills")
-                        .HasForeignKey("JobSeekerProfileID");
-
-                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.User", b =>
@@ -644,11 +601,6 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.JobCategory", b =>
                 {
                     b.Navigation("Jobs");
-                });
-
-            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.JobSeekerProfile", b =>
-                {
-                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Role", b =>
