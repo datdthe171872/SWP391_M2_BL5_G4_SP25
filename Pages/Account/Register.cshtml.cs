@@ -18,19 +18,28 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
         }
         [BindProperty]
         public RegisterInput Input { get; set; }
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
 
-            var user = new User { UserName = Input.Email, Email = Input.Email };
+            var user = new User {Email = Input.Email, FullName = Input.Fullname,UserName = Input.Email };
             var result = await _userManager.CreateAsync(user, Input.Password);
-            await _userManager.AddToRoleAsync(user, "Admin");
 
 
             if (result.Succeeded)
             {
+                if (Input.RoleType)
+                {
+                    await _userManager.AddToRoleAsync(user, "JobSeeker");
+                }
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, "Client");
+                }
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToPage("/Index");
             }
