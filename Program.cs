@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models;
 
@@ -10,6 +11,16 @@ namespace SWP391_M2_BL5_G4_SP25
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<MyDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
+
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<MyDBContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+            });
             // Add services to the container.
             builder.Services.AddRazorPages();
 
@@ -28,6 +39,7 @@ namespace SWP391_M2_BL5_G4_SP25
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapRazorPages();

@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models.Enum;
 
 namespace SWP391_M2_BL5_G4_SP25.Models
 {
-    public class MyDBContext : DbContext
+    public class MyDBContext : IdentityDbContext<User>
     {
         public MyDBContext(DbContextOptions<MyDBContext> options) : base(options) { }
         public DbSet<Role> Roles { get; set; }
