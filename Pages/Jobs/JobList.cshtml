@@ -1,5 +1,5 @@
-﻿@page "{pageNumber?}"
-@model SWP391_M2_BL5_G4_SP25.Pages.Jobs.IndexModel
+﻿@page "/Jobs"
+@model SWP391_M2_BL5_G4_SP25.Pages.Jobs.JobListModel
 @{
     ViewData["Title"] = "Job List";
 }
@@ -333,15 +333,25 @@
                         <ul class="d-flex gap-2">
                             @if (Model.CurrentPage > 1)
                             {
-                                <li><a href="/Jobs?pageNumber=@(Model.CurrentPage - 1)"><i class="rt-chevron-left"></i></a></li>
+                                <li>
+                                    <a href="@Url.Page("JobList", new { pageNumber = Model.CurrentPage - 1, search = Model.SearchTerm, location = Model.SelectedLocation, category = Model.SelectedCategory, jobType = Model.SelectedJobType, experience = Model.SelectedExperience, salary = Model.SelectedSalaryRange })" class="page-link">
+                                        <i class="rt-chevron-left"></i>
+                                    </a>
+                                </li>
                             }
                             @for (int i = 1; i <= Model.TotalPages; i++)
                             {
-                                <li><a class="@(i == Model.CurrentPage ? "active" : "")" href="/Jobs?pageNumber=@i">@i</a></li>
+                                <li>
+                                    <a class="page-link @(i == Model.CurrentPage ? "active" : "")" href="@Url.Page("JobList", new { pageNumber = i, search = Model.SearchTerm, location = Model.SelectedLocation, category = Model.SelectedCategory, jobType = Model.SelectedJobType, experience = Model.SelectedExperience, salary = Model.SelectedSalaryRange })">@i</a>
+                                </li>
                             }
                             @if (Model.CurrentPage < Model.TotalPages)
                             {
-                                <li><a href="/Jobs?pageNumber=@(Model.CurrentPage + 1)"><i class="rt-chevron-right"></i></a></li>
+                                <li>
+                                    <a href="@Url.Page("JobList", new { pageNumber = Model.CurrentPage + 1, search = Model.SearchTerm, location = Model.SelectedLocation, category = Model.SelectedCategory, jobType = Model.SelectedJobType, experience = Model.SelectedExperience, salary = Model.SelectedSalaryRange })" class="page-link">
+                                        <i class="rt-chevron-right"></i>
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </div>

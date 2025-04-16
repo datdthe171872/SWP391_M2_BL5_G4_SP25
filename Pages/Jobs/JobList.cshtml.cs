@@ -5,11 +5,11 @@ using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
 {
-    public class IndexModel : PageModel
+    public class JobListModel : PageModel
     {
         private readonly MyDBContext _context;
 
-        public IndexModel(MyDBContext context)
+        public JobListModel(MyDBContext context)
         {
             _context = context;
         }
@@ -121,7 +121,8 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
 
             // Pagination
             TotalJobs = await query.CountAsync();
-            TotalPages = (int)Math.Ceiling(TotalJobs / (double)PageSize);
+            TotalPages = TotalJobs == 0 ? 1 : (int)Math.Ceiling((double)TotalJobs / PageSize);
+            if (CurrentPage > TotalPages) CurrentPage = TotalPages;
 
             Jobs = await query
                 .OrderByDescending(j => j.PostDate)
