@@ -4,7 +4,7 @@ using SWP391_M2_BL5_G4_SP25.Models.Enum;
 
 namespace SWP391_M2_BL5_G4_SP25.Models
 {
-    public class MyDBContext : IdentityDbContext<User>
+    public class MyDBContext : IdentityDbContext<User,Role,int>
     {
         public MyDBContext(DbContextOptions<MyDBContext> options) : base(options) { }
         public DbSet<Role> Roles { get; set; }
@@ -27,6 +27,7 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // RẤT QUAN TRỌNG!
             // Configure enums as strings
 
             modelBuilder.Entity<Job>()
@@ -41,21 +42,7 @@ namespace SWP391_M2_BL5_G4_SP25.Models
                 .Property(ja => ja.Status)
                 .HasConversion<string>();
 
-            // Seed data for Roles
-            modelBuilder.Entity<Role>().HasData(
-                new Role { RoleID = 1, RoleName = "Job Seeker", Description = "User looking for job opportunities" },
-                new Role { RoleID = 2, RoleName = "Employer", Description = "User representing a company posting jobs" },
-                new Role { RoleID = 3, RoleName = "Admin", Description = "System administrator" }
-            );
-
-            // Seed data for JobCategories
-            modelBuilder.Entity<JobCategory>().HasData(
-                new JobCategory { JobCategoryID = 1, CategoryName = "Information Technology", Description = "Programming, software development, network administration" },
-                new JobCategory { JobCategoryID = 2, CategoryName = "Marketing", Description = "Marketing, advertising, communications" },
-                new JobCategory { JobCategoryID = 3, CategoryName = "Business", Description = "Sales, customer management, business development" },
-                new JobCategory { JobCategoryID = 4, CategoryName = "Human Resources", Description = "Recruitment, training, personnel management" },
-                new JobCategory { JobCategoryID = 5, CategoryName = "Accounting - Finance", Description = "Accounting, auditing, financial analysis" }
-            );
+            
 
         }
     }

@@ -1,5 +1,5 @@
 ﻿@page
-@model SWP391_M2_BL5_G4_SP25.Pages.Account.RegisterModel
+@model SWP391_M2_BL5_G4_SP25.Pages.Account.LoginModel
 @{
 
 }
@@ -37,7 +37,7 @@
     <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
     <title>Jobpath - Job Seeker &amp; Job Holder HTML Template</title>
     <!-- rt icons -->
-    <link rel="stylesheet" href="//assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="/assets/fonts/icon/css/rt-icons.css">
     <!-- fontawesome -->
     <link rel="stylesheet" href="/assets/fonts/fontawesome/fontawesome.min.css">
     <!-- all plugin css -->
@@ -192,60 +192,43 @@
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6 ">
+                    <!-- login form -->
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="max-content similar__form form__padding">
                                 <div class="d-flex mb-3 align-items-center justify-content-between">
-                                    <h6 class="mb-0">Create A Free Account</h6>
-                                    <button type="button" data-bs-dismiss="modal" aria-label="Close">
-                                        <i class="fa-regular fa-xmark text-primary"></i>
-                                    </button>
+                                    <h6 class="mb-0">Login To Jobpath</h6>
                                 </div>
-                                <div class="d-block has__line text-center"><p>Choose your Account Type</p></div>
-
-                                <div class="tab__switch flex-wrap flex-sm-nowrap nav-tab mt-30 mb-30">
-                                    <button class="rts__btn nav-link  active"><i class="fa-light fa-user"></i>Candidate</button>
-                                    <button class="rts__btn nav-link"><i class="rt-briefcase"></i> Employer</button>
-                                </div>
+                                
                                 <form method="post" class="d-flex flex-column gap-3">
-
                                     <div class="form-group">
-                                        <label for="sname" class="fw-medium text-dark mb-3">Your Name</label>
+                                        <label for="email" class="fw-medium text-dark mb-3">Your Email</label>
                                         <div class="position-relative">
-                                            <input type="text" name="sname" id="sname" placeholder="Enter Fulname" asp-for="Input.Fullname" required>
+                                            <input type="email" name="email" id="email" placeholder="Enter your email" asp-for="Input.Email" required>
                                             <i class="fa-light fa-user icon"></i>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
-                                        <label for="signemail" class="fw-medium text-dark mb-3">Your Email</label>
+                                        <label for="password" class="fw-medium text-dark mb-3">Password</label>
                                         <div class="position-relative">
-                                            <input type="email" name="signemail" id="signemail" placeholder="Enter your email" asp-for="Input.Email" required>
-                                            <i class="fa-sharp fa-light fa-envelope icon"></i>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="spassword" class="fw-medium text-dark mb-3">Password</label>
-                                        <div class="position-relative">
-                                            <input type="password" name="spassword" id="spassword" placeholder="Enter your password" asp-for="Input.Password" required>
+                                            <input type="password" name="password" id="password" placeholder="Enter your password" asp-for="Input.Password" required>
                                             <i class="fa-light fa-lock icon"></i>
                                         </div>
                                     </div>
-
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center fw-medium">
+                                        <a href="#" class="forgot__password text-para" data-bs-toggle="modal" data-bs-target="#forgotModal">Forgot Password?</a>
+                                    </div>
                                     <div class="form-group my-3">
                                         <button class="rts__btn w-100 fill__btn">Login</button>
                                     </div>
                                 </form>
                                 <div class="d-block has__line text-center"><p>Or</p></div>
-                                <div class="d-flex flex-wrap justify-content-center gap-4 mt-20 mb-20">
+                                <div class="d-flex gap-4 flex-wrap justify-content-center mt-20 mb-20">
                                     <div class="is__social google">
                                         <button><img src="/assets/img/icon/google-small.svg" alt="">Continue with Google</button>
                                     </div>
-                                    <div class="is__social facebook">
-                                        <button><img src="/assets/img/icon/facebook-small.svg" alt="">Continue with Facebook</button>
-                                    </div>
                                 </div>
-                                <span class="d-block text-center fw-medium">Have an account? <a href="#" data-bs-target="#loginModal" data-bs-toggle="modal" class="text-primary">Login</a> </span>
+                                <span class="d-block text-center fw-medium">Don`t have an account? <a href="/Account/Register" class="text-primary">Sign Up</a> </span>
                             </div>
                         </div>
                     </div>
