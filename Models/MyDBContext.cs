@@ -42,7 +42,15 @@ namespace SWP391_M2_BL5_G4_SP25.Models
                 .Property(ja => ja.Status)
                 .HasConversion<string>();
 
-            
+            // Seed data for JobCategories
+            modelBuilder.Entity<JobCategory>().HasData(
+                new JobCategory { JobCategoryID = 1, CategoryName = "Information Technology", Description = "Programming, software development, network administration" },
+                new JobCategory { JobCategoryID = 2, CategoryName = "Marketing", Description = "Marketing, advertising, communications" },
+                new JobCategory { JobCategoryID = 3, CategoryName = "Business", Description = "Sales, customer management, business development" },
+                new JobCategory { JobCategoryID = 4, CategoryName = "Human Resources", Description = "Recruitment, training, personnel management" },
+                new JobCategory { JobCategoryID = 5, CategoryName = "Accounting - Finance", Description = "Accounting, auditing, financial analysis" }
+            );
+
 
         }
     }

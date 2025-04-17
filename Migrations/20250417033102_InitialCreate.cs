@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SWP391_M2_BL5_G4_SP25.Migrations
 {
     /// <inheritdoc />
@@ -366,6 +368,18 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         column: x => x.JobID,
                         principalTable: "Jobs",
                         principalColumn: "JobID");
+                });
+
+            migrationBuilder.InsertData(
+                table: "JobCategories",
+                columns: new[] { "JobCategoryID", "CategoryName", "Description", "isDelete" },
+                values: new object[,]
+                {
+                    { 1, "Information Technology", "Programming, software development, network administration", false },
+                    { 2, "Marketing", "Marketing, advertising, communications", false },
+                    { 3, "Business", "Sales, customer management, business development", false },
+                    { 4, "Human Resources", "Recruitment, training, personnel management", false },
+                    { 5, "Accounting - Finance", "Accounting, auditing, financial analysis", false }
                 });
 
             migrationBuilder.CreateIndex(

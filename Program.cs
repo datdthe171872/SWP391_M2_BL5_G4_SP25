@@ -50,7 +50,7 @@ namespace SWP391_M2_BL5_G4_SP25
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-                string[] roleNames = { "Admin", "Client","JobSeeker" };
+                string[] roleNames = { "Admin", "Client", "JobSeeker" };
 
                 foreach (var roleName in roleNames)
                 {

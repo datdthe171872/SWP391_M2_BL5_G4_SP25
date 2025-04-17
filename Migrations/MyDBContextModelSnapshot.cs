@@ -357,6 +357,43 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     b.HasKey("JobCategoryID");
 
                     b.ToTable("JobCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            JobCategoryID = 1,
+                            CategoryName = "Information Technology",
+                            Description = "Programming, software development, network administration",
+                            isDelete = false
+                        },
+                        new
+                        {
+                            JobCategoryID = 2,
+                            CategoryName = "Marketing",
+                            Description = "Marketing, advertising, communications",
+                            isDelete = false
+                        },
+                        new
+                        {
+                            JobCategoryID = 3,
+                            CategoryName = "Business",
+                            Description = "Sales, customer management, business development",
+                            isDelete = false
+                        },
+                        new
+                        {
+                            JobCategoryID = 4,
+                            CategoryName = "Human Resources",
+                            Description = "Recruitment, training, personnel management",
+                            isDelete = false
+                        },
+                        new
+                        {
+                            JobCategoryID = 5,
+                            CategoryName = "Accounting - Finance",
+                            Description = "Accounting, auditing, financial analysis",
+                            isDelete = false
+                        });
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.JobSeekerProfile", b =>
