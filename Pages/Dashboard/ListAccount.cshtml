@@ -3,25 +3,25 @@
 @{
 }
 <div class="card shadow">
-	<div class="card-header">
+	<div class="card-header row">
 		<div class="col-md-4">
 			<h5 class="card-title mb-0">Account List</h5>
 		</div>
 		<div class="col-md-8">
 			<form method="get" class="d-flex gap-2">
-				@* <div class="input-group">
-          <input type="text" class="form-control" name="SearchString" value="@Model.SearchString" placeholder="Tìm kiếm theo tên, email, username..." />
-          <button type="submit" class="btn btn-light">
-            <i class="fas fa-search"></i> Tìm kiếm
-          </button>
+				<div class="input-group">
+					<input type="text" class="form-control" name="SearchString" value="@Model.SearchModel.SearchString" placeholder="Search by name, address, email, phone..." />
         </div>
-        <select name="SelectedRole" class="form-select" onchange="this.form.submit()">
-          <option value="">Tất cả roles</option>
-          @foreach (var role in Model.AllRoles)
+        <select name="SelectedRole" class="form-select">
+          <option value="">All roles</option>
+					@foreach (var role in Model.Roles)
           {
-            <option value="@role" selected="@(Model.SelectedRole == role)">@role</option>
+						<option value="@role" selected="@(Model.SearchModel.SelectedRole == role)">@role</option>
           }
-        </select> *@
+        </select>
+				<button type="submit" class="btn btn-light">
+					<i class="fas fa-search"></i> Search
+				</button>
 			</form>
 		</div>
 	</div>
