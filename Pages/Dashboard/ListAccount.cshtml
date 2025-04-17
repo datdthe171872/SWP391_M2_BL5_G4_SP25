@@ -1,0 +1,37 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Dashboard.ListAccountModel
+@{
+}
+<h1>Account List</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Username</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Status</th>
+      <th>Created Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var user in Model.Users)
+    {
+      <tr>
+        <td>@user.Id</td>
+        <td>@user.FullName</td>
+        <td>@user.Email</td>
+        <td>@(user.Address??"Unknow")</td>
+        <td>@(user.PhoneNumber??"Unknow")</td>
+        <td>@(user.isDelete)</td>
+        <td>@user.CreatedAt.ToString("dd/MM/yyyy")</td>
+        <td>
+          <a asp-page="./EditAccount" asp-route-id="@user.Id">Edit</a> |
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
