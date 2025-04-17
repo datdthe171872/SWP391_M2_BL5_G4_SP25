@@ -1,0 +1,74 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Dashboard.ListAccountModel
+@{
+}
+<div class="card shadow">
+	<div class="card-header row">
+		<div class="col-md-4">
+			<h5 class="card-title mb-0">Account List</h5>
+		</div>
+		<div class="col-md-8">
+			<form method="get" class="d-flex gap-2">
+				<div class="input-group">
+					<input type="text" class="form-control" name="SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, address, email, phone..." />
+        </div>
+        <select name="SelectedRole" class="form-select">
+          <option value="">All roles</option>
+					@foreach (var role in Model.Roles)
+          {
+						<option value="@role" selected="@(Model.SearchInput.SelectedRole == role)">@role</option>
+          }
+        </select>
+				<button type="submit" class="btn btn-light">
+					<i class="fas fa-search"></i> Search
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<table class="table table-hover table-striped">
+			<thead>
+				<tr>
+					<th>Full Name</th>
+					<th>Email</th>
+					<th>Address</th>
+					<th>Phone</th>
+					<th>Role</th>
+					<th>Status</th>
+					<th>Created Date</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model.Users)
+				{
+					<tr>
+						<td>@user.User.FullName</td>
+						<td>@user.User.Email</td>
+						<td>@(user.User.Address ?? "Unknow")</td>
+						<td>@(user.User.PhoneNumber ?? "Unknow")</td>
+						<td>@string.Join(", ", user.Roles)</td>
+						<td>
+							<form method="post" asp-page-handler="UpdateIsDelete" class="d-inline">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="isDelete" value="true" id="active-@user.User.Id" @(user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="active-@user.User.Id">Active</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="isDelete" value="false" id="inactive-@user.User.Id" @(!user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="inactive-@user.User.Id">Inactive</label>
+								</div>
+								<input type="hidden" name="UserId" value="@user.User.Id" />
+							</form>
+						</td>
+						<td>@user.User.CreatedAt.ToString("dd-MM-yyyy")</td>
+						<td>
+							<a asp-page="./EditAccount" asp-route-id="@user.User.Id">Edit</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
