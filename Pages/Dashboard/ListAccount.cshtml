@@ -10,13 +10,13 @@
 		<div class="col-md-8">
 			<form method="get" class="d-flex gap-2">
 				<div class="input-group">
-					<input type="text" class="form-control" name="SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, address, email, phone..." />
+					<input type="text" class="form-control" name="SearchString" value="@Model.SearchModel.SearchString" placeholder="Search by name, address, email, phone..." />
         </div>
         <select name="SelectedRole" class="form-select">
           <option value="">All roles</option>
 					@foreach (var role in Model.Roles)
           {
-						<option value="@role" selected="@(Model.SearchInput.SelectedRole == role)">@role</option>
+						<option value="@role" selected="@(Model.SearchModel.SelectedRole == role)">@role</option>
           }
         </select>
 				<button type="submit" class="btn btn-light">
