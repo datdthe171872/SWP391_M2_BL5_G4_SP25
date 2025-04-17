@@ -1,0 +1,78 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account.IndexModel
+@{
+}
+<div class="card shadow border-success">
+	<div class="card-header row bg-success text-white">
+		<div class="col-md-4">
+			<h5 class="card-title mb-0">Account List</h5>
+		</div>
+		<div class="col-md-8">
+			<form method="get" class="d-flex gap-2">
+				<div class="input-group">
+					<input type="text" class="form-control border-success" name="SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, address, email, phone..." />
+				</div>
+				<select name="SelectedRole" class="form-select border-success">
+					<option value="">All roles</option>
+					@foreach (var role in Model.Roles)
+					{
+						<option value="@role" selected="@(Model.SearchInput.SelectedRole == role)">@role</option>
+					}
+				</select>
+				<button type="submit" class="btn btn-light border-success text-success">
+					<i class="fas fa-search"></i> Search
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="d-flex justify-content-end mb-3">
+			<a asp-page="Create" class="btn btn-success">Create</a>
+		</div>
+		<table class="table table-bordered table-striped table-hover align-middle">
+			<thead class="table-success">
+				<tr>
+					<th scope="col">Full Name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Address</th>
+					<th scope="col">Phone</th>
+					<th scope="col">Role</th>
+					<th scope="col">Status</th>
+					<th scope="col">Created Date</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model.Users)
+				{
+					<tr>
+						<td>@user.User.FullName</td>
+						<td>@user.User.Email</td>
+						<td>@(user.User.Address ?? "Unknown")</td>
+						<td>@(user.User.PhoneNumber ?? "Unknown")</td>
+						<td>@string.Join(", ", user.Roles)</td>
+						<td>
+							<form method="post" asp-page-handler="UpdateIsDelete" class="d-inline">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input border-success" type="radio" name="isDelete" value="true" id="active-@user.User.Id" @(user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="active-@user.User.Id">Active</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input border-success" type="radio" name="isDelete" value="false" id="inactive-@user.User.Id" @(!user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="inactive-@user.User.Id">Inactive</label>
+								</div>
+								<input type="hidden" name="UserId" value="@user.User.Id" />
+							</form>
+						</td>
+						<td>@user.User.CreatedAt.ToString("dd-MM-yyyy")</td>
+						<td>
+							<a asp-page="./ViewAccount" asp-route-id="@user.User.Id" class="btn btn-sm btn-success">
+								<i class="fas fa-eye"></i> View
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

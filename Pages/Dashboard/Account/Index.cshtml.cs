@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.DTO.UserDtos;
 using SWP391_M2_BL5_G4_SP25.Models;
-using System.Data;
-using System.Threading.Tasks;
 
-namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard
+namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 {
-	public class ListAccountModel : PageModel
+	public class IndexModel : PageModel
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly RoleManager<Role> _roleManager;
 
-		public ListAccountModel(UserManager<User> userManager, RoleManager<Role> roleManager)
+		public IndexModel(UserManager<User> userManager, RoleManager<Role> roleManager)
 		{
 			_userManager = userManager;
 			_roleManager = roleManager;
@@ -80,6 +78,5 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard
 			}
 			return Page();
 		}
-
 	}
 }
