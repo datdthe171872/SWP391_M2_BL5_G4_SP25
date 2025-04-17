@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.DTO.UserDtos;
 using SWP391_M2_BL5_G4_SP25.Models;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard
@@ -22,38 +21,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard
 
 		public List<UserDto> Users { get; set; } = new List<UserDto>();
 
-		public List<string> Roles { get; set; } = new List<string>();
-
-		[BindProperty(SupportsGet = true)]
-		public UserSearchDto SearchInput { get; set; } = new UserSearchDto();
-
 		public async Task OnGetAsync()
 		{
-			Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
-
-			var usersQuery = _userManager.Users.AsQueryable();
-
-			if (!string.IsNullOrWhiteSpace(SearchInput.SearchString))
-			{
-				string searchTermLower = SearchInput.SearchString.ToLower();
-				usersQuery = usersQuery.Where(u =>
-						u.FullName.ToLower().Contains(searchTermLower) ||
-						u.Address.ToLower().Contains(searchTermLower) ||
-						u.PhoneNumber.ToLower().Contains(searchTermLower));
-			}
-
-			var filteredUsers = await usersQuery.ToListAsync();
+			var users = await _userManager.Users.ToListAsync();
 
 			Users = new List<UserDto>();
 
-			if (!string.IsNullOrEmpty(SearchInput.SelectedRole))
-			{
-				var usersInRole = await _userManager.GetUsersInRoleAsync(SearchInput.SelectedRole);
-
-				filteredUsers = filteredUsers.Where(u => usersInRole.Any(ur => ur.Id == u.Id)).ToList();
-			}
-
-			foreach (var user in filteredUsers)
+			foreach (var user in users)
 			{
 				var roles = await _userManager.GetRolesAsync(user);
 				Users.Add(new UserDto
