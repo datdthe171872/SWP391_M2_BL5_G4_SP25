@@ -2,36 +2,63 @@
 @model SWP391_M2_BL5_G4_SP25.Pages.Dashboard.ListAccountModel
 @{
 }
-<h1>Account List</h1>
+<div class="card shadow">
+  <div class="card-header">
+    <div class="col-md-4">
+      <h5 class="card-title mb-0">Account List</h5>
+    </div>
+    <div class="col-md-8">
+      <form method="get" class="d-flex gap-2">
+        @* <div class="input-group">
+          <input type="text" class="form-control" name="SearchString" value="@Model.SearchString" placeholder="Tìm kiếm theo tên, email, username..." />
+          <button type="submit" class="btn btn-light">
+            <i class="fas fa-search"></i> Tìm kiếm
+          </button>
+        </div>
+        <select name="SelectedRole" class="form-select" onchange="this.form.submit()">
+          <option value="">Tất cả roles</option>
+          @foreach (var role in Model.AllRoles)
+          {
+            <option value="@role" selected="@(Model.SelectedRole == role)">@role</option>
+          }
+        </select> *@
+      </form>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Created Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var user in Model.Users)
+        {
+          <tr>
+            <td>@user.User.FullName</td>
+            <td>@user.User.Email</td>
+            <td>@user.User.UserName</td>
+            <td>@(user.User.Address ?? "Unknow")</td>
+            <td>@(user.User.PhoneNumber ?? "Unknow")</td>
+            <td>@string.Join(", ", user.Roles)</td>
+            <td>@(user.User.isDelete ? "Active" : "Inactive")</td>
+            <td>@user.User.CreatedAt.ToString("dd-MM-yyyy")</td>
+            <td>
+              <a asp-page="./EditAccount" asp-route-id="@user.User.Id">Edit</a> 
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Full Name</th>
-      <th>Email</th>
-      <th>Username</th>
-      <th>Address</th>
-      <th>Phone</th>
-      <th>Status</th>
-      <th>Created Date</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var user in Model.Users)
-    {
-      <tr>
-        <td>@user.Id</td>
-        <td>@user.FullName</td>
-        <td>@user.Email</td>
-        <td>@(user.Address??"Unknow")</td>
-        <td>@(user.PhoneNumber??"Unknow")</td>
-        <td>@(user.isDelete)</td>
-        <td>@user.CreatedAt.ToString("dd/MM/yyyy")</td>
-        <td>
-          <a asp-page="./EditAccount" asp-route-id="@user.Id">Edit</a> |
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>
