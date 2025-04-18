@@ -36,7 +36,6 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 				return Page();
 			}
 
-			// Tạo user mới
 			var user = new User
 			{
 				UserName = Input.Email,

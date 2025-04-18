@@ -1,0 +1,72 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account.EditModel
+@{
+}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h4>Edit Account</h4>
+      </div>
+      <div class="card-body">
+        <form method="post">
+          <input type="hidden" asp-for="Account.Id" />
+          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.FullName"></label>
+            <input asp-for="Account.FullName" class="form-control" />
+            <span asp-validation-for="Account.FullName" class="text-danger"></span>
+          </div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.Email"></label>
+            <input asp-for="Account.Email" class="form-control" />
+            <span asp-validation-for="Account.Email" class="text-danger"></span>
+          </div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.Address"></label>
+            <input asp-for="Account.Address" class="form-control" />
+            <span asp-validation-for="Account.Address" class="text-danger"></span>
+          </div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.PhoneNumber"></label>
+            <input asp-for="Account.PhoneNumber" class="form-control" />
+            <span asp-validation-for="Account.PhoneNumber" class="text-danger"></span>
+          </div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.Role"></label>
+            <select asp-for="Account.Role" class="form-control">
+              <option value="">-- Select Role --</option>
+              @foreach (var role in Model.Roles)
+              {
+                <option value="@role">@role</option>
+              }
+            </select>
+            <span asp-validation-for="Account.Role" class="text-danger"></span>
+          </div>
+
+          <div class="form-group mb-3">
+            <label asp-for="Account.IsActive"></label>
+            <div class="form-check">
+              <input asp-for="Account.IsActive" class="form-check-input" />
+              <label class="form-check-label" asp-for="Account.IsActive">Active</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a asp-page="/Dashboard/Account/Index" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
