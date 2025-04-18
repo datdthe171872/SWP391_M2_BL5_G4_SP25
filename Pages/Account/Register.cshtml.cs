@@ -41,7 +41,8 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
                 }
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToPage("/Index");
+                TempData["StatusMessage"] = "Register successfully!";
+                return RedirectToPage("/Account/Login");
             }
 
             foreach (var error in result.Errors)
