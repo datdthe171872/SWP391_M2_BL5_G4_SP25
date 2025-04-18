@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models;
 using Microsoft.Extensions.DependencyInjection;
+using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25
 {
@@ -22,6 +23,7 @@ namespace SWP391_M2_BL5_G4_SP25
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
+            builder.Services.AddScoped<EmailSender>();
             // Add services to the container.
             builder.Services.AddRazorPages();
 
