@@ -29,6 +29,6 @@ namespace SWP391_M2_BL5_G4_SP25.DTO.UserDtos
 		public string Role { get; set; }
 
 		[Display(Name = "Status")]
-		public bool IsActive { get; set; } = true;
+		public bool IsDelete { get; set; } = true;
 	}
 }

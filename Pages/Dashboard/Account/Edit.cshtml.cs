@@ -41,5 +41,55 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 			};
 			Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
 		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+				return Page();
+			}
+
+			var user = await _userManager.FindByIdAsync(Account.Id.ToString());
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			user.Email = Account.Email;
+			user.FullName = Account.FullName;
+			user.Address = Account.Address;
+			user.PhoneNumber = Account.PhoneNumber;
+			user.isDelete = Account.IsDelete;
+
+			var result = await _userManager.UpdateAsync(user);
+			if (!result.Succeeded)
+			{
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError(string.Empty, error.Description);
+				}
+				Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+				return Page();
+			}
+
+			var currentRoles = await _userManager.GetRolesAsync(user);
+			var currentRole = currentRoles.FirstOrDefault();
+
+			if (currentRole != Account.Role)
+			{
+				if (!string.IsNullOrEmpty(currentRole))
+				{
+					await _userManager.RemoveFromRoleAsync(user, currentRole);
+				}
+
+				if (!string.IsNullOrEmpty(Account.Role))
+				{
+					await _userManager.AddToRoleAsync(user, Account.Role);
+				}
+			}
+
+			return RedirectToPage("/Dashboard/Account/Index");
+		}
 	}
 }

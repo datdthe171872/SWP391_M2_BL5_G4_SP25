@@ -11,7 +11,6 @@
       <div class="card-body">
         <form method="post">
           <input type="hidden" asp-for="Account.Id" />
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
           <div class="form-group mb-3">
             <label asp-for="Account.FullName"></label>
@@ -50,10 +49,10 @@
           </div>
 
           <div class="form-group mb-3">
-            <label asp-for="Account.IsActive"></label>
+            <label asp-for="Account.IsDelete"></label>
             <div class="form-check">
-              <input asp-for="Account.IsActive" class="form-check-input" />
-              <label class="form-check-label" asp-for="Account.IsActive">Active</label>
+              <input asp-for="Account.IsDelete" class="form-check-input" />
+              <label class="form-check-label" asp-for="Account.IsDelete">Active</label>
             </div>
           </div>
 
