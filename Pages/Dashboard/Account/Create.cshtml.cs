@@ -35,7 +35,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 				Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
 				return Page();
 			}
-
+			var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+			if (existingUser != null)
+			{
+				ModelState.AddModelError("Input.Email", "Email already exists. Please use a different email address.");
+				Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+				return Page();
+			}
 			var user = new User
 			{
 				UserName = Input.Email,
