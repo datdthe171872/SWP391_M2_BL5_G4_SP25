@@ -43,7 +43,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
             SelectedExperience = experience;
             SelectedSalaryRange = salary;
 
-            // Load filter options
+           
 
             Locations = await _context.Jobs
                 .Where(j => !j.isDelete)
@@ -78,7 +78,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
                 "150000+"
             };
 
-            // Build query
+            
             var query = _context.Jobs
                 .Include(j => j.Company)
                 .Where(j => !j.isDelete && j.Status == "Active");
@@ -119,7 +119,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
                     : query.Where(j => j.Salary >= minSalary);
             }
 
-            // Pagination
+            
             TotalJobs = await query.CountAsync();
             TotalPages = TotalJobs == 0 ? 1 : (int)Math.Ceiling((double)TotalJobs / PageSize);
             if (CurrentPage > TotalPages) CurrentPage = TotalPages;
