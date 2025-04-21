@@ -15,6 +15,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
             _context = context;
         }
 
+
         public IList<CompanyListDTO> Companies { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
