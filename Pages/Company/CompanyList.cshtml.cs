@@ -20,6 +20,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
         public int TotalPages { get; set; }
         public int TotalCompanies { get; set; }
         public int PageSize { get; } = 9; 
+
         public async Task OnGetAsync(int? pageNumber)
         {
             CurrentPage = pageNumber ?? 1;
