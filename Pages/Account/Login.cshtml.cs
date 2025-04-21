@@ -58,7 +58,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
             }
             else
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, false);
 
                 if (result.Succeeded)
                 {
