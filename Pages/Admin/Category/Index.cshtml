@@ -8,21 +8,12 @@
 			<h5 class="card-title mb-0">List Category</h5>
 		</div>
 		<div class="col-md-8">
-			@* <form method="get" class="d-flex gap-2">
-				<div class="input-group">
-					<input type="text" class="form-control border-success" name="SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, address, email, phone..." />
-				</div>
-				<select name="SelectedRole" class="form-select border-success">
-					<option value="">All roles</option>
-					@foreach (var role in Model.Roles)
-					{
-						<option value="@role" selected="@(Model.SearchInput.SelectedRole == role)">@role</option>
-					}
-				</select>
+			<form method="get" class="d-flex gap-2">
+				<input type="text" name="SearchInput.SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, description..."/>
 				<button type="submit" class="btn btn-light border-success text-success">
 					<i class="fas fa-search"></i> Search
 				</button>
-			</form> *@
+			</form>
 		</div>
 	</div>
 	<div class="card-body">
