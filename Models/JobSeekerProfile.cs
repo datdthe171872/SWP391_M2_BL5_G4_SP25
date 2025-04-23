@@ -22,6 +22,5 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public bool isDelete { get; set; }
         public User User { get; set; }
         public List<Resume> Resumes { get; set; }
-
     }
 }

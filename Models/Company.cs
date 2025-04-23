@@ -10,7 +10,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public int CompanyID { get; set; }
 
         public int ClientProfileID { get; set; }
-        public int CompanyCategoryID { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -28,7 +27,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
 
         public bool isDelete { get; set; }
         public ClientProfile ClientProfile { get; set; }
-        public CompanyCategories CompanyCategories { get; set; }
         public List<Job> Jobs { get; set; }
         public List<CompanyReview> CompanyReviews { get; set; }
     }
