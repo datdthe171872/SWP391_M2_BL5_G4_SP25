@@ -4,10 +4,10 @@
 }
 <div class="card shadow border-success">
 	<div class="card-header row bg-success text-white">
-		<div class="col-md-4">
+		<div class="col-md-8">
 			<h5 class="card-title mb-0">List Category</h5>
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-4">
 			<form method="get" class="d-flex gap-2">
 				<input type="text" name="SearchInput.SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, description..."/>
 				<button type="submit" class="btn btn-light border-success text-success">
@@ -48,7 +48,7 @@
 				}
 			</tbody>
 		</table>
-	@* 	<div class="d-flex justify-content-between align-items-center mt-3">
+		<div class="d-flex justify-content-between align-items-center mt-3">
 			<span>
 				Showing records @((Model.Pagination.PageNumber - 1) * Model.Pagination.PageSize + 1) to
 				@(Math.Min(Model.Pagination.PageNumber * Model.Pagination.PageSize, Model.Pagination.TotalRecords))
@@ -59,7 +59,7 @@
 					@if (Model.Pagination.PageNumber > 1)
 					{
 						<li class="page-item">
-							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber - 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")&SearchInput.SelectedRole=@(Model.SearchInput.SelectedRole ?? "")">Previous</a>
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber - 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">Previous</a>
 						</li>
 					}
 					else
@@ -72,14 +72,14 @@
 					@for (int i = 1; i <= Model.Pagination.TotalPages; i++)
 					{
 						<li class="page-item @(i == Model.Pagination.PageNumber ? "active bg-success border-success" : "")">
-							<a class="page-link @(i == Model.Pagination.PageNumber ? "bg-success border-success" : "")" href="?PageNumber=@i&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")&SearchInput.SelectedRole=@(Model.SearchInput.SelectedRole ?? "")">@i</a>
+							<a class="page-link @(i == Model.Pagination.PageNumber ? "bg-success border-success" : "")" href="?PageNumber=@i&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">@i</a>
 						</li>
 					}
 
 					@if (Model.Pagination.PageNumber < Model.Pagination.TotalPages)
 					{
 						<li class="page-item">
-							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber + 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")&SearchInput.SelectedRole=@(Model.SearchInput.SelectedRole ?? "")">Next</a>
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber + 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">Next</a>
 						</li>
 					}
 					else
@@ -90,6 +90,6 @@
 					}
 				</ul>
 			</nav>
-		</div> *@
+		</div>
 	</div>
 </div>
