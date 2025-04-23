@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models;
-using Microsoft.Extensions.DependencyInjection;
 using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25

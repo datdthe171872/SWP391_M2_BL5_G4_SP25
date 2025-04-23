@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SWP391_M2_BL5_G4_SP25.Models.Enum;
 
 namespace SWP391_M2_BL5_G4_SP25.Models
 {
@@ -17,6 +16,10 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<CompanyReview> CompanyReviews { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Responsibility> Responsibilities { get; set; }
+        public DbSet<Requirement> Requirements { get; set; }
+        public DbSet<Benefit> Benefits { get; set; }
+        public DbSet<Resume> Resumes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder()
@@ -50,8 +53,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
                 new JobCategory { JobCategoryID = 4, CategoryName = "Human Resources", Description = "Recruitment, training, personnel management" },
                 new JobCategory { JobCategoryID = 5, CategoryName = "Accounting - Finance", Description = "Accounting, auditing, financial analysis" }
             );
-
-
         }
     }
 }
