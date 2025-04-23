@@ -231,8 +231,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
                     b.HasKey("CompanyID");
 
-                    b.HasIndex("ClientProfileID")
-                        .IsUnique();
+                    b.HasIndex("ClientProfileID");
 
                     b.ToTable("Companies");
                 });
@@ -777,8 +776,8 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Company", b =>
                 {
                     b.HasOne("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", "ClientProfile")
-                        .WithOne("Company")
-                        .HasForeignKey("SWP391_M2_BL5_G4_SP25.Models.Company", "ClientProfileID")
+                        .WithMany("Companies")
+                        .HasForeignKey("ClientProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -901,8 +900,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", b =>
                 {
-                    b.Navigation("Company")
-                        .IsRequired();
+                    b.Navigation("Companies");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Company", b =>

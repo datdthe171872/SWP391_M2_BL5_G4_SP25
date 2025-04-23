@@ -523,8 +523,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_ClientProfileID",
                 table: "Companies",
-                column: "ClientProfileID",
-                unique: true);
+                column: "ClientProfileID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyReviews_CompanyID",
