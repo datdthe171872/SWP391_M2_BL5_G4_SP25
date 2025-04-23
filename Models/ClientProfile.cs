@@ -23,6 +23,6 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public bool isDelete { get; set; }
 
         public User User { get; set; }
-        public Company Company { get; set; }
+        public List<Company> Companies { get; set; }
     }
 }
