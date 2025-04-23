@@ -1,0 +1,425 @@
+﻿@page "/Jobs/Details/{id:int}"
+@model SWP391_M2_BL5_G4_SP25.Pages.Jobs.DetailsModel
+@{
+    ViewData["Title"] = Model.JobDetail.Title;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@Model.JobDetail.Title">
+    <meta name="keywords" content="Job, @Model.JobDetail.CategoryName">
+    <link rel="shortcut-icon" href="/assets/img/favicon-16x16.png" type="image/x-icon">
+    <title>@ViewData["Title"] - Jobpath</title>
+    <link rel="stylesheet" href="/assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="rts__section rts__header absolute__header">
+        <div class="container-none">
+            <div class="rts__menu__background">
+                <div class="row">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="rts__logo">
+                            <a href="/">
+                                <img class="logo__image" src="/assets/img/logo/header__one.svg" width="160" height="40" alt="logo">
+                            </a>
+                        </div>
+                        <div class="rts__menu d-flex gap-5 gap-lg-4 gap-xl-5 align-items-center">
+                            <div class="navigation d-none d-lg-block">
+                                <nav class="navigation__menu" id="offcanvas__menu">
+                                    <ul class="list-unstyled">
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Home</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem"><a href="/">Home One</a></li>
+                                                <li role="menuitem"><a href="/index-3">Home Two</a></li>
+                                                <li role="menuitem"><a href="/index-4">Home Three</a></li>
+                                                <li role="menuitem"><a href="/index-5">Home Four</a></li>
+                                                <li role="menuitem"><a href="/index-6">Home Five</a></li>
+                                                <li role="menuitem"><a href="/index-7">Home Six</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Browse Company</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="#">Company List</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/Company">Company List</a></li>
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Browse Jobs</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="#">Job List</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/Jobs">Job List One</a></li>
+                                                        <li role="menuitem"><a href="/job-list-2">Job List Two</a></li>
+                                                        <li role="menuitem"><a href="/job-list-3">Job List Three</a></li>
+                                                        <li role="menuitem"><a href="/job-list-4">Job List Four</a></li>
+                                                        <li role="menuitem"><a href="/job-list-5">Job List Five</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="#">Job Details</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/job-details-1">Job Details One</a></li>
+                                                        <li role="menuitem"><a href="/job-details-2">Job Details Two</a></li>
+                                                        <li role="menuitem"><a href="/job-details-3">Job Details Three</a></li>
+                                                        <li role="menuitem"><a href="/job-details-4">Job Details Four</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Employers</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="/employer-1">Employer Style</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/employer-1">Employer One</a></li>
+                                                        <li role="menuitem"><a href="/employer-2">Employer Two</a></li>
+                                                        <li role="menuitem"><a href="/employer-3">Employer Three</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="/employer-details-1">Employer Details</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/employer-details-1">Employer Details 1</a></li>
+                                                        <li role="menuitem"><a href="/employer-details-2">Employer Details 2</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem"><a href="/employer-dashboard">Employer Dashboard</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Candidates</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="/candidate-1">Candidate Style</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/candidate-1">Candidate One</a></li>
+                                                        <li role="menuitem"><a href="/candidate-2">Candidate Two</a></li>
+                                                        <li role="menuitem"><a href="/candidate-3">Candidate Three</a></li>
+                                                        <li role="menuitem"><a href="/candidate-4">Candidate Four</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="/candidate-details-1">Candidate Details</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/candidate-details-1">Candidate Details 1</a></li>
+                                                        <li role="menuitem"><a href="/candidate-details-2">Candidate Details 2</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem"><a href="/candidate-dashboard">Candidate Dashboard</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Pages</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem" class="has-child has-arrow">
+                                                    <a href="/about">Blog</a>
+                                                    <ul class="sub__style" role="menu">
+                                                        <li role="menuitem"><a href="/blog-1">Blog One</a></li>
+                                                        <li role="menuitem"><a href="/blog-2">Blog Two</a></li>
+                                                        <li role="menuitem"><a href="/blog-3">Blog Three</a></li>
+                                                        <li role="menuitem"><a href="/blog-4">Blog Four</a></li>
+                                                        <li role="menuitem"><a href="/blog-details">Blog Details</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li role="menuitem"><a href="/about">About</a></li>
+                                                <li role="menuitem"><a href="/faq">Faq</a></li>
+                                                <li role="menuitem"><a href="/tos">Terms & Conditions</a></li>
+                                                <li role="menuitem"><a href="/privacy">Privacy Policy</a></li>
+                                                <li role="menuitem"><a href="/pricing">Pricing</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="navigation__menu--item has-child has-arrow">
+                                            <a href="#" class="navigation__menu--item__link">Contact</a>
+                                            <ul class="submenu sub__style" role="menu">
+                                                <li role="menuitem"><a href="/contact-1">Contact One</a></li>
+                                                <li role="menuitem"><a href="/contact-2">Contact Two</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="header__right__btn d-flex gap-3">
+                                <a href="#" class="small__btn d-none d-sm-flex no__fill__btn border-6 font-xs" aria-label="Login Button" data-bs-toggle="modal" data-bs-target="#loginModal"> <i class="rt-login"></i>Sign In</a>
+                                <a href="/employer-dash-jobpost" class="small__btn d-none d-sm-flex d-xl-flex fill__btn border-6 font-xs" aria-label="Job Posting Button">Add Job</a>
+                                <button class="d-md-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fa-sharp fa-regular fa-bars"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="rts__section breadcrumb__background">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 position-relative d-flex justify-content-between align-items-center">
+                    <div class="breadcrumb__area max-content mx-auto breadcrumb__padding">
+                        <div class="rts__job__card__big bg-transparent p-0 position-relative z-1 flex-wrap justify-content-center d-flex gap-4 align-items-center">
+                            <div>
+                                <div class="job__meta w-100 d-flex text-center text-md-start flex-column gap-2">
+                                    <h3 class="job__title text-center h3 mb-0">@Model.JobDetail.Title, @Model.JobDetail.CompanyName</h3>
+                                    <div class="d-flex gap-4 justify-content-center justify-content-md-start flex-wrap mb-3 mt-2">
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-light fa-location-dot"></i> @Model.JobDetail.Location
+                                        </div>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-light rt-briefcase"></i> @Model.JobDetail.JobType
+                                        </div>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-light fa-clock"></i> @Model.JobDetail.PostDate.ToString("dd MMMM yyyy")
+                                        </div>
+                                        <div class="d-flex gap-2 fw-medium align-items-center">
+                                            <i class="fa-light rt-price-tag"></i> $@Model.JobDetail.Salary / Monthly
+                                        </div>
+                                    </div>
+                                    <div class="job__tags d-flex justify-content-center flex-wrap gap-3">
+                                        <a href="#">@Model.JobDetail.CategoryName</a>
+                                        @foreach (var skill in Model.JobDetail.Skills?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? new string[0])
+                                        {
+                                            <a href="#">@skill.Trim()</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="breadcrumb__area__shape breadcrumb__style__four d-flex gap-4 justify-content-end align-items-center">
+                        <div class="shape__one common"><img src="/assets/img/breadcrumb/shape-1.svg" alt=""></div>
+                        <div class="shape__two common"><img src="/assets/img/breadcrumb/shape-2.svg" alt=""></div>
+                        <div class="shape__three common"><img src="/assets/img/breadcrumb/shape-3.svg" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Details -->
+    <div class="rts__section section__padding">
+        <div class="container">
+            <div class="row justify-content-center g-30">
+                <div class="col-lg-8">
+                    <div class="rts__job__details">
+                        <div class="mb-30">
+                            <img class="rounded-3" src="/assets/img/pages/job-details-4.webp" alt="Job Image">
+                        </div>
+                        <div class="job__overview style__four no-border-bottom mb-40">
+                            <h6 class="fw-semibold mb-30">Job Overview</h6>
+                            <div class="job__overview__content">
+                                <ul class="d-grid grid-style">
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="rt-calender"></i></span>
+                                            <div>
+                                                <span class="left-text">Date Posted</span>
+                                                <span class="text">@Model.JobDetail.PostDate.ToString("dd MMMM yyyy")</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    @* <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="fa-light fa-user"></i></span>
+                                            <div>
+                                                <span class="left-text">Vacancy</span>
+                                                <span class="text">@Model.JobDetail.Vacancy</span>
+                                            </div>
+                                        </div>
+                                    </li> *@
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="rt-experience"></i></span>
+                                            <div>
+                                                <span class="left-text">Experience</span>
+                                                <span class="text">@Model.JobDetail.Exp</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="rt-price-tag"></i></span>
+                                            <div>
+                                                <span class="left-text">Offered Salary</span>
+                                                <span class="text">$@Model.JobDetail.Salary / Monthly</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                   @*  <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="rt-loading"></i></span>
+                                            <div>
+                                                <span class="left-text">Job Deadline</span>
+                                                <span class="text">@Model.JobDetail.Deadline.ToString("dd MMMM yyyy")</span>
+                                            </div>
+                                        </div>
+                                    </li> *@
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="rt-qualification"></i></span>
+                                            <div>
+                                                <span class="left-text">Qualification</span>
+                                                <span class="text">@Model.JobDetail.SkillsRequired</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="fa-sharp fa-thin fa-location-dot"></i></span>
+                                            <div>
+                                                <span class="left-text">Location</span>
+                                                <span class="text">@Model.JobDetail.Location</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex flex-column gap-3 gap-sm-0 align-items-center justify-content-between">
+                                        <div class="d-flex gap-3">
+                                            <span class="icon"><i class="fa-light fa-user"></i></span>
+                                            <div>
+                                                <span class="left-text">Gender</span>
+                                                <span class="text">@Model.JobDetail.Gender</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="description" class="mb-30">
+                            <h6 class="fw-semibold mb-20">Job Description</h6>
+                            <p>@Model.JobDetail.Description</p>
+                        </div>
+                        @* <div id="responsibility" class="mb-30">
+                            <h6 class="fw-semibold mb-20">Responsibility</h6>
+                            <ul class="list-style-dot">
+                                @foreach (var responsibility in Model.JobDetail.Responsibilities?.Split('\n', StringSplitOptions.RemoveEmptyEntries) ?? new string[0])
+                                {
+                                    <li>@responsibility.Trim()</li>
+                                }
+                            </ul>
+                        </div> *@
+                        <div id="skillsrequired" class="mb-30">
+                            <h6 class="fw-semibold mb-20">Skill</h6>
+                            <ul class="list-style-dot">
+                                @foreach (var skillsrequired in Model.JobDetail.SkillsRequired?.Split('\n', StringSplitOptions.RemoveEmptyEntries) ?? new string[0])
+                                {
+                                    <li>@skillsrequired.Trim()</li>
+                                }
+                            </ul>
+                        </div>
+                        <div id="skill" class="mb-30">
+                            <h6 class="fw-semibold mb-20">Experience</h6>
+                            <div class="job__tags job__details__tags">
+                                @foreach (var skill in Model.JobDetail.Exp?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? new string[0])
+                                {
+                                    <a href="#" class="job__tag">@skill.Trim()</a>
+                                }
+                            </div>
+                        </div>
+                        @* <div id="salary" class="mb-30">
+                            <h6 class="fw-semibold mb-20">Salary and Benefits</h6>
+                            <ul class="list-style-dot">
+                                @foreach (var salary in Model.JobDetail.Salary?.Split('\n', StringSplitOptions.RemoveEmptyEntries) ?? new int[0])
+                                {
+                                    <li>@salary.Trim()</li>
+                                }
+                            </ul>
+                        </div> *@
+                        <div class="d-flex flex-wrap gap-4 mt-40 mb-60">
+                            <a href="#" class="rts__btn apply__btn fill__btn be-1 fw-bold">Apply This Position</a>
+                            <div class="d-flex gap-3 align-items-center">
+                                <span class="h6 fw-semibold">Share</span>
+                                <div class="rts__social d-flex gap-3">
+                                    <a target="_blank" href="https://facebook.com/" aria-label="facebook"><i class="fa-brands fa-facebook"></i></a>
+                                    <a target="_blank" href="https://instagram.com/" aria-label="instagram"><i class="fa-brands fa-instagram"></i></a>
+                                    <a target="_blank" href="https://linkedin.com/" aria-label="linkedin"><i class="fa-brands fa-linkedin"></i></a>
+                                    <a target="_blank" href="https://pinterest.com/" aria-label="pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                                    <a target="_blank" href="https://youtube.com/" aria-label="youtube"><i class="fa-brands fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job__location__map">
+                        <h5 class="fw-semibold mb-30">Location</h5>
+                        <div class="gmap">
+                            <iframe src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=@Model.JobDetail.Location&t=&z=14&ie=UTF8&iwloc=B&output=embed"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (giữ nguyên như template) -->
+    <footer class="rts__section footer__home__one">
+        <div class="container">
+            <div class="row">
+                <div class="footer__wrapper d-flex flex-wrap flex-column flex-sm-row gap-4 gap-md-0 gap-sm-3 justify-content-between pt-60 pb-60">
+                    <div class="rts__footer__widget max-320">
+                        <a href="/" class="footer__logo" aria-label="logo">
+                            <img src="/assets/img/logo/header__one.svg" width="160" height="40" alt="logo">
+                        </a>
+                        <p class="mt-4">Whether you're an experienced professional or a fresh graduate eager to dive into the workforce, we have something for everyone.</p>
+                    </div>
+                    <div class="rts__footer__widget max-content">
+                        <div class="font-20 fw-medium mb-3 h6">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="/Jobs" aria-label="footer__menu__link">Browse Jobs</a></li>
+                            <li><a href="#" aria-label="footer__menu__link">Browse Candidates</a></li>
+                            <li><a href="#" aria-label="footer__menu__link">Blog & News</a></li>
+                            <li><a href="#" aria-label="footer__menu__link">FAQ Question</a></li>
+                            <li><a href="#" aria-label="footer__menu__link">Job Alerts</a></li>
+                        </ul>
+                    </div>
+                    <div class="rts__footer__widget max-content">
+                        <div class="font-20 fw-medium mb-3 h6">Contact Us</div>
+                        <ul class="list-unstyled mb-3">
+                            <li><a href="#"><i class="fa-light fa-location-dot"></i>2715 Ash Dr. San Jose, USA</a></li>
+                            <li><a href="callto:+880171234578"><i class="fa-light fa-phone"></i>+(61) 545-432-234</a></li>
+                            <li><a href="mailto:jobpath@gmail.com"><i class="fa-light fa-envelope"></i>jobpath@gmail.com</a></li>
+                        </ul>
+                        <div class="font-20 fw-medium mb-20 text-dark">Social Link</div>
+                        <div class="rts__social d-flex gap-4">
+                            <a target="_blank" href="https://facebook.com/" aria-label="facebook"><i class="fa-brands fa-facebook"></i></a>
+                            <a target="_blank" href="https://instagram.com/" aria-label="instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a target="_blank" href="https://linkedin.com/" aria-label="linkedin"><i class="fa-brands fa-linkedin"></i></a>
+                            <a target="_blank" href="https://pinterest.com/" aria-label="pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                            <a target="_blank" href="https://youtube.com/" aria-label="youtube"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="rts__footer__widget max-320">
+                        <div class="font-20 fw-medium mb-3 h6">Subscribe Our Newsletter</div>
+                        <p class="br-sm-none">Subscribe Our Newsletter get <br> Update our New Course</p>
+                        <form action="#" class="d-flex align-items-center justify-content-between mt-4 newsletter">
+                            <input type="email" name="semail" id="semail" placeholder="Enter your email" required>
+                            <button type="submit" class="rts__btn fill__btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rts__copyright">
+            <div class="container">
+                <p class="text-center fw-medium py-4">Copyright © 2024 All Rights Reserved by jobpath</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/js/plugins.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>
