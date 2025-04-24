@@ -10,7 +10,7 @@ namespace SWP391_M2_BL5_G4_SP25.DTO
         public string Phone { get; set; }
         public string Img { get; set; }
         public string Link { get; set; }
-
+        public string Location { get; set; }
         public DateTime dob { get; set; }
 
         public string Desciption { get; set; }

@@ -69,7 +69,7 @@
                             <div class="author__image">
                                 @if(Model.Profile.Img != null)
                                 {
-                                    <img src="@Model.Profile" alt="profile image">
+                                    <img src="@Model.Profile.Img" alt="profile image">
                                 }
                                 else
                                 {
@@ -112,18 +112,31 @@
                                     }
                                 </div>
                             </div>
-                            
-                            <div class="rt-input-group">
-                                <label>Link</label>
-                                @if (Model.Profile.Link != null)
-                                {
-                                    <div>@Model.Profile.Link</div>
-                                }
-                                else
-                                {
-                                    <div>None</div>
-                                }
+                            <div class="row row-cols-sm-2 row-cols-1 g-3">
+                                <div class="rt-input-group">
+                                    <label >Link</label>
+                                    @if (Model.Profile.Link != null)
+                                    {
+                                        <div>@Model.Profile.Link</div>
+                                    }
+                                    else
+                                    {
+                                        <div>None</div>
+                                    }
+                                </div>
+                                <div class="rt-input-group">
+                                    <label>Location</label>
+                                    @if (Model.Profile.Location != null)
+                                    {
+                                        <div>@Model.Profile.Location</div>
+                                    }
+                                    else
+                                    {
+                                        <div>None</div>
+                                    }
+                                </div>
                             </div>
+                            
                             <!-- editor area -->
                             <div class="rt-input-group">
                                 <label for="editor">Candidate Description</label>
@@ -135,6 +148,10 @@
                                 {
                                     <div>None</div>
                                 }
+                            </div>
+                            <div class="info__field">
+                                <div class="form-group text-danger" asp-validation-summary="ModelOnly">
+                                </div>
                             </div>
                             <div class="info__field">
                                 <button type="button" class="rts__btn fill__btn mx-0" data-bs-toggle="modal" data-bs-target="#updateProfileModal">Update Profile</button>
@@ -158,24 +175,71 @@
                                 
                                 <div class="tab-content" id="">
                                 </div>
-                                <form method="post" class="d-flex flex-column gap-3">
-                                    <div class="form-group">
-                                        <label for="email" class="fw-medium text-dark mb-3">Your Email</label>
-                                        <div class="position-relative">
-                                            <input type="email" id="email" value="user@test.com" placeholder="Enter your email" required>
-                                            <i class="fa-light fa-user icon"></i>
+                                <form method="post" class="d-flex flex-column gap-3" enctype="multipart/form-data">
+
+                                    <!-- Img -->
+                                    <div class="info__top">
+                                        @* <div class="author__image">
+                                            @if (Model.Profile.Img != null)
+                                            {
+                                                <img src="@Model.Profile" alt="@Model.Profile">
+                                            }
+                                            else
+                                            {
+                                                <img src="/assets/img/dashboard/proifle.svg" alt="">
+                                            }
+                                        </div> *@
+                                        <div class="form-group">
+                                            <div class="position-relative">
+                                                <input type="file" asp-for="UploadImage" id="img"required>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- Fullname -->
                                     <div class="form-group">
-                                        <label for="password" class="fw-medium text-dark mb-3">Password</label>
+                                        <label for="fullname" class="fw-medium text-dark mb-3">Your Fullname</label>
                                         <div class="position-relative">
-                                            <input type="password"value="1234" id="password" placeholder="Enter your password" required>
-                                            <i class="fa-light fa-lock icon"></i>
+                                            <input type="text" asp-for="Input.Fullname" id="fullname" placeholder="Enter Fullname" required>
                                         </div>
                                     </div>
-                                    
+                                    <!-- Phone -->
+                                    <div class="form-group">
+                                        <label for="phone" class="fw-medium text-dark mb-3">Your Phone</label>
+                                        <div class="position-relative">
+                                            <input type="number" id="phone" placeholder="Enter Phone" asp-for="Input.Phone" required>
+                                        </div>
+                                    </div>
+                                    <!--Dob  -->
+                                    <div class="form-group">
+                                        <label for="dob" class="fw-medium text-dark mb-3">Your Date Of Birth </label>
+                                        <div class="position-relative">
+                                            <input type="date" id="dob" required asp-for="Input.dob">
+                                        </div>
+                                    </div>
+                                    <!-- Location -->
+                                    <div class="form-group">
+                                        <label for="location" class="fw-medium text-dark mb-3">Your Location</label>
+                                        <div class="position-relative">
+                                            <input type="text" id="location" placeholder="Enter Location" asp-for="Input.Location" required>
+                                        </div>
+                                    </div>
+                                    <!--Link  -->
+                                    <div class="form-group">
+                                        <label for="link" class="fw-medium text-dark mb-3">Your Link</label>
+                                        <div class="position-relative">
+                                            <input type="text" id="link" placeholder="Enter Link" asp-for="Input.Link" required>
+                                        </div>
+                                    </div>
+                                    <!-- Description -->
+                                    <div class="form-group">
+                                        <label for="des" class="fw-medium text-dark mb-3">Your Description</label>
+                                        <div class="position-relative">
+                                            <textarea id="des" class="form-control" placeholder="Enter Description" cols="10" rows="5" asp-for="Input.Desciption"></textarea>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group my-3">
-                                        <button class="rts__btn w-100 fill__btn">Update</button>
+                                        <button type="submit" class="rts__btn w-100 fill__btn">Update</button>
                                     </div>
                                 </form>
                             </div>
