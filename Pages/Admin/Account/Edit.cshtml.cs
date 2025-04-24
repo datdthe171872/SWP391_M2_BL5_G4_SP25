@@ -39,7 +39,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Account
 				PhoneNumber = user.PhoneNumber,
 				Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
 			};
-			Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+			Roles = await _roleManager.Roles
+				 .Where(r => r.Name.ToLower() != "admin")
+				 .Select(r => r.Name)
+				 .ToListAsync();
 		}
 
 		public async Task<IActionResult> OnPostAsync()
