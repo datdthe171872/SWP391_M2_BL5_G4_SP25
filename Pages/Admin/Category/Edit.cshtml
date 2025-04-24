@@ -1,0 +1,39 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Admin.Category.EditModel
+@{
+}
+<div class="row">
+	<div class="col-md-8 offset-md-2">
+		<div class="card">
+			<div class="card-header">
+				<h4>Edit Category</h4>
+			</div>
+			<div class="card-body">
+				<form method="post">
+					<input type="hidden" asp-for="Category.JobCategoryID" />
+
+					<div class="form-group mb-3">
+						<label asp-for="Category.CategoryName"></label>
+						<input asp-for="Category.CategoryName" class="form-control" />
+						<span asp-validation-for="Category.CategoryName" class="text-danger"></span>
+					</div>
+
+					<div class="form-group mb-3">
+						<label asp-for="Category.Description"></label>
+						<input asp-for="Category.Description" class="form-control" />
+						<span asp-validation-for="Category.Description" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Create</button>
+						<a asp-page="/Admin/Category/Index" class="btn btn-secondary">Cancel</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
