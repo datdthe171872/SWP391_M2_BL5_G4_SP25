@@ -25,6 +25,7 @@ namespace SWP391_M2_BL5_G4_SP25
                 options.SlidingExpiration = true;
             });
             builder.Services.AddScoped<EmailSender>();
+            builder.Services.AddScoped<UploadImg>();
             // Add services to the container.
             builder.Services.AddRazorPages();
 
