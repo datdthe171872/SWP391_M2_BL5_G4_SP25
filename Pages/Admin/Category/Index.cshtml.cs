@@ -18,7 +18,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 			_context = context;
 		}
 
-		public List<JobCategory> Categories { get; set; } = new List<JobCategory>();
+		public List<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
 
 		[BindProperty(SupportsGet = true)]
 		public CategorySearchDto SearchInput { get; set; } = new CategorySearchDto();
@@ -34,16 +34,23 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 
 			if (!string.IsNullOrWhiteSpace(SearchInput.SearchString))
 			{
-				query = query.Where(c => c.CategoryName.ToLower().Contains(SearchInput.SearchString.ToLower()) || 
+				query = query.Where(c => c.CategoryName.ToLower().Contains(SearchInput.SearchString.ToLower()) ||
 				c.Description.ToLower().Contains(SearchInput.SearchString.ToLower()));
 			}
 			Pagination.PageNumber = PageNumber;
 			var totalCount = await query.CountAsync();
 			Pagination.CalculatePagination(totalCount);
 			Categories = await query
-				.Skip((Pagination.PageNumber - 1) * Pagination.PageSize)
-				.Take(Pagination.PageSize)
-				.ToListAsync();
+					.Skip((Pagination.PageNumber - 1) * Pagination.PageSize)
+					.Take(Pagination.PageSize)
+					.Select(c => new CategoryDto
+					{
+						JobCategoryID = c.JobCategoryID,
+						CategoryName = c.CategoryName,
+						Description = c.Description,
+						isDelete = c.isDelete
+					})
+					.ToListAsync();
 		}
 
 		public async Task<IActionResult> OnPostDeleteAsync(int id)
