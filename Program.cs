@@ -12,6 +12,7 @@ namespace SWP391_M2_BL5_G4_SP25
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<MyDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
+          
 
             builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<MyDBContext>()
@@ -25,6 +26,7 @@ namespace SWP391_M2_BL5_G4_SP25
                 options.SlidingExpiration = true;
             });
             builder.Services.AddScoped<EmailSender>();
+            builder.Services.AddScoped<AdminDashService>();
             // Add services to the container.
             builder.Services.AddRazorPages();
 
