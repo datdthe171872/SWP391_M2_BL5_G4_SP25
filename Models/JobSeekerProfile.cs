@@ -13,10 +13,14 @@ namespace SWP391_M2_BL5_G4_SP25.Models
 
         [StringLength(255)]
         public string Logo { get; set; }
-        public string CV { get; set; }
-        public string Experience { get; set; }
-        public string Education { get; set; } // lieasence
+        public string Description { get; set; }
+        public string Link { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Dob { get; set; }
+        
         public bool isDelete { get; set; }
         public User User { get; set; }
+        public List<Resume> Resumes { get; set; }
     }
 }

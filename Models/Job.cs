@@ -36,5 +36,8 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public Company Company { get; set; }
         public JobCategory JobCategory { get; set; }
         public List<JobApplication> JobApplications { get; set; }
+        public List<Responsibility> Responsibilities { get; set; }
+        public List<Requirement> Requirements { get; set; }
+        public List<Benefit> Benefits { get; set; }
     }
 }

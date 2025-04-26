@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models;
-using Microsoft.Extensions.DependencyInjection;
+using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25
 {
@@ -21,7 +21,10 @@ namespace SWP391_M2_BL5_G4_SP25
             {
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30); 
+                options.SlidingExpiration = true;
             });
+            builder.Services.AddScoped<EmailSender>();
             // Add services to the container.
             builder.Services.AddRazorPages();
 

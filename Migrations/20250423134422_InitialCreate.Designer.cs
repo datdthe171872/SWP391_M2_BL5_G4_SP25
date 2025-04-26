@@ -12,7 +12,7 @@ using SWP391_M2_BL5_G4_SP25.Models;
 namespace SWP391_M2_BL5_G4_SP25.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    [Migration("20250417033102_InitialCreate")]
+    [Migration("20250423134422_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -128,6 +128,31 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Benefit", b =>
+                {
+                    b.Property<int>("BenefitID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BenefitID"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
+                    b.HasKey("BenefitID");
+
+                    b.HasIndex("JobID");
+
+                    b.ToTable("Benefits");
+                });
+
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", b =>
                 {
                     b.Property<int>("ClientProfileID")
@@ -137,6 +162,13 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClientProfileID"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -179,10 +211,18 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -194,8 +234,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
                     b.HasKey("CompanyID");
 
-                    b.HasIndex("ClientProfileID")
-                        .IsUnique();
+                    b.HasIndex("ClientProfileID");
 
                     b.ToTable("Companies");
                 });
@@ -407,15 +446,14 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobSeekerProfileID"));
 
-                    b.Property<string>("CV")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Education")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Dob")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Experience")
+                    b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -472,6 +510,81 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Requirement", b =>
+                {
+                    b.Property<int>("RequirementID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementID"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequirementID");
+
+                    b.HasIndex("JobID");
+
+                    b.ToTable("Requirements");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Responsibility", b =>
+                {
+                    b.Property<int>("ResponsibilityID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResponsibilityID"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResponsibilityID");
+
+                    b.HasIndex("JobID");
+
+                    b.ToTable("Responsibilities");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Resume", b =>
+                {
+                    b.Property<int>("ResumeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResumeID"));
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("JobSeekerProfileID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ResumeID");
+
+                    b.HasIndex("JobSeekerProfileID");
+
+                    b.ToTable("Resumes");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Role", b =>
@@ -641,6 +754,17 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Benefit", b =>
+                {
+                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.Job", "Job")
+                        .WithMany("Benefits")
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", b =>
                 {
                     b.HasOne("SWP391_M2_BL5_G4_SP25.Models.User", "User")
@@ -655,8 +779,8 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Company", b =>
                 {
                     b.HasOne("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", "ClientProfile")
-                        .WithOne("Company")
-                        .HasForeignKey("SWP391_M2_BL5_G4_SP25.Models.Company", "ClientProfileID")
+                        .WithMany("Companies")
+                        .HasForeignKey("ClientProfileID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -744,10 +868,42 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Requirement", b =>
+                {
+                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.Job", "Job")
+                        .WithMany("Requirements")
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Responsibility", b =>
+                {
+                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.Job", "Job")
+                        .WithMany("Responsibilities")
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Resume", b =>
+                {
+                    b.HasOne("SWP391_M2_BL5_G4_SP25.Models.JobSeekerProfile", "JobSeekerProfile")
+                        .WithMany("Resumes")
+                        .HasForeignKey("JobSeekerProfileID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("JobSeekerProfile");
+                });
+
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.ClientProfile", b =>
                 {
-                    b.Navigation("Company")
-                        .IsRequired();
+                    b.Navigation("Companies");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Company", b =>
@@ -759,12 +915,23 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.Job", b =>
                 {
+                    b.Navigation("Benefits");
+
                     b.Navigation("JobApplications");
+
+                    b.Navigation("Requirements");
+
+                    b.Navigation("Responsibilities");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.JobCategory", b =>
                 {
                     b.Navigation("Jobs");
+                });
+
+            modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.JobSeekerProfile", b =>
+                {
+                    b.Navigation("Resumes");
                 });
 
             modelBuilder.Entity("SWP391_M2_BL5_G4_SP25.Models.User", b =>

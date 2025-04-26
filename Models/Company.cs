@@ -14,8 +14,10 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         [Required]
         [StringLength(100)]
         public string CompanyName { get; set; }
-
+        [EmailAddress]
+        public string Email { get; set; }
         public string Description { get; set; }
+        public string Link { get; set; }
 
         [StringLength(255)]
         public string Image { get; set; }

@@ -187,6 +187,8 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Logo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     isDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -209,9 +211,9 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     Logo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CV = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Experience = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
                     isDelete = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -233,7 +235,9 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientProfileID = table.Column<int>(type: "int", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     isDelete = table.Column<bool>(type: "bit", nullable: false)
@@ -246,6 +250,27 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         column: x => x.ClientProfileID,
                         principalTable: "ClientProfiles",
                         principalColumn: "ClientProfileID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Resumes",
+                columns: table => new
+                {
+                    ResumeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobSeekerProfileID = table.Column<int>(type: "int", nullable: false),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Resumes", x => x.ResumeID);
+                    table.ForeignKey(
+                        name: "FK_Resumes_JobSeekerProfiles_JobSeekerProfileID",
+                        column: x => x.JobSeekerProfileID,
+                        principalTable: "JobSeekerProfiles",
+                        principalColumn: "JobSeekerProfileID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -313,6 +338,27 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Benefits",
+                columns: table => new
+                {
+                    BenefitID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobID = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Benefits", x => x.BenefitID);
+                    table.ForeignKey(
+                        name: "FK_Benefits_Jobs_JobID",
+                        column: x => x.JobID,
+                        principalTable: "Jobs",
+                        principalColumn: "JobID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "JobApplications",
                 columns: table => new
                 {
@@ -370,6 +416,48 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                         principalColumn: "JobID");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Requirements",
+                columns: table => new
+                {
+                    RequirementID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobID = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Requirements", x => x.RequirementID);
+                    table.ForeignKey(
+                        name: "FK_Requirements_Jobs_JobID",
+                        column: x => x.JobID,
+                        principalTable: "Jobs",
+                        principalColumn: "JobID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Responsibilities",
+                columns: table => new
+                {
+                    ResponsibilityID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobID = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Responsibilities", x => x.ResponsibilityID);
+                    table.ForeignKey(
+                        name: "FK_Responsibilities_Jobs_JobID",
+                        column: x => x.JobID,
+                        principalTable: "Jobs",
+                        principalColumn: "JobID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "JobCategories",
                 columns: new[] { "JobCategoryID", "CategoryName", "Description", "isDelete" },
@@ -422,6 +510,11 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Benefits_JobID",
+                table: "Benefits",
+                column: "JobID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClientProfiles_UserID",
                 table: "ClientProfiles",
                 column: "UserID",
@@ -430,8 +523,7 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_ClientProfileID",
                 table: "Companies",
-                column: "ClientProfileID",
-                unique: true);
+                column: "ClientProfileID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CompanyReviews_CompanyID",
@@ -478,6 +570,21 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 name: "IX_Notifications_UserID",
                 table: "Notifications",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requirements_JobID",
+                table: "Requirements",
+                column: "JobID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Responsibilities_JobID",
+                table: "Responsibilities",
+                column: "JobID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resumes_JobSeekerProfileID",
+                table: "Resumes",
+                column: "JobSeekerProfileID");
         }
 
         /// <inheritdoc />
@@ -499,22 +606,34 @@ namespace SWP391_M2_BL5_G4_SP25.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Benefits");
+
+            migrationBuilder.DropTable(
                 name: "CompanyReviews");
 
             migrationBuilder.DropTable(
                 name: "JobApplications");
 
             migrationBuilder.DropTable(
-                name: "JobSeekerProfiles");
+                name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "Notifications");
+                name: "Requirements");
+
+            migrationBuilder.DropTable(
+                name: "Responsibilities");
+
+            migrationBuilder.DropTable(
+                name: "Resumes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
+
+            migrationBuilder.DropTable(
+                name: "JobSeekerProfiles");
 
             migrationBuilder.DropTable(
                 name: "Companies");

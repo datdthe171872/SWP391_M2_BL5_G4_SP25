@@ -13,12 +13,16 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public int UserID { get; set; }
 
         public string Description { get; set; }
+        public string Link { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Dob { get; set; }
 
         [StringLength(255)]
         public string Logo { get; set; }
         public bool isDelete { get; set; }
 
         public User User { get; set; }
-        public Company Company { get; set; }
+        public List<Company> Companies { get; set; }
     }
 }

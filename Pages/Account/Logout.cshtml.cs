@@ -17,7 +17,8 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
         public async Task<IActionResult> OnGet()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToPage("/Account/Login"); // hoặc RedirectToPage("/Account/Login")
+
+            return RedirectToPage("/Account/Login"); 
         }
     }
 }
