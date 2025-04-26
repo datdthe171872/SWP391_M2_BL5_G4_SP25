@@ -7,6 +7,7 @@ using SWP391_M2_BL5_G4_SP25.Common;
 using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 using System.Security.Principal;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 {
@@ -31,6 +32,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 
         [BindProperty(SupportsGet = true)]
         public FilterJobInput Input {  get; set; }
+
+        [BindProperty]
+        public ManageAppliedJobInput InputManage { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -109,6 +114,31 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
                     .Take(Pagination.PageSize)
                     .ToList();
             return Page();
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var job = _context.Jobs.FirstOrDefault(x => x.JobID == InputManage.JobId);
+            if (job == null)
+            {
+                return Page();
+            }
+            if (InputManage.Type == "Delete")
+            {
+                job.isDelete = true;
+            }
+            else
+            {
+                job.Status = "End";
+            }
+            try
+            {
+                var result = await _context.SaveChangesAsync();
+                TempData["StatusMessage"] = "End job successfully!";
+            }catch (Exception ex)
+            {
+                TempData["StatusMessage"] = "End  Error";
+            }
+            return await OnGetAsync();
         }
     }
 }
