@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.DTO.UserDtos;
 using SWP391_M2_BL5_G4_SP25.Models;
 
-namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
+namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Account
 {
 	public class EditModel : PageModel
 	{
@@ -39,7 +39,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 				PhoneNumber = user.PhoneNumber,
 				Role = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
 			};
-			Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+			Roles = await _roleManager.Roles
+				 .Where(r => r.Name.ToLower() != "admin")
+				 .Select(r => r.Name)
+				 .ToListAsync();
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -89,7 +92,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
 				}
 			}
 
-			return RedirectToPage("/Dashboard/Account/Index");
+			return RedirectToPage("/Admin/Account/Index");
 		}
 	}
 }
