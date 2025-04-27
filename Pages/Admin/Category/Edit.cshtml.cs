@@ -48,14 +48,6 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 			{
 				return NotFound();
 			}
-			var existingCategory = await _context.JobCategories
-					.FirstOrDefaultAsync(c => c.CategoryName == Category.CategoryName && !c.isDelete);
-
-			if (existingCategory != null)
-			{
-				ModelState.AddModelError("Category.CategoryName", "Category name already exists.");
-				return Page();
-			}
 
 			category.CategoryName = Category.CategoryName;
 			category.Description = Category.Description;
