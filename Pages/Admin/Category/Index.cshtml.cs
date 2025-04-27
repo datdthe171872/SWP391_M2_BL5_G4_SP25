@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -30,38 +31,59 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 
 		public async Task OnGetAsync()
 		{
-			var query = _context.JobCategories.Where(c => !c.isDelete);
+			var query = _context.JobCategories.AsQueryable();
 
 			if (!string.IsNullOrWhiteSpace(SearchInput.SearchString))
 			{
 				query = query.Where(c => c.CategoryName.ToLower().Contains(SearchInput.SearchString.ToLower()) ||
 				c.Description.ToLower().Contains(SearchInput.SearchString.ToLower()));
 			}
+
+			if (SearchInput.Status.HasValue)
+			{
+				query = query.Where(c => c.isDelete == !SearchInput.Status.Value);
+			}
+
 			Pagination.PageNumber = PageNumber;
 			var totalCount = await query.CountAsync();
 			Pagination.CalculatePagination(totalCount);
 			Categories = await query
-					.Skip((Pagination.PageNumber - 1) * Pagination.PageSize)
-					.Take(Pagination.PageSize)
-					.Select(c => new CategoryDto
-					{
-						JobCategoryID = c.JobCategoryID,
-						CategoryName = c.CategoryName,
-						Description = c.Description,
-						isDelete = c.isDelete
-					})
-					.ToListAsync();
+							.Skip((Pagination.PageNumber - 1) * Pagination.PageSize)
+							.Take(Pagination.PageSize)
+							.Select(c => new CategoryDto
+							{
+								JobCategoryID = c.JobCategoryID,
+								CategoryName = c.CategoryName,
+								Description = c.Description,
+								isDelete = c.isDelete
+							})
+							.ToListAsync();
 		}
 
-		public async Task<IActionResult> OnPostDeleteAsync(int id)
+		//public async Task<IActionResult> OnPostDeleteAsync(int id)
+		//{
+		//	var category = await _context.JobCategories.FirstOrDefaultAsync(c => c.JobCategoryID == id && !c.isDelete);
+		//	if (category == null)
+		//	{
+		//		return NotFound();
+		//	}
+
+		//	category.isDelete = true;
+		//	_context.JobCategories.Update(category);
+		//	await _context.SaveChangesAsync();
+
+		//	return RedirectToPage();
+		//}
+
+		public async Task<IActionResult> OnPostUpdateIsDeleteAsync(int jobCategoryId, string isDelete)
 		{
-			var category = await _context.JobCategories.FirstOrDefaultAsync(c => c.JobCategoryID == id && !c.isDelete);
+			var category = await _context.JobCategories.FirstOrDefaultAsync(c => c.JobCategoryID == jobCategoryId);
 			if (category == null)
 			{
 				return NotFound();
 			}
 
-			category.isDelete = true;
+			category.isDelete = isDelete == "true";
 			_context.JobCategories.Update(category);
 			await _context.SaveChangesAsync();
 

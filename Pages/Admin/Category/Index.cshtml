@@ -4,12 +4,17 @@
 }
 <div class="card shadow border-success">
 	<div class="card-header row bg-success text-white">
-		<div class="col-md-8">
+		<div class="col-md-6">
 			<h5 class="card-title mb-0">List Category</h5>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<form method="get" class="d-flex gap-2">
-				<input type="text" name="SearchInput.SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, description..."/>
+				<input type="text" name="SearchInput.SearchString" value="@Model.SearchInput.SearchString" placeholder="Search by name, description..." />
+				<select name="SearchInput.Status" class="form-select">
+					<option value="">All</option>
+					<option value="true" selected="@((Model.SearchInput.Status == true) ? "selected" : null)">Inactive</option>
+					<option value="false" selected="@((Model.SearchInput.Status == false) ? "selected" : null)">Active</option>
+				</select>
 				<button type="submit" class="btn btn-light border-success text-success">
 					<i class="fas fa-search"></i> Search
 				</button>
@@ -25,6 +30,7 @@
 				<tr>
 					<th scope="col">Name</th>
 					<th scope="col">Description</th>
+					<th scope="col">Status</th>
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
@@ -35,14 +41,27 @@
 						<td>@cate.CategoryName</td>
 						<td>@cate.Description</td>
 						<td>
+							<form method="post" asp-page-handler="UpdateIsDelete" class="d-inline">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input border-success" type="radio" name="isDelete" value="true" id="active-@cate.JobCategoryID" @(cate.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="active-@cate.JobCategoryID">Active</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input border-success" type="radio" name="isDelete" value="false" id="inactive-@cate.JobCategoryID" @(!cate.isDelete ? "checked" : "") onchange="this.form.submit()" />
+									<label class="form-check-label" for="inactive-@cate.JobCategoryID">Inactive</label>
+								</div>
+								<input type="hidden" name="jobCategoryId" value="@cate.JobCategoryID" />
+							</form>
+						</td>
+						<td>
 							<a asp-page="Edit" asp-route-id="@cate.JobCategoryID" class="btn btn-sm btn-success">
 								<i class="fas fa-eye"></i> View
 							</a>
-							<form method="post" asp-page-handler="Delete" asp-route-id="@cate.JobCategoryID" class="d-inline">
+							@* <form method="post" asp-page-handler="Delete" asp-route-id="@cate.JobCategoryID" class="d-inline">
 								<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">
 									<i class="fas fa-trash"></i> Delete
 								</button>
-							</form>
+							</form> *@
 						</td>
 					</tr>
 				}
@@ -59,7 +78,7 @@
 					@if (Model.Pagination.PageNumber > 1)
 					{
 						<li class="page-item">
-							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber - 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">Previous</a>
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber - 1)&SearchString=@(Model.SearchInput.SearchString ?? "")&Status=@(Model.SearchInput.Status?.ToString() ?? "")">Previous</a>
 						</li>
 					}
 					else
@@ -71,15 +90,16 @@
 
 					@for (int i = 1; i <= Model.Pagination.TotalPages; i++)
 					{
-						<li class="page-item @(i == Model.Pagination.PageNumber ? "active bg-success border-success" : "")">
-							<a class="page-link @(i == Model.Pagination.PageNumber ? "bg-success border-success" : "")" href="?PageNumber=@i&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">@i</a>
+						<li class="page-item @(i == Model.Pagination.PageNumber ? "active" : "")">
+							<a class="page-link @(i == Model.Pagination.PageNumber ? "border-success" : "")"
+								 href="?PageNumber=@i&SearchString=@(Model.SearchInput.SearchString ?? "")&Status=@(Model.SearchInput.Status?.ToString() ?? "")">@i</a>
 						</li>
 					}
 
 					@if (Model.Pagination.PageNumber < Model.Pagination.TotalPages)
 					{
 						<li class="page-item">
-							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber + 1)&SearchInput.SearchString=@(Model.SearchInput.SearchString ?? "")">Next</a>
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber + 1)&SearchString=@(Model.SearchInput.SearchString ?? "")&Status=@(Model.SearchInput.Status?.ToString() ?? "")">Next</a>
 						</li>
 					}
 					else
@@ -88,6 +108,7 @@
 							<a class="page-link" href="#">Next</a>
 						</li>
 					}
+
 				</ul>
 			</nav>
 		</div>

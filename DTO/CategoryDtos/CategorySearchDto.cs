@@ -3,5 +3,6 @@
 	public class CategorySearchDto
 	{
 		public string? SearchString { get; set; }
+		public bool? Status { get; set; }
 	}
 }
