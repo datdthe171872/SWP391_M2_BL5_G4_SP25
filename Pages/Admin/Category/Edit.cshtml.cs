@@ -21,7 +21,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 		public async Task OnGetAsync(int id)
 		{
 			var category = await _context.JobCategories
-			.FirstOrDefaultAsync(c => c.JobCategoryID == id && !c.isDelete);
+			.FirstOrDefaultAsync(c => c.JobCategoryID == id);
 			if (category == null)
 			{
 				return;
@@ -42,7 +42,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 			}
 
 			var category = await _context.JobCategories
-					.FirstOrDefaultAsync(c => c.JobCategoryID == Category.JobCategoryID && !c.isDelete);
+					.FirstOrDefaultAsync(c => c.JobCategoryID == Category.JobCategoryID);
 
 			if (category == null)
 			{

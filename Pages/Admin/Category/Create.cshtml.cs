@@ -33,7 +33,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 			}
 
 			var existingCategory = await _context.JobCategories
-					.FirstOrDefaultAsync(c => c.CategoryName == Input.CategoryName && !c.isDelete);
+					.FirstOrDefaultAsync(c => c.CategoryName == Input.CategoryName);
 
 			if (existingCategory != null)
 			{
