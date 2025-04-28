@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SWP391_M2_BL5_G4_SP25.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -10,9 +11,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
     [Authorize(Roles = "JobSeeker")]
     public class JobSeekerProfileModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public JobSeekerProfileModel(UserManager<ApplicationUser> userManager)
+        public JobSeekerProfileModel(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -23,7 +24,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
         public string Message { get; set; }
         public string ErrorMessage { get; set; }
 
-        // Input model for binding form data
+
         public class ProfileInputModel
         {
             [Required(ErrorMessage = "Full Name is required.")]
@@ -42,7 +43,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
             public string Address { get; set; }
         }
 
-        // Load user profile data on GET
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -63,7 +64,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
             return Page();
         }
 
-        // Handle profile update on POST
+
         public async Task<IActionResult> OnPostUpdateProfileAsync()
         {
             if (!ModelState.IsValid)
@@ -78,7 +79,6 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
                 return Page();
             }
 
-            // Update user properties
             user.FullName = Profile.FullName;
             user.PhoneNumber = Profile.PhoneNumber;
             user.Address = Profile.Address;
@@ -97,10 +97,5 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
         }
     }
 
-    
-    public class ApplicationUser : IdentityUser
-    {
-        public string FullName { get; set; }
-        public string Address { get; set; }
-    }
+
 }
