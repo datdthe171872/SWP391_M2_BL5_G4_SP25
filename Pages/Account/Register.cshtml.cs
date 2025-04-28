@@ -12,11 +12,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly MyDBContext _context;
 
-        public RegisterModel(UserManager<User> userManager, SignInManager<User> signInManager)
+        public RegisterModel(UserManager<User> userManager, SignInManager<User> signInManager, MyDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
         [BindProperty]
         public RegisterInput Input { get; set; }
@@ -35,12 +37,23 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
             var user = new User {Email = Input.Email, FullName = Input.Fullname,UserName = Input.Email };
             var result = await _userManager.CreateAsync(user, Input.Password);
 
-
             if (result.Succeeded)
             {
                 if (Input.RoleType)
                 {
                     await _userManager.AddToRoleAsync(user, "JobSeeker");
+                    // Create JobSeekerProfile
+                    var jobSeekerProfile = new JobSeekerProfile
+                    {
+                        UserID = user.Id,
+                        Logo = "default.jpg",
+                        Description = "No description yet",
+                        Link = "",
+                        Dob = DateTime.Now,
+                        isDelete = false
+                    };
+                    _context.JobSeekerProfiles.Add(jobSeekerProfile);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
