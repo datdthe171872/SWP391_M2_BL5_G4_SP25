@@ -65,6 +65,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 				return RedirectToPage("/ClientProfiles/Create");
 			}
 
+			bool companyExists = await _context.Companies
+						.AnyAsync(c => c.CompanyName.ToLower() == Input.CompanyName.ToLower() && !c.isDelete);
+
+			if (companyExists)
+			{
+				ModelState.AddModelError("Input.CompanyName", "A company with this name already exists.");
+				return Page();
+			}
+
 			string imagePath = null;
 			if (Input.ImageFile != null)
 			{
