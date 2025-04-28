@@ -1,7 +1,6 @@
-﻿@page "/Company"
-@model SWP391_M2_BL5_G4_SP25.Pages.Company.CompanyListModel
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Company.CreateModel
 @{
-	ViewData["Title"] = "Company List";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -187,63 +186,47 @@
 	<!-- Company List -->
 	<div class="rts__section section__padding">
 		<div class="container">
-			<div class="d-flex justify-content-end">
-				<a href="/Company/Create" class="btn btn-success">Create</a>
-			</div>
-			<div class="row g-30">
+			<form method="post" enctype="multipart/form-data">
+				<div class="mb-3">
+					<label asp-for="Input.CompanyName" class="form-label"></label>
+					<input asp-for="Input.CompanyName" class="form-control" />
+					<span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+				</div>
 
-				@foreach (var company in Model.Companies)
-				{
-					<div class="col-lg-4 col-md-6">
-						<div class="rts__job__card style__five">
-							<div class="d-flex align-items-center justify-content-between">
-								<div class="company__icon">
-									<img src="@company.Image" alt="@company.CompanyName" onerror="this.src='/assets/img/home-1/company/amazon.svg'">
-								</div>
-							</div>
-							<div class="d-flex gap-3 mt-4 flex-wrap">
-								<div class="d-flex gap-2 align-items-center font-sm">
-									<i class="fa-light fa-location-dot"></i> @company.Location
-								</div>
-							</div>
-							<div class="font-20 fw-medium job__title mt-3 mb-2">
-								<a href="/Company/Details/@company.CompanyID" class="job__title">@company.CompanyName</a>
-							</div>
-							<p class="text-truncate-multiline">@company.Description</p>
-							<div class="d-flex justify-content-end">
-								<button class="btn btn-success">View</button>
-							</div>
-						</div>
-					</div>
-				}
-			</div>
-			<!-- Pagination -->
-			<div class="rts__pagination d-block mx-auto pt-60 max-content">
-				<ul class="d-flex gap-2">
-					@if (Model.CurrentPage > 1)
-					{
-						<li>
-							<a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage - 1 })" class="page-link">
-								<i class="rt-chevron-left"></i>
-							</a>
-						</li>
-					}
-					@for (int i = 1; i <= Model.TotalPages; i++)
-					{
-						<li>
-							<a class="page-link @(i == Model.CurrentPage ? "active" : "")" href="@Url.Page("CompanyList", new { pageNumber = i })">@i</a>
-						</li>
-					}
-					@if (Model.CurrentPage < Model.TotalPages)
-					{
-						<li>
-							<a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage + 1 })" class="page-link">
-								<i class="rt-chevron-right"></i>
-							</a>
-						</li>
-					}
-				</ul>
-			</div>
+				<div class="mb-3">
+					<label asp-for="Input.Email" class="form-label"></label>
+					<input asp-for="Input.Email" class="form-control" />
+					<span asp-validation-for="Input.Email" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Input.Description" class="form-label"></label>
+					<textarea asp-for="Input.Description" class="form-control"></textarea>
+					<span asp-validation-for="Input.Description" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Input.Link" class="form-label"></label>
+					<input asp-for="Input.Link" class="form-control" />
+					<span asp-validation-for="Input.Link" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Input.Location" class="form-label"></label>
+					<input asp-for="Input.Location" class="form-control" />
+					<span asp-validation-for="Input.Location" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Input.ImageFile" class="form-label"></label>
+					<input asp-for="Input.ImageFile" type="file" class="form-control" />
+					<span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+				</div>
+
+				<button type="submit" class="btn btn-success">Create</button>
+				<a asp-page="CompanyList" class="btn btn-secondary">Cancel</a>
+			</form>
+
 		</div>
 	</div>
 
@@ -305,5 +288,8 @@
 	<!-- Scripts -->
 	<script src="/assets/js/plugins.min.js"></script>
 	<script src="/assets/js/main.js"></script>
+	@section Scripts {
+		<partial name="_ValidationScriptsPartial" />
+	}
 </body>
 </html>
