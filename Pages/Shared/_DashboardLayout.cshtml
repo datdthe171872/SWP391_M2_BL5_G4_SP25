@@ -44,6 +44,12 @@
       <div class="rts__menu__background mw-100 px-20 mobile__padding rounded-0">
         <div class="row">
           <div class="d-flex align-items-center justify-content-between">
+            <div class="rts__logo">
+              <a href="index-2.html">
+                <img class="logo__image" src="~/assets/img/logo/header__one.svg" width="160" height="40" alt="logo">
+              </a>
+            </div>
+
             <div class="rts__menu d-flex gap-5 gap-lg-4 gap-xl-5 align-items-center">
 
               <div class="header__right__btn d-flex align-items-center gap-30">
@@ -112,30 +118,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="user__info ">
-                  <div class="d-flex gap-3 align-items-center pointer" data-bs-toggle="dropdown">
-                    <div class="user__image if__employer">
-                      <img class="rounded-5" width="48" height="48" src="assets/img/icon/google.svg" alt="">
+                <div class="user__info">
+                  <a href="/Admin/UserProfile/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" class="text-decoration-none">
+                    <div class="d-flex gap-3 align-items-center pointer">
+                      <div class="user__name d-none d-xl-block">
+                        <h6 class="font-20 mb-1 text-capitalize fw-medium lh-sm">@User.Identity.Name</h6>
+                        <span>@User.FindFirst("Email")?.Value</span>
+                      </div>
                     </div>
-                    <div class="user__name d-none d-xl-block">
-                      <h6 class="font-20 mb-1 text-capitalize fw-medium lh-sm">google.com</h6>
-                      <span>Employer</span>
-                    </div>
-                    <div class="dropdown__option d-none d-xl-block">
-                      <div class="dropdown__icon "><i class="fa-light fa-chevron-down"></i></div>
-                    </div>
-                  </div>
-                  <ul class="rts__dropdown dropdown-menu top-25">
-                    <li><a class="dropdown-item" href="employer-dashboard.html">Dashboard</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-alert.html">Job Alert</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-shortlist.html">Shortlist Job</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-package.html">Packages</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-message.html">Message</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-passwordchange.html">Change Password</a></li>
-                    <li><a class="dropdown-item" href="#">Log Out</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-deleteprofile.html">Delete Account</a></li>
-                  </ul>
+                  </a>
                 </div>
                 <button class="d-md-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fa-sharp fa-regular fa-bars"></i></button>
               </div>
