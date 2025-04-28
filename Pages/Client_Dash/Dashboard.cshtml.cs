@@ -6,10 +6,10 @@ using SWP391_M2_BL5_G4_SP25.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 {
-
     public class DashboardModel : PageModel
     {
         private readonly MyDBContext _context;
@@ -20,46 +20,80 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
         }
 
         public DashboardDTO Dashboard { get; set; }
+        public string UserName { get; set; }
+        public int TotalApplications { get; set; }
+        public int PendingApplications { get; set; }
+        public int AcceptedApplications { get; set; }
+        public int RejectedApplications { get; set; }
+        public List<JobApplication> Applications { get; set; }
+        public string SearchTerm { get; set; }
+        public string Status { get; set; }
+        public string Date { get; set; }
+        public List<Job> ShortlistedJobs { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string searchTerm, string status, string date)
         {
-
-            var clientIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (!int.TryParse(clientIdString, out int clientId))
+            try
             {
-                Dashboard = new DashboardDTO();
-                return;
+                // Set default welcome message
+                UserName = "Guest";
+
+                // Get all applications with related data
+                var query = _context.JobApplications
+                    .Include(ja => ja.User)
+                    .Include(ja => ja.Job)
+                    .AsQueryable();
+
+                // Apply filters
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    query = query.Where(ja => 
+                        ja.Job.Title.Contains(searchTerm) || 
+                        ja.User.Email.Contains(searchTerm));
+                    SearchTerm = searchTerm;
+                }
+
+                if (!string.IsNullOrEmpty(status))
+                {
+                    query = query.Where(ja => ja.Status == status);
+                    Status = status;
+                }
+
+                if (!string.IsNullOrEmpty(date))
+                {
+                    var filterDate = DateTime.Parse(date);
+                    query = query.Where(ja => ja.ApplicationDate.Date == filterDate.Date);
+                    Date = date;
+                }
+
+                // Get filtered applications
+                Applications = await query
+                    .OrderByDescending(ja => ja.ApplicationDate)
+                    .ToListAsync();
+
+                // Calculate statistics
+                TotalApplications = Applications.Count;
+                PendingApplications = Applications.Count(a => a.Status == "Pending");
+                AcceptedApplications = Applications.Count(a => a.Status == "Accepted");
+                RejectedApplications = Applications.Count(a => a.Status == "Rejected");
+
+                return Page();
             }
-
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.ClientProfileID == clientId);
-
-            if (company == null)
+            catch (Exception ex)
             {
-                Dashboard = new DashboardDTO();
-                return;
+                // Log the error
+                Console.WriteLine($"Error in OnGetAsync: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                
+                // Set default values
+                Applications = new List<JobApplication>();
+                TotalApplications = 0;
+                PendingApplications = 0;
+                AcceptedApplications = 0;
+                RejectedApplications = 0;
+                
+                return Page();
             }
-
-            // Overview stats
-            Dashboard = new DashboardDTO
-            {
-                OpenJobsCount = await _context.Jobs.CountAsync(j => j.CompanyID == company.CompanyID && j.Status == "Open"),
-                TotalApplications = await _context.JobApplications.CountAsync(ja => _context.Jobs.Any(j => j.JobID == ja.JobID && j.CompanyID == company.ClientProfileID)),
-                ShortlistedCount = await _context.JobApplications.CountAsync(ja => _context.Jobs.Any(j => j.JobID == ja.JobID && j.CompanyID == company.ClientProfileID) && ja.Status == "Shortlisted"),
-                Jobs = await _context.Jobs
-                    .Where(j => j.CompanyID == company.ClientProfileID)
-                    .Include(j => j.JobApplications)
-                    .Select(j => new JobDto
-                    {
-                        ID = j.JobID,
-                        Title = j.Title,
-                        Location = j.Location,
-                        Salary = j.Salary.ToString(),
-                        PostedDate = j.PostDate,
-                        Status = j.Status,
-                        ApplicationCount = j.JobApplications.Count
-                    })
-                    .ToListAsync()
-            };
         }
 
         public async Task<IActionResult> OnPostCloseJobAsync(int jobId)
@@ -75,13 +109,29 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 
         public async Task<IActionResult> OnPostDeleteApplicationAsync(int applicationId)
         {
-            var application = await _context.JobApplications.FindAsync(applicationId);
-            if (application != null)
+            try
             {
-                _context.JobApplications.Remove(application);
-                await _context.SaveChangesAsync();
+                var application = await _context.JobApplications
+                    .FirstOrDefaultAsync(ja => ja.JobApplicationID == applicationId);
+
+                if (application != null)
+                {
+                    _context.JobApplications.Remove(application);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Application deleted successfully.";
+                }
+
+                return RedirectToPage();
             }
-            return RedirectToPage();
+            catch (Exception ex)
+            {
+                // Log the error
+                Console.WriteLine($"Error in OnPostDeleteApplicationAsync: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                
+                TempData["ErrorMessage"] = "An error occurred while deleting the application.";
+                return RedirectToPage();
+            }
         }
     }
 }

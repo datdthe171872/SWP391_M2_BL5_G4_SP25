@@ -11,6 +11,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly UserManager<User> _userManager;
+
         private readonly SignInManager<User> _signInManager;
         private readonly MyDBContext _context;
 
@@ -19,6 +20,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+        }
+        private readonly MyDBContext _dbContext;
+
+        public RegisterModel(UserManager<User> userManager, MyDBContext dbContext)
+        {
+            _userManager = userManager;
+            _dbContext = dbContext;
         }
         [BindProperty]
         public RegisterInput Input { get; set; }
@@ -60,7 +68,6 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
                     await _userManager.AddToRoleAsync(user, "Client");
                 }
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
                 TempData["StatusMessage"] = "Register successfully!";
                 return RedirectToPage("/Account/Login");
             }

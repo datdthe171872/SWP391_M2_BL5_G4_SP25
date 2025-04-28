@@ -6,7 +6,7 @@ using SWP391_M2_BL5_G4_SP25.Common;
 using SWP391_M2_BL5_G4_SP25.DTO.UserDtos;
 using SWP391_M2_BL5_G4_SP25.Models;
 
-namespace SWP391_M2_BL5_G4_SP25.Pages.Dashboard.Account
+namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Account
 {
 	public class IndexModel : PageModel
 	{
