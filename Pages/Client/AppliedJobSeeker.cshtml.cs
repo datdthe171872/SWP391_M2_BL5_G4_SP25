@@ -14,11 +14,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
     {
         private readonly MyDBContext _dbContext;
         private readonly IWebHostEnvironment _env;
+        private readonly UserManager<User> _userManager;
 
-        public AppliedJobSeekerModel(MyDBContext dbContext, IWebHostEnvironment env)
+        public AppliedJobSeekerModel(MyDBContext dbContext, IWebHostEnvironment env,UserManager<User> userManager)
         {
             _dbContext = dbContext;
             _env = env;
+            _userManager = userManager;
         }
 
         public List<AppliedJobSeeker> JobSeekers { get; set; } = new List<AppliedJobSeeker>();
@@ -40,6 +42,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             {
                 return Page();
             }
+            var company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyID == job.CompanyID);
+            var clientProfile = await _dbContext.ClientProfiles.FirstOrDefaultAsync(x => x.ClientProfileID == company.ClientProfileID);
+
+            var userLogin = await _userManager.GetUserAsync(User);
+            if(clientProfile.UserID != userLogin.Id)
+            {
+                return Unauthorized();
+            }
+
             var applications = _dbContext.JobApplications.Where(x=>x.JobID == job.JobID).ToList();
             if(applications.Count == 0 || applications == null)
             {

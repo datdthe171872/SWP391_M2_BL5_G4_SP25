@@ -11,7 +11,7 @@ namespace SWP391_M2_BL5_G4_SP25.Models
         public int JobID { get; set; }
 
         public int CompanyID { get; set; }
-        public int? JobCategoryID { get; set; }
+        public int JobCategoryID { get; set; }
 
         [Required]
         [StringLength(100)]
