@@ -118,30 +118,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="user__info ">
-                  <div class="d-flex gap-3 align-items-center pointer" data-bs-toggle="dropdown">
-                    <div class="user__image if__employer">
-                      <img class="rounded-5" width="48" height="48" src="assets/img/icon/google.svg" alt="">
+                <div class="user__info">
+                  <a href="/Admin/UserProfile/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" class="text-decoration-none">
+                    <div class="d-flex gap-3 align-items-center pointer">
+                      <div class="user__name d-none d-xl-block">
+                        <h6 class="font-20 mb-1 text-capitalize fw-medium lh-sm">@User.Identity.Name</h6>
+                        <span>@User.FindFirst("Email")?.Value</span>
+                      </div>
                     </div>
-                    <div class="user__name d-none d-xl-block">
-                      <h6 class="font-20 mb-1 text-capitalize fw-medium lh-sm">google.com</h6>
-                      <span>Employer</span>
-                    </div>
-                    <div class="dropdown__option d-none d-xl-block">
-                      <div class="dropdown__icon "><i class="fa-light fa-chevron-down"></i></div>
-                    </div>
-                  </div>
-                  <ul class="rts__dropdown dropdown-menu top-25">
-                    <li><a class="dropdown-item" href="employer-dashboard.html">Dashboard</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-profile.html">Profile</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-alert.html">Job Alert</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-shortlist.html">Shortlist Job</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-package.html">Packages</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-message.html">Message</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-passwordchange.html">Change Password</a></li>
-                    <li><a class="dropdown-item" href="#">Log Out</a></li>
-                    <li><a class="dropdown-item" href="employer-dash-deleteprofile.html">Delete Account</a></li>
-                  </ul>
+                  </a>
                 </div>
                 <button class="d-md-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fa-sharp fa-regular fa-bars"></i></button>
               </div>
@@ -191,7 +176,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="employer-dash-jobpost.html" class="nav-link">
+            <a asp-page="/Admin/Job/Index" class="nav-link">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_388_1226)">
                   <path d="M16.1724 5.81055C16.3881 5.81055 16.563 5.63566 16.563 5.41992V1.17188C16.563 0.525703 16.0373 0 15.3911 0H1.17236C0.526191 0 0.000488281 0.525703 0.000488281 1.17188V18.8281C0.000488281 19.4743 0.526191 20 1.17236 20H15.3911C16.0373 20 16.563 19.4743 16.563 18.8281V15.9503C16.563 15.7346 16.3881 15.5597 16.1724 15.5597C15.9567 15.5597 15.7817 15.7346 15.7817 15.9503V18.8281C15.7817 19.0435 15.6065 19.2188 15.3911 19.2188H1.17236C0.956973 19.2188 0.781738 19.0435 0.781738 18.8281V1.17188C0.781738 0.956484 0.956973 0.78125 1.17236 0.78125H15.3911C15.6065 0.78125 15.7817 0.956484 15.7817 1.17188V5.41992C15.7817 5.63566 15.9567 5.81055 16.1724 5.81055Z" fill="#595959" />
@@ -210,7 +195,7 @@
                 </defs>
               </svg>
 
-              Submit Job
+              Job
             </a>
           </li>
 

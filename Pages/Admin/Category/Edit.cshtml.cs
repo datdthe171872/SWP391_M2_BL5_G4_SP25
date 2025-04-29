@@ -21,7 +21,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 		public async Task OnGetAsync(int id)
 		{
 			var category = await _context.JobCategories
-			.FirstOrDefaultAsync(c => c.JobCategoryID == id && !c.isDelete);
+			.FirstOrDefaultAsync(c => c.JobCategoryID == id);
 			if (category == null)
 			{
 				return;
@@ -42,19 +42,11 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 			}
 
 			var category = await _context.JobCategories
-					.FirstOrDefaultAsync(c => c.JobCategoryID == Category.JobCategoryID && !c.isDelete);
+					.FirstOrDefaultAsync(c => c.JobCategoryID == Category.JobCategoryID);
 
 			if (category == null)
 			{
 				return NotFound();
-			}
-			var existingCategory = await _context.JobCategories
-					.FirstOrDefaultAsync(c => c.CategoryName == Category.CategoryName && !c.isDelete);
-
-			if (existingCategory != null)
-			{
-				ModelState.AddModelError("Category.CategoryName", "Category name already exists.");
-				return Page();
 			}
 
 			category.CategoryName = Category.CategoryName;

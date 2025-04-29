@@ -1,0 +1,146 @@
+﻿@page
+@model SWP391_M2_BL5_G4_SP25.Pages.Admin.Job.IndexModel
+@{
+}
+<div class="card shadow border-success">
+	<div class="card-header row bg-success text-white">
+		<div class="col-md-4">
+			<h5 class="card-title mb-0">List Job</h5>
+		</div>
+		<div class="col-md-8">
+			<form method="get" class="d-flex gap-2">
+				<input type="text" name="SearchInput.SearchString" value="@Model.SearchInput.SearchTerm" placeholder="Search by Title, Location..." />
+				<div class="col-md-2">
+					<select name="SearchInput.Status" class="form-select">
+						<option value="">-- Select Status --</option>
+						<option value="OPEN" selected="@((Model.SearchInput.Status == "OPEN") ? "selected" : null)">Open</option>
+						<option value="CLOSED" selected="@((Model.SearchInput.Status == "CLOSED") ? "selected" : null)">Closed</option>
+						<option value="PENDING" selected="@((Model.SearchInput.Status == "PENDING") ? "selected" : null)">Pending</option>
+					</select>
+				</div>
+
+				<div class="col-md-2">
+					<input type="date" name="SearchInput.StartDate" value="@(Model.SearchInput.StartDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+				</div>
+
+				<div class="col-md-2">
+					<input type="date" name="SearchInput.EndDate" value="@(Model.SearchInput.EndDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+				</div>
+
+				<button type="submit" class="btn btn-light border-success text-success">
+					<i class="fas fa-search"></i> Search
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="card-body">
+		<table class="table table-bordered table-striped table-hover align-middle">
+			<thead class="table-success">
+				<tr>
+					<th scope="col">Title</th>
+					<th scope="col">Location</th>
+					<th scope="col">Company</th>
+					<th scope="col">Salary</th>
+					<th scope="col">Job Type</th>
+					<th scope="col">Post Date</th>
+					<th scope="col">Status</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var job in Model.Jobs)
+				{
+					<tr>
+						<td>@job.Title</td>
+						<td>@job.Location</td>
+						<td>@job.Company.CompanyName</td>
+						<td>@job.Salary</td>
+						<td>@job.JobType</td>
+						<td>@job.PostDate.ToString("dd-MM-yyyy")</td>
+						<td>
+							<form method="post" asp-page-handler="UpdateStatus" class="d-inline">
+								<input type="hidden" name="jobId" value="@job.JobID" />
+								<select name="newStatus" onchange="this.form.submit()" class="form-select form-select-sm">
+									<option value="OPEN" selected="@((job.Status == "OPEN") ? "selected" : null)">Open</option>
+									<option value="CLOSED" selected="@((job.Status == "CLOSED") ? "selected" : null)">Closed</option>
+									<option value="PENDING" selected="@((job.Status == "PENDING") ? "selected" : null)">Pending</option>
+								</select>
+							</form>
+						</td>
+						<td>
+							<a asp-page="Edit" asp-route-id="@job.JobID" class="btn btn-sm btn-success">
+								<i class="fas fa-eye"></i> View
+							</a>
+							<form method="post" asp-page-handler="Delete" asp-route-id="@job.JobID" class="d-inline">
+								<button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">
+									<i class="fas fa-trash"></i> Delete
+								</button>
+							</form>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="d-flex justify-content-between align-items-center mt-3">
+			<span>
+				Showing records @((Model.Pagination.PageNumber - 1) * Model.Pagination.PageSize + 1) to
+				@(Math.Min(Model.Pagination.PageNumber * Model.Pagination.PageSize, Model.Pagination.TotalRecords))
+				of @Model.Pagination.TotalRecords
+			</span>
+			<nav>
+				<ul class="pagination">
+					@if (Model.Pagination.PageNumber > 1)
+					{
+						<li class="page-item">
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber - 1)
+                &SearchInput.SearchTerm=@(Model.SearchInput.SearchTerm ?? "")
+                &SearchInput.Status=@(Model.SearchInput.Status ?? "")
+                &SearchInput.StartDate=@(Model.SearchInput.StartDate?.ToString("yyyy-MM-dd") ?? "")
+                &SearchInput.EndDate=@(Model.SearchInput.EndDate?.ToString("yyyy-MM-dd") ?? "")">
+								Previous
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Previous</a>
+						</li>
+					}
+
+					@for (int i = 1; i <= Model.Pagination.TotalPages; i++)
+					{
+						<li class="page-item @(i == Model.Pagination.PageNumber ? "active" : "")">
+							<a class="page-link" href="?PageNumber=@i
+                &SearchInput.SearchTerm=@(Model.SearchInput.SearchTerm ?? "")
+                &SearchInput.Status=@(Model.SearchInput.Status ?? "")
+                &SearchInput.StartDate=@(Model.SearchInput.StartDate?.ToString("yyyy-MM-dd") ?? "")
+                &SearchInput.EndDate=@(Model.SearchInput.EndDate?.ToString("yyyy-MM-dd") ?? "")">
+								@i
+							</a>
+						</li>
+					}
+
+					@if (Model.Pagination.PageNumber < Model.Pagination.TotalPages)
+					{
+						<li class="page-item">
+							<a class="page-link" href="?PageNumber=@(Model.Pagination.PageNumber + 1)
+                &SearchInput.SearchTerm=@(Model.SearchInput.SearchTerm ?? "")
+                &SearchInput.Status=@(Model.SearchInput.Status ?? "")
+                &SearchInput.StartDate=@(Model.SearchInput.StartDate?.ToString("yyyy-MM-dd") ?? "")
+                &SearchInput.EndDate=@(Model.SearchInput.EndDate?.ToString("yyyy-MM-dd") ?? "")">
+								Next
+							</a>
+						</li>
+					}
+					else
+					{
+						<li class="page-item disabled">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					}
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
