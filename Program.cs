@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Models;
+using SWP391_M2_BL5_G4_SP25.Pages.Resumes;
 using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25
@@ -12,6 +13,7 @@ namespace SWP391_M2_BL5_G4_SP25
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<MyDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
+          
 
             builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<MyDBContext>()
@@ -25,7 +27,9 @@ namespace SWP391_M2_BL5_G4_SP25
                 options.SlidingExpiration = true;
             });
             builder.Services.AddScoped<EmailSender>();
-            builder.Services.AddScoped<UploadImg>();
+            builder.Services.AddScoped<AdminDashService>();
+            builder.Services.AddScoped<IResumeService, ResumeService>();
+
             // Add services to the container.
             builder.Services.AddRazorPages();
 

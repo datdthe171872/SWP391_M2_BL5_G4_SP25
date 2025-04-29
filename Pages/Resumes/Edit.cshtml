@@ -1,0 +1,309 @@
+@page "/Resumes/Edit/{id}"
+@model SWP391_M2_BL5_G4_SP25.Pages.Resumes.EditModel
+@{
+    ViewData["Title"] = "Edit CV";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edit your CV">
+    <meta name="keywords" content="Job, Resume, Edit CV">
+    <link rel="canonical" href="https://html.themewant.com/jobpath/resume/edit">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/plugins.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>@ViewData["Title"] - Jobpath</title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .dashboard__content {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .dashboard__left {
+            width: 250px;
+            background-color: #ffffff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .dashboard__right {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: #f5f7fa;
+        }
+
+        .dash__menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            .dash__menu ul li {
+                margin-bottom: 10px;
+            }
+
+                .dash__menu ul li a {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 15px;
+                    color: #333;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    transition: background-color 0.3s;
+                }
+
+                    .dash__menu ul li a:hover, .dash__menu ul li a.active {
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+
+                    .dash__menu ul li a i {
+                        margin-right: 10px;
+                    }
+
+        .dash__logout {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logout__btn {
+            color: #dc3545;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+            .logout__btn:hover {
+                background-color: #dc3545;
+                color: #fff;
+            }
+
+        .dash__form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .dash__form-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .rt-input-group {
+            margin-bottom: 20px;
+        }
+
+            .rt-input-group label {
+                font-weight: 500;
+                margin-bottom: 5px;
+                display: block;
+            }
+
+        .form-control, .rt-textarea {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .rt-textarea {
+            resize: vertical;
+        }
+
+        .rt-file-upload small {
+            display: block;
+            margin-top: 5px;
+            color: #6c757d;
+        }
+
+        .rt-btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .rt-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+            .btn-secondary:hover {
+                background-color: #545b62;
+            }
+
+        .btn-outline-primary {
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+        .alert {
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            color: #6c757d;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="template-dashboard">
+    <!-- Content Area -->
+    <div class="dashboard__content">
+        <!-- Sidebar -->
+        <div class="dashboard__left">
+            <div class="dash__menu">
+                <ul>
+                    <li class="nav-item">
+                        <a href="/Dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/userprofile" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Resumes" class="nav-link active"><i class="fas fa-file-alt"></i> My Resume</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/JobApplications" class="nav-link"><i class="fas fa-briefcase"></i> Applied Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/ShortlistedJobs" class="nav-link"><i class="fas fa-bookmark"></i> Jobs Shortlist</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dash__logout">
+                <a class="logout__btn" href="/Account/Logout"><i class="rt-login"></i> Logout</a>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="dashboard__right">
+            <div class="dash__content">
+                <div class="dash__form">
+                    <h2 class="dash__form-title">Edit CV</h2>
+
+                    <!-- Feedback Message -->
+                    @if (!ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <!-- Edit Form -->
+                    <form method="post" enctype="multipart/form-data" class="rt-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Profile.JobSeekerProfileID" />
+                        <input type="hidden" asp-for="Profile.Link" />
+
+                        <div class="rt-input-group">
+                            <label for="Description" class="form-label">Description</label>
+                            <textarea id="Description" name="Description" class="form-control rt-textarea" rows="4"
+                                      placeholder="Enter a description for your CV" required>@Model.Description</textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="rt-input-group">
+                            <label for="CvFile" class="form-label">New CV File (Optional, PDF only, max 5MB)</label>
+                            <div class="rt-file-upload">
+                                <input type="file" id="CvFile" name="CvFile" accept=".pdf" class="form-control" />
+                                <small class="text-muted">Leave empty to keep the current CV file</small>
+                            </div>
+                        </div>
+
+                        <div class="rt-input-group">
+                            <a href="@Model.Profile.Link" target="_blank" class="btn btn-outline-primary rt-btn">
+                                <i class="fas fa-eye"></i> View Current CV
+                            </a>
+                        </div>
+
+                        <div class="rt-input-group">
+                            <div class="rt-btn-group">
+                                <button type="submit" class="btn btn-primary rt-btn">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                                <a href="/Resumes" class="btn btn-secondary rt-btn">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <p class="copyright">Copyright © 2025 All Rights Reserved by Jobpath</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/plugins.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script asp-append-version="true" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script asp-append-version="true" src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script asp-append-version="true" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
