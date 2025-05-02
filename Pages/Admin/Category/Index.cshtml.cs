@@ -24,7 +24,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 		[BindProperty(SupportsGet = true)]
 		public CategorySearchDto SearchInput { get; set; } = new CategorySearchDto();
 
-		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 2 };
+		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 5 };
 
 		[BindProperty(SupportsGet = true)]
 		public int PageNumber { get; set; } = 1;

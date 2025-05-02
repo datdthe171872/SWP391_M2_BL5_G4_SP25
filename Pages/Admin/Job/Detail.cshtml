@@ -1,0 +1,49 @@
+﻿@page "{id:int}"  
+@model SWP391_M2_BL5_G4_SP25.Pages.Admin.Job.DetailModel  
+@{  
+   ViewData["Title"] = "Job Detail";  
+}  
+
+<div class="card shadow border-success">
+  <div class="card-header bg-success text-white">
+    <h5 class="card-title mb-0">Job Detail</h5>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Title</dt>
+      <dd class="col-sm-9">@Model.Job.Title</dd>
+
+      <dt class="col-sm-3">Location</dt>
+      <dd class="col-sm-9">@Model.Job.Location</dd>
+
+      <dt class="col-sm-3">Company</dt>
+      <dd class="col-sm-9">@Model.Job.Company?.CompanyName</dd>
+
+      <dt class="col-sm-3">Salary</dt>
+      <dd class="col-sm-9">@Model.Job.Salary</dd>
+
+      <dt class="col-sm-3">Job Type</dt>
+      <dd class="col-sm-9">@Model.Job.JobType</dd>
+
+      <dt class="col-sm-3">Post Date</dt>
+      <dd class="col-sm-9">@Model.Job.PostDate.ToString("dd-MM-yyyy")</dd>
+
+      <dt class="col-sm-3">Description</dt>
+      <dd class="col-sm-9">@Model.Job.Description</dd>
+
+      <dt class="col-sm-3">Status</dt>
+      <dd class="col-sm-9">
+        <form method="post" asp-page-handler="UpdateStatus" class="d-inline">
+          <input type="hidden" name="id" value="@Model.Job.JobID" />
+          <select name="newStatus" onchange="this.form.submit()" class="form-select form-select-sm w-auto d-inline">
+            <option value="OPEN" selected="@(Model.Job.Status == "OPEN")">Open</option>
+            <option value="CLOSED" selected="@(Model.Job.Status == "CLOSED")">Closed</option>
+            <option value="PENDING" selected="@(Model.Job.Status == "PENDING")">Pending</option>
+          </select>
+        </form>
+      </dd>
+    </dl>
+
+    <a asp-page="Index" class="btn btn-success">Back to List</a>
+  </div>
+</div>
