@@ -1,0 +1,515 @@
+﻿@page "/Dash"
+@model SWP391_M2_BL5_G4_SP25.Pages.Client_Dash.DashboardModel
+@{
+    ViewData["Title"] = "Job Seeker Dashboard";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Job Seeker Dashboard">
+    <meta name="keywords" content="Dashboard, Job, Application">
+    <link rel="canonical" href="https://html.themewant.com/jobpath/dashboard">
+    <meta name="robots" content="index, follow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/css/plugins.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>@ViewData["Title"] - Jobpath</title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .dashboard__content {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .dashboard__left {
+            width: 250px;
+            background-color: #ffffff;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .dashboard__right {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: #f5f7fa;
+        }
+
+        .dash__menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dash__menu ul li {
+            margin-bottom: 10px;
+        }
+
+        .dash__menu ul li a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .dash__menu ul li a:hover, .dash__menu ul li a.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .dash__menu ul li a i {
+            margin-right: 10px;
+        }
+
+        .dash__logout {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logout__btn {
+            color: #dc3545;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .logout__btn:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .stats-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .stats-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .stats-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .stats-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filter-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .filter-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .application-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .application-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .application-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
+        }
+
+        .application-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .application-company {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .application-date {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-reviewing {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-accepted {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .welcome-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .welcome-section p {
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-action-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-view:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body class="template-dashboard">
+    <!-- Content Area -->
+    <div class="dashboard__content">
+        <!-- Sidebar -->
+        <div class="dashboard__left">
+            <div class="dash__menu">
+                <ul>
+                    <li class="nav-item">
+                        <a href="/Dashboard" class="nav-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/userprofile" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Resumes" class="nav-link"><i class="fas fa-file-alt"></i> My Resume</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/JobApplications" class="nav-link"><i class="fas fa-briefcase"></i> Applied Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/ShortlistedJobs" class="nav-link"><i class="fas fa-bookmark"></i> Jobs Shortlist</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dash__logout">
+                <a class="logout__btn" href="/Account/Logout"><i class="rt-login"></i> Logout</a>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="dashboard__right">
+            <div class="dash__content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h2>Welcome back, @Model.UserName!</h2>
+                    <p>Here's an overview of your job applications and activities.</p>
+                    <div class="quick-actions">
+                        <a href="/Resumes/Create" class="quick-action-btn btn-primary">
+                            <i class="fas fa-plus"></i> Upload New CV
+                        </a>
+                        <a href="/Jobs" class="quick-action-btn btn-outline-primary">
+                            <i class="fas fa-search"></i> Find Jobs
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <h3>Total Applications</h3>
+                            <div class="stats-number">@Model.TotalApplications</div>
+                            <div class="stats-label">Job applications submitted</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <h3>Pending</h3>
+                            <div class="stats-number">@Model.PendingApplications</div>
+                            <div class="stats-label">Applications under review</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <h3>Accepted</h3>
+                            <div class="stats-number">@Model.AcceptedApplications</div>
+                            <div class="stats-label">Successful applications</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <h3>Rejected</h3>
+                            <div class="stats-number">@Model.RejectedApplications</div>
+                            <div class="stats-label">Unsuccessful applications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <h3>Filter Applications</h3>
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" name="searchTerm" class="form-control" placeholder="Search by job title or user" value="@Model.SearchTerm">
+                        </div>
+                        <div class="col-md-3">
+                            <select name="status" class="form-control">
+                                <option value="">All Status</option>
+                                <option value="Pending" selected="@(Model.Status == "Pending")">Pending</option>
+                                <option value="Reviewing" selected="@(Model.Status == "Reviewing")">Reviewing</option>
+                                <option value="Accepted" selected="@(Model.Status == "Accepted")">Accepted</option>
+                                <option value="Rejected" selected="@(Model.Status == "Rejected")">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" name="date" class="form-control" value="@Model.Date">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Applications Table -->
+                <div class="application-card">
+                    <h3>Your Applications</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Job</th>
+                                    <th>Applied Date</th>
+                                    <th>Status</th>
+                                    <th>Cover Letter</th>
+                                    <th>CV File</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Applications != null && Model.Applications.Any())
+                                {
+                                    @foreach (var application in Model.Applications)
+                                    {
+                                        <tr>
+                                            <td>@application.User?.Email</td>
+                                            <td>@application.Job?.Title</td>
+                                            <td>@application.ApplicationDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                <span class="status-badge status-@application.Status.ToLower()">@application.Status</span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#coverLetterModal-@application.JobApplicationID">
+                                                    View
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <a href="@application.CVFile" class="btn btn-sm btn-outline-primary" target="_blank">
+                                                    Download
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <form asp-page-handler="DeleteApplication" method="post" style="display:inline;">
+                                                        <input type="hidden" name="applicationId" value="@application.JobApplicationID" />
+                                                        <button type="submit" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this application?')">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Cover Letter Modal -->
+                                        <div class="modal fade" id="coverLetterModal-@application.JobApplicationID" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Cover Letter</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>@application.CoverLetter</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center">No applications found</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Copyright -->
+            <p class="copyright">Copyright © 2025 All Rights Reserved by Jobpath</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/plugins.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

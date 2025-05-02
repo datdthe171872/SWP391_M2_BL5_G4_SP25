@@ -1,5 +1,5 @@
 ﻿@page
-@model SWP391_M2_BL5_G4_SP25.Pages.Client.CreateJobModel
+@model SWP391_M2_BL5_G4_SP25.Pages.Client.UpdateJobModel
 @{
 }
 <!DOCTYPE html>
@@ -60,6 +60,7 @@
 
                 <h6 class="fw-medium mt-4 mb-4">Create Job</h6>
                 <form method="post">
+                    <input type="text" asp-for="Input.JobId" value="@Model.JobId" hidden readonly />
                     <div class="my__profile__tab radius-16 bg-white">
                         <nav>
                             <div class="nav nav-tabs">
@@ -157,9 +158,29 @@
                     <!-- Requirement -->
                     <h6 class="fw-medium mt-4 mb-4">Requirements</h6>
                     <div class="social__links p-30 radius-16 bg-white" id="member">
-                        <div class="accordion" >
+                        <div class="accordion">
                             <div id="requirements">
-
+                                @for(int i = 0; i < Model.Requirements.Count; i++){
+                                    <div class="accordion-item">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#requirement@(Model.Requirements[i].RequirementID)" aria-expanded="false" aria-controls="${uniqueId}">
+                                            Requirement
+                                        </button>
+                                        <div id="requirement@(Model.Requirements[i].RequirementID)" class="accordion-collapse collapse" data-bs-parent="#requirement@(Model.Requirements[i].RequirementID)">
+                                            <div class="accordion-body mt-20 mb-20">
+                                                <div class="info__field">
+                                                    <div class="rt-input-group">
+                                                        <input type="hidden" name="Input.Requirements[@i].Id" value="@Model.Requirements[i].RequirementID" readonly />
+                                                        <textarea name="Input.Requirements[@i].Content" cols="30" rows="5" placeholder="Content" class="form-control" required>@Model.Requirements[i].Content</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                }
                             </div>
                             <div class="d-flex justify-content-start">
                                 <button class="added__social__link" type="button" onclick="addRequirement()">Add Requirement </button>
@@ -167,12 +188,33 @@
                         </div>
                     </div>
                     <!-- Requirement end-->
-
                     <!-- Responsibilities -->
                     <h6 class="fw-medium mt-4 mb-4">Responsibilities</h6>
                     <div class="social__links p-30 radius-16 bg-white" id="member">
                         <div class="accordion">
                             <div id="responsibilities">
+                                @for (int i = 0; i < Model.Responsibilities.Count; i++)
+                                {
+                                    <div class="accordion-item">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#res@(Model.Responsibilities[i].ResponsibilityID)" aria-expanded="false" aria-controls="${uniqueId}">
+                                            Responsibility
+                                        </button>
+                                        <div id="res@(Model.Responsibilities[i].ResponsibilityID)" class="accordion-collapse collapse" data-bs-parent="#res@(Model.Responsibilities[i].ResponsibilityID)">
+                                            <div class="accordion-body mt-20 mb-20">
+                                                <div class="info__field">
+                                                    <div class="rt-input-group">
+                                                        <input type="hidden" name="Input.Responsibilities[@i].Id" value="@Model.Responsibilities[i].ResponsibilityID" readonly />
+                                                        <textarea name="Input.Responsibilities[@i].Content" cols="30" rows="5" placeholder="Content" class="form-control" required>@Model.Responsibilities[i].Content</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                }
                             </div>
                             <div class="d-flex justify-content-start">
                                 <button class="added__social__link" type="button" onclick="addResponsibility()">Add Responsibility</button>
@@ -180,13 +222,34 @@
                         </div>
                     </div>
                     <!-- Responsibilities end-->
-
                     <!-- Benefits -->
 
                     <h6 class="fw-medium mt-4 mb-4">Benefits</h6>
                     <div class="social__links p-30 radius-16 bg-white" id="member">
                         <div class="accordion">
                             <div id="benefits">
+                                @for (int i = 0; i < Model.Benefits.Count; i++)
+                                {
+                                    <div class="accordion-item">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#benefit@(Model.Benefits[i].BenefitID)" aria-expanded="false" aria-controls="${uniqueId}">
+                                            Benefit
+                                        </button>
+                                        <div id="benefit@(Model.Benefits[i].BenefitID)" class="accordion-collapse collapse" data-bs-parent="#benefit@(Model.Benefits[i].BenefitID)">
+                                            <div class="accordion-body mt-20 mb-20">
+                                                <div class="info__field">
+                                                    <div class="rt-input-group">
+                                                        <input type="hidden" name="Input.Benefits[@i].Id" value="@Model.Benefits[i].BenefitID" readonly />
+                                                        <textarea name="Input.Benefits[@i].Content" cols="30" rows="5" placeholder="Content" class="form-control" required>@Model.Benefits[i].Content</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                    <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                }
                             </div>
                             <div class="d-flex justify-content-start">
                                 <button class="added__social__link" type="button" onclick="addBenefit()">Add Benefit</button>
@@ -195,8 +258,9 @@
                     </div>
                     <!-- Benefits end-->
                     <br>
-                    <button type="submit" class="small__btn d-none d-sm-flex d-xl-flex fill__btn border-6 font-xs">Post Job</button>
-
+                    <button type="submit" class="small__btn d-none d-sm-flex d-xl-flex fill__btn border-6 font-xs">Update Job</button>
+                    <div class="form-group text-danger" asp-validation-summary="ModelOnly">
+                    </div>
                 </form>
             </div>
             <div class="d-flex justify-content-center mt-30">
@@ -227,29 +291,30 @@
             requirementCount++;
 
             var div = document.getElementById("requirements");
-
+            var index = div.children.length;
             var uniqueId = "collapseRequirement" + requirementCount;
             var accordionItem = document.createElement("div");
             accordionItem.className = "accordion-item";
 
             accordionItem.innerHTML = `
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${uniqueId}" aria-expanded="false" aria-controls="${uniqueId}">
-                                    Requirement
-                                </button>
-                                <div id="${uniqueId}" class="accordion-collapse collapse" data-bs-parent="#requirements">
-                                    <div class="accordion-body mt-20 mb-20">
-                                        <div class="info__field">
-                                            <div class="rt-input-group">
-                                                <textarea name="Input.Requirements" cols="30" rows="5" placeholder="Content" class="form-control"></textarea>
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${uniqueId}" aria-expanded="false" aria-controls="${uniqueId}">
+                                            Requirement
+                                        </button>
+                                        <div id="${uniqueId}" class="accordion-collapse collapse" data-bs-parent="#requirements">
+                                            <div class="accordion-body mt-20 mb-20">
+                                                <div class="info__field">
+                                                    <div class="rt-input-group">
+                                                        <input type="hidden" name="Input.Requirements[${index}].Id" value="0" />
+                                                        <textarea name="Input.Requirements[${index}].Content" cols="30" rows="5" placeholder="Content" class="form-control" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-3">
+                                                            <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-end mt-3">
-                                                    <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                        `;
+                                        <br>
+                                `;
 
             div.appendChild(accordionItem);
         }
@@ -258,44 +323,19 @@
         function addResponsibility() {
             responsibilitiyCount++;
             var div = document.getElementById("responsibilities")
-
+            var index = div.children.length;
             var uniqueId = "collapseRes" + responsibilitiyCount;
             var accordionItem = document.createElement("div");
             accordionItem.className = "accordion-item";
             accordionItem.innerHTML = `<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${uniqueId}" aria-expanded="false" aria-controls="${uniqueId}">
-                                                    Responsibility
-                                        </button>
-                                        <div id="${uniqueId}" class="accordion-collapse collapse" data-bs-parent="#requirements">
-                                            <div class="accordion-body mt-20 mb-20">
-                                                <div class="info__field">
-                                                    <div class="rt-input-group">
-                                                                <textarea name="Input.Responsibilities" cols="30" rows="5" placeholder="Content" class="form-control"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-end mt-3">
-                                                            <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>`;
-            div.appendChild(accordionItem);
-        }
-
-        function addBenefit() {
-            benefitCount++;
-            var div = document.getElementById("benefits")
-
-            var uniqueId = "collapseBenefit" + responsibilitiyCount;
-            var accordionItem = document.createElement("div");
-            accordionItem.className = "accordion-item";
-            accordionItem.innerHTML = `<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${uniqueId}" aria-expanded="false" aria-controls="${uniqueId}">
-                                                            Benefit
+                                                            Responsibility
                                                 </button>
                                                 <div id="${uniqueId}" class="accordion-collapse collapse" data-bs-parent="#requirements">
                                                     <div class="accordion-body mt-20 mb-20">
                                                         <div class="info__field">
                                                             <div class="rt-input-group">
-                                                                        <textarea name="Input.Benefits" cols="30" rows="5" placeholder="Content" class="form-control"></textarea>
+                                                                        <input type="hidden" name="Input.Responsibilities[${index}].Id" value="0" />
+                                                                                <textarea name="Input.Responsibilities[${index}].Content" cols="30" rows="5" placeholder="Content" class="form-control" required></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="d-flex justify-content-end mt-3">
@@ -304,6 +344,33 @@
                                                     </div>
                                                 </div>
                                                 <br>`;
+            div.appendChild(accordionItem);
+        }
+
+        function addBenefit() {
+            benefitCount++;
+            var div = document.getElementById("benefits")
+            var index = div.children.length;
+            var uniqueId = "collapseBenefit" + responsibilitiyCount;
+            var accordionItem = document.createElement("div");
+            accordionItem.className = "accordion-item";
+            accordionItem.innerHTML = `<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${uniqueId}" aria-expanded="false" aria-controls="${uniqueId}">
+                                                                    Benefit
+                                                        </button>
+                                                        <div id="${uniqueId}" class="accordion-collapse collapse" data-bs-parent="#requirements">
+                                                            <div class="accordion-body mt-20 mb-20">
+                                                                <div class="info__field">
+                                                                    <div class="rt-input-group">
+                                                                                        <input type="hidden" name="Input.Benefits[${index}].Id" value="0" />
+                                                                                                <textarea name="Input.Benefits[${index}].Content" cols="30" rows="5" placeholder="Content" class="form-control" required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-end mt-3">
+                                                                            <button type="button" class="added__social__link" onclick="removeField(this)">Remove</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br>`;
             div.appendChild(accordionItem);
         }
 
