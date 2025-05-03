@@ -35,16 +35,16 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
         {
             try
             {
-                // Set default welcome message
+                
                 UserName = "Guest";
 
-                // Get all applications with related data
+                
                 var query = _context.JobApplications
                     .Include(ja => ja.User)
                     .Include(ja => ja.Job)
                     .AsQueryable();
 
-                // Apply filters
+               
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
                     query = query.Where(ja => 
@@ -66,12 +66,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
                     Date = date;
                 }
 
-                // Get filtered applications
                 Applications = await query
                     .OrderByDescending(ja => ja.ApplicationDate)
                     .ToListAsync();
 
-                // Calculate statistics
                 TotalApplications = Applications.Count;
                 PendingApplications = Applications.Count(a => a.Status == "Pending");
                 AcceptedApplications = Applications.Count(a => a.Status == "Accepted");
@@ -81,11 +79,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
             }
             catch (Exception ex)
             {
-                // Log the error
                 Console.WriteLine($"Error in OnGetAsync: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 
-                // Set default values
                 Applications = new List<JobApplication>();
                 TotalApplications = 0;
                 PendingApplications = 0;
@@ -125,7 +121,6 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
             }
             catch (Exception ex)
             {
-                // Log the error
                 Console.WriteLine($"Error in OnPostDeleteApplicationAsync: {ex.Message}");
                 Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 
