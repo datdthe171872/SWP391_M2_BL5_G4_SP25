@@ -148,9 +148,12 @@
 			</div>
 
 			<div class="row g-30">
-				<div class="d-flex justify-content-end">
-					<a href="/Company/Create" class="btn btn-success">Create</a>
-				</div>
+				@if (User.Identity.IsAuthenticated)
+				{
+					<div class="d-flex justify-content-end">
+						<a href="/Company/Create" class="btn btn-success">Create</a>
+					</div>
+				}
 				@foreach (var company in Model.Companies)
 				{
 					<div class="col-lg-4 col-md-6">
@@ -172,9 +175,12 @@
 								<a href="/Company/Details/@company.CompanyID" class="job__title">@company.CompanyName</a>
 							</div>
 							<p class="text-truncate-multiline">@company.Description</p>
-							<div class="d-flex justify-content-end">
-								<a asp-page="Edit" asp-route-id="@company.CompanyID" class="btn btn-success">Edit</a>
-							</div>
+							@if (User.Identity.IsAuthenticated)
+							{
+								<div class="d-flex justify-content-end">
+									<a asp-page="Edit" asp-route-id="@company.CompanyID" class="btn btn-success">Edit</a>
+								</div>
+							}
 						</div>
 					</div>
 				}
