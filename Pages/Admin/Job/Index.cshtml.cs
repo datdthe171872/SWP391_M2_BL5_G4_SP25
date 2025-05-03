@@ -72,6 +72,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Job
 								Salary = j.Salary,
 								SkillsRequired = string.Join(", ", j.Requirements.Select(r => r.Content)),
 								JobType = j.JobType,
+								PostDate = j.PostDate,
 								Status = j.Status,
 								Company = j.Company,
 								JobCategory = j.JobCategory
