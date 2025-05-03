@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.Constants;
 using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 
@@ -17,12 +18,14 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
 
         public JobDetailDTO JobDetail { get; set; }
 
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var job = await _context.Jobs
+			Header.JobCategories = _context.JobCategories.Where(x => x.isDelete == false).ToList();
+			var job = await _context.Jobs
                 .Include(j => j.Company)
                 .Include(j => j.JobCategory)
-                .Where(j => j.JobID == id && !j.isDelete && j.Status == "Active")
+                .Where(j => j.JobID == id && !j.isDelete && j.Status == StatusJob.OPEN)
                 .FirstOrDefaultAsync();
 
             if (job == null)

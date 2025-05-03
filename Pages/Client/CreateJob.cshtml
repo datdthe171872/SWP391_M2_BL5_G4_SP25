@@ -45,7 +45,7 @@
 </head>
 <body class="template-dashboard">
     <!-- header area -->
-    @await Html.PartialAsync("_Header")
+    @await Html.PartialAsync("_Header",Model.HeaderDTO)
     <!-- header area end -->
     <!-- content area -->
     <div class="dashboard__content d-flex">
@@ -90,7 +90,7 @@
                                     <!-- Title-->
                                     <div class="rt-input-group">
                                         <label for="jt">Job Title</label>
-                                        <input type="text" id="jt" placeholder="Software Engineer" asp-for="Input.Title" required>
+                                        <input type="text" id="jt" placeholder="Enter title" asp-for="Input.Title" required>
                                     </div>
                                 </div>
 

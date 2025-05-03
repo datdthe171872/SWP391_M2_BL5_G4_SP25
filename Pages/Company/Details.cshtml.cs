@@ -16,9 +16,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
         }
 
         public CompanyDetailDTO CompanyDetail { get; set; }
-
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync(int id)
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             var company = await _context.Companies
                 .Where(c => c.CompanyID == id && !c.isDelete)
                 .FirstOrDefaultAsync();

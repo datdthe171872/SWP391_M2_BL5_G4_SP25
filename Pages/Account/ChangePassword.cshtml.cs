@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SWP391_M2_BL5_G4_SP25.DTO;
@@ -6,21 +7,31 @@ using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Account
 {
+    [Authorize]
     public class ChangePasswordModel : PageModel
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public ChangePasswordModel(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly MyDBContext _dbContext;
+        public ChangePasswordModel(UserManager<User> userManager, SignInManager<User> signInManager,MyDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dbContext = context;
         }
 
         [BindProperty]
         public ChangePasswordInputModel Input { get; set; }
 
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
+            Header.JobCategories = _dbContext.JobCategories.Where(x=>x.isDelete ==false).ToList();
+            var user = await _userManager.GetUserAsync(User);
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()

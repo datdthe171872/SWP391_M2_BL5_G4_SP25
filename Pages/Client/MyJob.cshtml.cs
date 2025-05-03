@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Common;
 using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
-using System.Security.Principal;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 {
@@ -36,10 +34,17 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         [BindProperty]
         public ManageAppliedJobInput InputManage { get; set; }
 
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            jobCategory = _context.JobCategories.ToList();
+            
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
+            jobCategory = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            Header.JobCategories = jobCategory;
             var clientprofile = _context.ClientProfiles.FirstOrDefault(x => x.UserID == user.Id);
             if (clientprofile == null)
             {
@@ -125,15 +130,17 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             if (InputManage.Type == "Delete")
             {
                 job.isDelete = true;
+                TempData["StatusMessage"] = "Delete job successfully!";
             }
             else
             {
                 job.Status = "End";
+                TempData["StatusMessage"] = "End job successfully!";
             }
             try
             {
                 var result = await _context.SaveChangesAsync();
-                TempData["StatusMessage"] = "End job successfully!";
+               
             }catch (Exception ex)
             {
                 TempData["StatusMessage"] = "End  Error";

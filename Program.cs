@@ -29,6 +29,7 @@ namespace SWP391_M2_BL5_G4_SP25
             builder.Services.AddScoped<EmailSender>();
             builder.Services.AddScoped<AdminDashService>();
             builder.Services.AddScoped<IResumeService, ResumeService>();
+            builder.Services.AddScoped<UploadImg>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();

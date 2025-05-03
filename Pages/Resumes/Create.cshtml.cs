@@ -30,10 +30,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            if (user.isDelete)
             {
-                ViewData["Error"] = "Vui lòng đăng nhập để upload CV.";
-                return Page();
+                return RedirectToPage("/InActiveUser");
             }
 
             if (CvFile == null || CvFile.Length == 0)

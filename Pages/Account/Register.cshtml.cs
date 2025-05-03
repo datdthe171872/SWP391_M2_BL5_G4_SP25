@@ -21,17 +21,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
             _signInManager = signInManager;
             _context = context;
         }
-        private readonly MyDBContext _dbContext;
-
-        public RegisterModel(UserManager<User> userManager, MyDBContext dbContext)
-        {
-            _userManager = userManager;
-            _dbContext = dbContext;
-        }
+        
         [BindProperty]
         public RegisterInput Input { get; set; }
+
+        //header
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()

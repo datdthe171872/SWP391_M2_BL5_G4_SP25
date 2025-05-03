@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -12,10 +14,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
     public class JobSeekerProfileModel : PageModel
     {
         private readonly UserManager<User> _userManager;
+        private readonly MyDBContext _dbContext;
 
-        public JobSeekerProfileModel(UserManager<User> userManager)
+        public JobSeekerProfileModel(UserManager<User> userManager, MyDBContext dbContext)
         {
             _userManager = userManager;
+            _dbContext = dbContext;
         }
 
         [BindProperty]
@@ -43,14 +47,16 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
             public string Address { get; set; }
         }
 
+        public HeaderDTO Header { get; set; }   = new HeaderDTO();
 
         public async Task<IActionResult> OnGetAsync()
         {
+            Header.JobCategories = _dbContext.JobCategories.Where(x => x.isDelete == false).ToList();
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            
+            if (user.isDelete)
             {
-                ErrorMessage = "Unable to load user profile.";
-                return Page();
+                return RedirectToPage("/InActiveUser");
             }
 
             Profile = new ProfileInputModel

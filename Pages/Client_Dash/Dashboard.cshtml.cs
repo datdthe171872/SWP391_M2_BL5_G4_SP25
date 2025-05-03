@@ -7,16 +7,20 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 {
+    [Authorize(Roles = "Client")]
     public class DashboardModel : PageModel
     {
         private readonly MyDBContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public DashboardModel(MyDBContext context)
+        public DashboardModel(MyDBContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public DashboardDTO Dashboard { get; set; }
@@ -30,9 +34,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
         public string Status { get; set; }
         public string Date { get; set; }
         public List<Job> ShortlistedJobs { get; set; }
-
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync(string searchTerm, string status, string date)
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete ==false).ToList();
+            var user = await _userManager.GetUserAsync(User);
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
             try
             {
                 // Set default welcome message

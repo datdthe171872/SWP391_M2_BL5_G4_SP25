@@ -1,4 +1,6 @@
-﻿<header class="rts__section rts__dashboard__header position-fixed w-100">
+﻿@model SWP391_M2_BL5_G4_SP25.DTO.HeaderDTO
+
+<header class="rts__section rts__dashboard__header position-fixed w-100">
     <div class="container-fluid g-0">
         <div class="rts__menu__background mw-100 px-20 mobile__padding rounded-0">
             <div class="row">
@@ -11,117 +13,31 @@
                     <div class="navigation d-none d-lg-block">
                         <nav class="navigation__menu" id="offcanvas__menu">
                             <ul class="list-unstyled">
+
                                 <li class="navigation__menu--item has-child has-arrow">
-                                    <a href="#" class="navigation__menu--item__link">Home</a>
+                                    <a href="#" class="navigation__menu--item__link">Category</a>
                                     <ul class="submenu sub__style" role="menu">
-                                        <li role="menuitem"><a href="index-2.html">Home One</a></li>
-                                        <li role="menuitem"><a href="index-3.html">Home Two</a></li>
-                                        <li role="menuitem"><a href="index-4.html">Home Three</a></li>
-                                        <li role="menuitem"><a href="index-5.html">Home Four</a></li>
-                                        <li role="menuitem"><a href="index-6.html">Home Five</a></li>
-                                        <li role="menuitem"><a href="index-7.html">Home Six</a></li>
+                                        @foreach(var cate in Model.JobCategories)
+                                        {
+                                            <li role="menuitem"><a href="/Jobs?category=@(cate.JobCategoryID)">@cate.CategoryName</a></li>
+                                        }
                                     </ul>
                                 </li>
-
-                                    <li class="navigation__menu--item has-child has-arrow">
-                                        <a href="#" class="navigation__menu--item__link">Browse Jobs</a>
-                                        <ul class="submenu sub__style" role="menu">
-                                            <li role="menuitem" class="has-child has-arrow">
-                                                <a href="#">Job List</a>
-                                                <ul class="sub__style" role="menu">
-                                                    <li role="menuitem"><a href="job-list-1.html">Job List One</a></li>
-                                                    <li role="menuitem"><a href="job-list-2.html">Job List Two</a></li>
-                                                    <li role="menuitem"><a href="/Jobs">Job List Three</a></li>
-                                                    <li role="menuitem"><a href="job-list-4.html">Job List Four</a></li>
-                                                    <li role="menuitem"><a href="job-list-5.html">Job List Five</a></li>
-                                                </ul>
-                                            </li>
-                                            <li role="menuitem" class="has-child has-arrow">
-                                                <a href="#">Job Details</a>
-                                                <ul class="sub__style" role="menu">
-                                                    <li role="menuitem"><a href="job-details-1.html">Job Details One</a></li>
-                                                    <li role="menuitem"><a href="job-details-2.html">Job Details Two</a></li>
-                                                    <li role="menuitem"><a href="job-details-3.html">Job Details Three</a></li>
-                                                    <li role="menuitem"><a href="job-details-4.html">Job Details Four</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                <li class="navigation__menu--item has-child">
+                                    <a href="/Jobs" class="navigation__menu--item__link">Browse Jobs</a>
+                                </li>
+                                @if (User.IsInRole("Client"))
+                                {
+                                    <li class="navigation__menu--item has-child">
+                                        <a href="/Client" class="navigation__menu--item__link">Client</a>
                                     </li>
-
-                                <li class="navigation__menu--item has-child has-arrow">
-                                    <a href="#" class="navigation__menu--item__link">Employers</a>
-                                    <ul class="submenu sub__style" role="menu">
-                                        <li role="menuitem" class="has-child has-arrow">
-                                            <a href="employer-1.html">Employer Style</a>
-                                            <ul class="sub__style" role="menu">
-                                                <li role="menuitem"><a href="employer-1.html">Employer One</a></li>
-                                                <li role="menuitem"><a href="employer-2.html">Employer Two</a></li>
-                                                <li role="menuitem"><a href="employer-3.html">Employer Three</a></li>
-                                            </ul>
-                                        </li>
-                                        <li role="menuitem" class="has-child has-arrow">
-                                            <a href="employer-details-1.html">Employer Details</a>
-                                            <ul class="sub__style" role="menu">
-                                                <li role="menuitem"><a href="employer-details-1.html">Employer Details 1</a></li>
-                                                <li role="menuitem"><a href="employer-details-2.html">Employer Details 2</a></li>
-                                            </ul>
-                                        </li>
-                                        <li role="menuitem"><a href="employer-dashboard.html">Employer Dashboard</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="navigation__menu--item has-child has-arrow">
-                                    <a href="#" class="navigation__menu--item__link">Candidates</a>
-                                    <ul class="submenu sub__style" role="menu">
-                                        <li role="menuitem" class="has-child has-arrow">
-                                            <a href="candidate-1.html">Candidate Style</a>
-                                            <ul class="sub__style" role="menu">
-                                                <li role="menuitem"><a href="candidate-1.html">Candidate One</a></li>
-                                                <li role="menuitem"><a href="candidate-2.html">Candidate Two</a></li>
-                                                <li role="menuitem"><a href="candidate-3.html">Candidate Three</a></li>
-                                                <li role="menuitem"><a href="candidate-4.html">Candidate Four</a></li>
-                                            </ul>
-                                        </li>
-                                        <li role="menuitem" class="has-child has-arrow">
-                                            <a href="candidate-details-1.html">Candidate Details</a>
-                                            <ul class="sub__style" role="menu">
-                                                <li role="menuitem"><a href="candidate-details-1.html">Candidate Details 1</a></li>
-                                                <li role="menuitem"><a href="candidate-details-2.html">Candidate Details 2</a></li>
-
-                                                </ul>
-                                            </li>
-                                            <li role="menuitem"><a href="/userprofile">Candidate Dashboard</a></li>
-                                        </ul>
+                                }
+                                else
+                                {
+                                    <li class="navigation__menu--item has-child">
+                                        <a href="/JobSeeker" class="navigation__menu--item__link">JobSeeker</a>
                                     </li>
-
-                                <li class="navigation__menu--item has-child has-arrow">
-                                    <a href="#" class="navigation__menu--item__link">Pages</a>
-                                    <ul class="submenu sub__style" role="menu">
-                                        <li role="menuitem" class="has-child has-arrow">
-                                            <a href="about.html">Blog</a>
-                                            <ul class="sub__style" role="menu">
-                                                <li role="menuitem"><a href="blog-1.html">Blog One</a></li>
-                                                <li role="menuitem"><a href="blog-2.html">Blog Two</a></li>
-                                                <li role="menuitem"><a href="blog-3.html">Blog Three</a></li>
-                                                <li role="menuitem"><a href="blog-4.html">Blog Four</a></li>
-                                                <li role="menuitem"><a href="blog-details.html">Blog Details</a></li>
-                                            </ul>
-                                        </li>
-                                        <li role="menuitem"><a href="about.html">About</a></li>
-                                        <li role="menuitem"><a href="faq.html">Faq</a></li>
-                                        <li role="menuitem"><a href="tos.html">Terms &amp; Conditions</a></li>
-                                        <li role="menuitem"><a href="privacy.html">Privacy Policy</a></li>
-                                        <li role="menuitem"><a href="pricing.html">Pricing</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="navigation__menu--item has-child has-arrow">
-                                    <a href="#" class="navigation__menu--item__link">Contact</a>
-                                    <ul class="submenu sub__style" role="menu">
-                                        <li role="menuitem"><a href="contact-1.html">Contact One</a></li>
-                                        <li role="menuitem"><a href="contact-2.html">Contact Two</a></li>
-                                    </ul>
-                                </li>
+                                }
                             </ul>
                         </nav>
                     </div>
@@ -230,32 +146,65 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="user__info">
-                                <div class="d-flex gap-3 align-items-center pointer" data-bs-toggle="dropdown">
-                                    <div class="user__image">
-                                        <img class="rounded-5" width="48" height="48" src="/assets/img/author/1.svg" alt="">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @if (User.IsInRole("Client"))
+                                {
+                                    <div class="user__info">
+                                        <div class="d-flex gap-3 align-items-center pointer" data-bs-toggle="dropdown">
+                                            <div class="user__image">
+                                                <img class="rounded-5" width="48" height="48" src="/assets/img/author/1.svg" alt="">
+                                            </div>
+                                            <div class="user__name d-none d-xl-block">
+                                                <h6 class="font-20 mb-0 fw-medium lh-sm">John Smith</h6>
+                                                <span>Client</span>
+                                            </div>
+                                            <div class="dropdown__option d-none d-xl-block">
+                                                <div class="dropdown__icon "><i class="fa-light fa-chevron-down"></i></div>
+                                            </div>
+                                        </div>
+                                        <ul class="rts__dropdown dropdown-menu top-25">
+
+                                            <li><a class="dropdown-item" href="/Dash">Dashboard</a></li>
+                                            <li><a class="dropdown-item" href="/Client/Profile">Profile</a></li>
+                                            <li><a class="dropdown-item" href="/Client/CreateJob">Post Job</a></li>
+                                            <li><a class="dropdown-item" href="/Client/MyJob">My Job</a></li>
+                                            <li><a class="dropdown-item" href="/Account/ChangePassword">Change Password</a></li>
+                                            <li><a class="dropdown-item" href="/Account/Logout">Log Out</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="user__name d-none d-xl-block">
-                                        <h6 class="font-20 mb-0 fw-medium lh-sm">John Smith</h6>
-                                        <span>Candidate</span>
+                                }
+                                else 
+                                {
+                                    <div class="user__info">
+                                        <div class="d-flex gap-3 align-items-center pointer" data-bs-toggle="dropdown">
+                                            <div class="user__image">
+                                                <img class="rounded-5" width="48" height="48" src="/assets/img/author/1.svg" alt="">
+                                            </div>
+                                            <div class="user__name d-none d-xl-block">
+                                                <h6 class="font-20 mb-0 fw-medium lh-sm">John Smith</h6>
+                                                <span>JobSeeker</span>
+                                            </div>
+                                            <div class="dropdown__option d-none d-xl-block">
+                                                <div class="dropdown__icon "><i class="fa-light fa-chevron-down"></i></div>
+                                            </div>
+                                        </div>
+                                        <ul class="rts__dropdown dropdown-menu top-25">
+                                            <li><a class="dropdown-item" href="/JobSeeker/Profile">Profile</a></li>
+                                            <li><a class="dropdown-item" href="">Applied Job</a></li>
+                                            <li><a class="dropdown-item" href="/Account/ChangePassword">Change Password</a></li>
+                                            <li><a class="dropdown-item" href="/Account/Logout">Log Out</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="dropdown__option d-none d-xl-block">
-                                        <div class="dropdown__icon "><i class="fa-light fa-chevron-down"></i></div>
-                                    </div>
+                                }
+                                
+                            }else{
+                                <div class="header__right__btn d-flex gap-3">
+                                    <a href="/Account/Login" class="small__btn d-none d-sm-flex no__fill__btn border-6 font-xs" aria-label="Login Button"> <i class="rt-login"></i>Login</a>
+                                    <a href="/Account/Register" class="small__btn d-none d-sm-flex no__fill__btn border-6 font-xs" aria-label="Login Button"> Register</a>
                                 </div>
-                                <ul class="rts__dropdown dropdown-menu top-25">
-                                    <li><a class="dropdown-item" href="candidate-dashboard.html">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="candidate-profile.html">Profile</a></li>
-                                    <li><a class="dropdown-item" href="candidate-resume.html">Resume</a></li>
-                                    <li><a class="dropdown-item" href="candidate-shortlist.html">Shortlist Job</a></li>
-                                    <li><a class="dropdown-item" href="candidate-message.html">Message</a></li>
-                                    <li><a class="dropdown-item" href="candidate-passwordchange.html">Change Password</a></li>
-                                    <li><a class="dropdown-item" href="#">Log Out</a></li>
-                                    <li><a class="dropdown-item" href="candidate-deleteprofile.html">Delete Account</a></li>
-                                </ul>
-                            </div>
-                            <a href="employer-dash-jobpost.html" class="small__btn d-none d-sm-flex d-xl-flex fill__btn border-6 font-xs" aria-label="Job Posting Button">Add A Job</a>
-                            <button class="d-md-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fa-sharp fa-regular fa-bars"></i></button>
+                            }
+                            
                         </div>
                     </div>
                 </div>

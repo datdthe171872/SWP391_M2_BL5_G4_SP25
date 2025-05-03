@@ -27,15 +27,17 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         public List<JobCategory> Categories { get; set; } =new List<JobCategory>();
         public List<Models.Company> Companies { get; set; } = new List<Models.Company>();
 
+        public  HeaderDTO HeaderDTO { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
+            if (user.isDelete)
             {
-                return NotFound();
+                return RedirectToPage("/InActiveUser");
             }
-            Categories = await _context.JobCategories.ToListAsync();
+
+            Categories = await _context.JobCategories.Where(x=>x.isDelete== false).ToListAsync();
+            HeaderDTO.JobCategories = Categories;
             var clientProfile = await _context.ClientProfiles.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             if (clientProfile == null)
@@ -43,7 +45,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
                return Page();
             }
 
-            Companies = await _context.Companies.Where(x => x.ClientProfileID == clientProfile.ClientProfileID).ToListAsync();
+            Companies = await _context.Companies.Where(x => x.ClientProfileID == clientProfile.ClientProfileID && x.isDelete == false).ToListAsync();
 
             return Page();
         }

@@ -34,10 +34,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         [BindProperty]
         public ManageAppliedSeekerInput Input { get; set; } = new ManageAppliedSeekerInput();
 
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var job = _dbContext.Jobs.FirstOrDefault(x => x.JobID == JobId);
+            var job = _dbContext.Jobs.FirstOrDefault(x => x.JobID == JobId && x.isDelete == false);
+            Header.JobCategories = _dbContext.JobCategories.Where(x=>x.isDelete==false).ToList();
             if (job == null)
             {
                 return Page();
@@ -46,9 +48,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             var clientProfile = await _dbContext.ClientProfiles.FirstOrDefaultAsync(x => x.ClientProfileID == company.ClientProfileID);
 
             var userLogin = await _userManager.GetUserAsync(User);
-            if(clientProfile.UserID != userLogin.Id)
+            if (userLogin.isDelete)
             {
-                return Unauthorized();
+                return RedirectToPage("/InActiveUser");
+            }
+            if (clientProfile.UserID != userLogin.Id)
+            {
+                return RedirectToPage("/Error");
             }
 
             var applications = _dbContext.JobApplications.Where(x=>x.JobID == job.JobID).ToList();

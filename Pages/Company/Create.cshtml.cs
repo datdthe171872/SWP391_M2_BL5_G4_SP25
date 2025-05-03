@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 {
+	[Authorize(Roles ="Client")]
 	public class CreateModel : PageModel
 	{
 		private readonly MyDBContext _context;
@@ -24,15 +26,18 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 		[BindProperty]
 		public CreateCompanyDto Input { get; set; } = new CreateCompanyDto();
 
+		public HeaderDTO Header { get; set; } =new HeaderDTO();
 		public async Task<IActionResult> OnGet()
 		{
 			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-			{
-				return RedirectToPage("/Account/Login");
-			}
+			Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete ==false).ToList();
+            
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
 
-			var clientProfile = await _context.ClientProfiles
+            var clientProfile = await _context.ClientProfiles
 					.FirstOrDefaultAsync(cp => cp.UserID == user.Id && !cp.isDelete);
 
 			if (clientProfile == null)

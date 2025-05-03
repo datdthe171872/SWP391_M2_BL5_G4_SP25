@@ -27,11 +27,19 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         public ProfileClient Profile { get; set; } = new ProfileClient();
         [BindProperty]
         public ProfileClientInput Input { get; set; }
+
         [BindProperty]
         public IFormFile? UploadImage { get; set; }
+
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             var user = await _userManager.GetUserAsync(User);
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
             Profile.Fullname = user.FullName;
             Profile.Phone = user.PhoneNumber;
             Profile.Email = user.Email;

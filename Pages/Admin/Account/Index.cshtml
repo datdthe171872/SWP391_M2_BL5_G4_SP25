@@ -55,11 +55,11 @@
 							<form method="post" asp-page-handler="UpdateIsDelete" class="d-inline">
 								<div class="form-check form-check-inline">
 									<input class="form-check-input border-success" type="radio" name="isDelete" value="true" id="active-@user.User.Id" @(user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
-									<label class="form-check-label" for="active-@user.User.Id">Active</label>
+									<label class="form-check-label" for="active-@user.User.Id">Inactive</label>
 								</div>
 								<div class="form-check form-check-inline">
 									<input class="form-check-input border-success" type="radio" name="isDelete" value="false" id="inactive-@user.User.Id" @(!user.User.isDelete ? "checked" : "") onchange="this.form.submit()" />
-									<label class="form-check-label" for="inactive-@user.User.Id">Inactive</label>
+									<label class="form-check-label" for="inactive-@user.User.Id">Active</label>
 								</div>
 								<input type="hidden" name="UserId" value="@user.User.Id" />
 							</form>

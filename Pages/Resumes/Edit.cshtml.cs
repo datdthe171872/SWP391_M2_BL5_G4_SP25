@@ -33,9 +33,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            if (user.isDelete)
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/InActiveUser");
             }
 
             Profile = await _context.JobSeekerProfiles

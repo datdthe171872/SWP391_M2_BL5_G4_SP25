@@ -12,12 +12,14 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly EmailSender _emailSender;
         private readonly UserManager<User> _userManager;
+        private readonly MyDBContext _context;
 
-        public LoginModel(SignInManager<User> signInManager, EmailSender emailSender, UserManager<User> userManager)
+        public LoginModel(SignInManager<User> signInManager, EmailSender emailSender, UserManager<User> userManager,MyDBContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
@@ -29,9 +31,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
         [BindProperty]
         public LoginInput Input { get; set; }
 
+        //header
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
 
         public async Task<IActionResult> OnGetAsync()
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete == false).ToList();
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()

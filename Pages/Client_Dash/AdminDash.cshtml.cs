@@ -1,17 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using SWP391_M2_BL5_G4_SP25.Common;
+using SWP391_M2_BL5_G4_SP25.DTO;
+using SWP391_M2_BL5_G4_SP25.Models;
 using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 {
+    [Authorize(Roles ="Admin")]
     public class AdminDashModel : PageModel
     {
         private readonly AdminDashService _adminDashService;
-        public AdminDashModel(AdminDashService adminDashService)
+        private readonly MyDBContext _context;
+        private readonly UserManager<User> _userManager;
+        public AdminDashModel(AdminDashService adminDashService,MyDBContext context, UserManager<User> userManager)
         {
             _adminDashService = adminDashService;
+            _context = context;
+            _userManager = userManager;
         }
 
         public int JobCount { get; set; }
@@ -23,9 +34,14 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
         public List<int> AvailableYears { get; set; }
         public bool IsLoading { get; set; } = true;
         public string ErrorMessage { get; set; }
-
-        public async Task OnGetAsync(int? year, int? month)
+		public HeaderDTO Header { get; set; } = new HeaderDTO();
+		public async Task<IActionResult> OnGetAsync(int? year, int? month)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
             try
             {
                 // Fetch counts
@@ -76,6 +92,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
             {
                 IsLoading = false;
             }
+            return Page();
         }
     }
 }

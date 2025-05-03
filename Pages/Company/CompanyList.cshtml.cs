@@ -26,9 +26,11 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
         public string LocationFilter { get; set; }
         public IList<string> AvailableLocations { get; set; }
 
+        public HeaderDTO Header { get; set; } =new HeaderDTO();
         public async Task OnGetAsync(int? pageNumber)
         {
-            CurrentPage = pageNumber ?? 1;
+			Header.JobCategories = _context.JobCategories.Where(x => x.isDelete == false).ToList();
+			CurrentPage = pageNumber ?? 1;
             if (CurrentPage < 1) CurrentPage = 1;
 
             // Populate available locations for dropdown

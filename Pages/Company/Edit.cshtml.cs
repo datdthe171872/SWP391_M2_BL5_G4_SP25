@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +9,8 @@ using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 {
-	public class EditModel : PageModel
+    [Authorize(Roles = "Client")]
+    public class EditModel : PageModel
 	{
 		private readonly MyDBContext _context;
 		private readonly UploadImg _uploadImg;
@@ -22,15 +24,18 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 		}
 		[BindProperty]
 		public EditCompanyDto Input { get; set; } = new EditCompanyDto();
+
+		public HeaderDTO Header { get; set; } = new HeaderDTO();
 		public async Task<IActionResult> OnGetAsync(int id)
 		{
+			Header.JobCategories = _context.JobCategories.Where(x => x.isDelete == false).ToList();
 			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
-			{
-				return RedirectToPage("/Account/Login");
-			}
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
 
-			var clientProfile = await _context.ClientProfiles
+            var clientProfile = await _context.ClientProfiles
 					.FirstOrDefaultAsync(cp => cp.UserID == user.Id && !cp.isDelete);
 
 			if (clientProfile == null)
@@ -83,7 +88,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 			if (clientProfile == null)
 			{
 				TempData["StatusMessage"] = "You need to create a client profile first";
-				return RedirectToPage("/ClientProfiles/Create");
+				return RedirectToPage("/Client/Profile");
 			}
 
 			var company = await _context.Companies

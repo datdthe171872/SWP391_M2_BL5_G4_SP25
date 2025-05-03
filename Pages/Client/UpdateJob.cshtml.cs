@@ -31,10 +31,14 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         public List<Requirement> Requirements { get; set; } = new List<Requirement>();
         public List<Responsibility> Responsibilities { get; set; } = new List<Responsibility>();
         public List<Benefit> Benefits { get; set; }=new List<Benefit>();
+        public HeaderDTO HeaderDTO { get; set; } =new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            
+            if (user.isDelete)
+            {
+                return RedirectToPage("/InActiveUser");
+            }
             var clientProfile = await _context.ClientProfiles.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             if (clientProfile == null)
@@ -51,14 +55,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             {
                 return NotFound();
             }
-            var company = await _context.Companies.FirstOrDefaultAsync(x => x.CompanyID == job.CompanyID);
+            var company = await _context.Companies.FirstOrDefaultAsync(x => x.CompanyID == job.CompanyID && x.isDelete == false);
 
             if(company.ClientProfileID != clientProfile.ClientProfileID)
             {
                 return Unauthorized();
             }
 
-            Categories = await _context.JobCategories.ToListAsync();
+            Categories = await _context.JobCategories.Where(x=>x.isDelete==false).ToListAsync();
+            HeaderDTO.JobCategories = Categories;
             Companies = await _context.Companies.Where(x => x.ClientProfileID == clientProfile.ClientProfileID).ToListAsync();
             Requirements = job.Requirements;
             Benefits = job.Benefits;

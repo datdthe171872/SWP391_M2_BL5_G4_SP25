@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +11,8 @@ using System.Linq;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Category
 {
-	public class IndexModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class IndexModel : PageModel
 	{
 		private readonly MyDBContext _context;
 

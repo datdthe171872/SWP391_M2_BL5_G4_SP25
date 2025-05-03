@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SWP391_M2_BL5_G4_SP25.DTO.UserDtos;
@@ -6,7 +7,8 @@ using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.UserProfile
 {
-	public class IndexModel : PageModel
+    [Authorize(Roles = "Admin")]
+    public class IndexModel : PageModel
 	{
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
