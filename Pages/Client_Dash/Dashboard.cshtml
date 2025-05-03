@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>@ViewData["Title"] - Jobpath</title>
     <style>
         body {
@@ -323,8 +325,31 @@
         .btn-delete:hover {
             background-color: #c82333;
         }
+
+        .chart-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .chart-container h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
     </style>
 </head>
+@await Html.PartialAsync("_Header")
+
 <body class="template-dashboard">
     <!-- Content Area -->
     <div class="dashboard__content">
@@ -359,15 +384,7 @@
                 <!-- Welcome Section -->
                 <div class="welcome-section">
                     <h2>Welcome back, @Model.UserName!</h2>
-                    <p>Here's an overview of your job applications and activities.</p>
-                    <div class="quick-actions">
-                        <a href="/Resumes/Create" class="quick-action-btn btn-primary">
-                            <i class="fas fa-plus"></i> Upload New CV
-                        </a>
-                        <a href="/Jobs" class="quick-action-btn btn-outline-primary">
-                            <i class="fas fa-search"></i> Find Jobs
-                        </a>
-                    </div>
+                    
                 </div>
 
                 <!-- Statistics Cards -->
@@ -388,117 +405,94 @@
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3>Accepted</h3>
+                            <h3>Comfirm</h3>
                             <div class="stats-number">@Model.AcceptedApplications</div>
                             <div class="stats-label">Successful applications</div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="stats-card">
-                            <h3>Rejected</h3>
+                            <h3>Reject</h3>
                             <div class="stats-number">@Model.RejectedApplications</div>
                             <div class="stats-label">Unsuccessful applications</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Filter Section -->
-                <div class="filter-section">
-                    <h3>Filter Applications</h3>
-                    <form method="get" class="row g-3">
-                        <div class="col-md-4">
-                            <input type="text" name="searchTerm" class="form-control" placeholder="Search by job title or user" value="@Model.SearchTerm">
+                <!-- Charts Section -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h3>Applications by Month</h3>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @* <select id="monthYearSelect" class="form-select" onchange="updateMonthlyChart()">
+                                            @foreach (var year in Model.AvailableYears)
+                                            {
+                                                if (year == Model.MonthlyStats.SelectedYear)
+                                                {
+                                                    <option selected>@year</option>
+                                                }
+                                                else
+                                                {
+                                                    <option>@year</option>
+                                                }
+                                            }
+                                        </select> *@
+                                    </div>
+                                    <div class="col-md-6">
+                                       @*  <select id="monthSelect" class="form-select" onchange="updateMonthlyChart()">
+                                            @{
+                                                var months = new[] { "January", "February", "March", "April", "May", "June", 
+                                                                   "July", "August", "September", "October", "November", "December" };
+                                                for (int i = 0; i < months.Length; i++)
+                                                {
+                                                    if (i + 1 == Model.MonthlyStats.SelectedMonth)
+                                                    {
+                                                        <option selected>@months[i]</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option>@months[i]</option>
+                                                    }
+                                                }
+                                            }
+                                        </select> *@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="monthlyChart"></canvas>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <select name="status" class="form-control">
-                                <option value="">All Status</option>
-                                <option value="Pending" selected="@(Model.Status == "Pending")">Pending</option>
-                                <option value="Reviewing" selected="@(Model.Status == "Reviewing")">Reviewing</option>
-                                <option value="Accepted" selected="@(Model.Status == "Accepted")">Accepted</option>
-                                <option value="Rejected" selected="@(Model.Status == "Rejected")">Rejected</option>
-                            </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h3>Applications by Year</h3>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <select id="yearSelect" class="form-select" onchange="updateYearlyChart()">
+                                            @foreach (var year in Model.AvailableYears)
+                                            {
+                                                if (year == Model.YearlyStats.SelectedYear)
+                                                {
+                                                    <option selected>@year</option>
+                                                }
+                                                else
+                                                {
+                                                    <option>@year</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="yearlyChart"></canvas>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <input type="date" name="date" class="form-control" value="@Model.Date">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary w-100">Filter</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Applications Table -->
-                <div class="application-card">
-                    <h3>Your Applications</h3>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Job</th>
-                                    <th>Applied Date</th>
-                                    <th>Status</th>
-                                    <th>Cover Letter</th>
-                                    <th>CV File</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model.Applications != null && Model.Applications.Any())
-                                {
-                                    @foreach (var application in Model.Applications)
-                                    {
-                                        <tr>
-                                            <td>@application.User?.Email</td>
-                                            <td>@application.Job?.Title</td>
-                                            <td>@application.ApplicationDate.ToString("MMM dd, yyyy")</td>
-                                            <td>
-                                                <span class="status-badge status-@application.Status.ToLower()">@application.Status</span>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#coverLetterModal-@application.JobApplicationID">
-                                                    View
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <a href="@application.CVFile" class="btn btn-sm btn-outline-primary" target="_blank">
-                                                    Download
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <form asp-page-handler="DeleteApplication" method="post" style="display:inline;">
-                                                        <input type="hidden" name="applicationId" value="@application.JobApplicationID" />
-                                                        <button type="submit" class="action-btn btn-delete" onclick="return confirm('Are you sure you want to delete this application?')">Delete</button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <!-- Cover Letter Modal -->
-                                        <div class="modal fade" id="coverLetterModal-@application.JobApplicationID" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Cover Letter</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>@application.CoverLetter</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="7" class="text-center">No applications found</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -511,5 +505,108 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/plugins.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        let monthlyChart;
+        let yearlyChart;
+
+        // Monthly Chart
+        const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        monthlyChart = new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Pending',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlyStats.Pending)),
+                        backgroundColor: '#fff3cd',
+                        borderColor: '#856404',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Comfirm',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlyStats.Comfirm)),
+                        backgroundColor: '#d4edda',
+                        borderColor: '#155724',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Reject',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlyStats.Reject)),
+                        backgroundColor: '#f8d7da',
+                        borderColor: '#721c24',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // Yearly Chart
+        const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+        yearlyChart = new Chart(yearlyCtx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.YearlyStats.Years)),
+                datasets: [
+                    {
+                        label: 'Pending',
+                        data: @Html.Raw(Json.Serialize(Model.YearlyStats.Pending)),
+                        backgroundColor: '#fff3cd',
+                        borderColor: '#856404',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Comfirm',
+                        data: @Html.Raw(Json.Serialize(Model.YearlyStats.Comfirm)),
+                        backgroundColor: '#d4edda',
+                        borderColor: '#155724',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Reject',
+                        data: @Html.Raw(Json.Serialize(Model.YearlyStats.Reject)),
+                        backgroundColor: '#f8d7da',
+                        borderColor: '#721c24',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateMonthlyChart() {
+            const year = document.getElementById('monthYearSelect').value;
+            const month = document.getElementById('monthSelect').selectedIndex + 1;
+            window.location.href = `/Dash?year=${year}&month=${month}`;
+        }
+
+        function updateYearlyChart() {
+            const year = document.getElementById('yearSelect').value;
+            window.location.href = `/Dash?year=${year}`;
+        }
+    </script>
 </body>
 </html>
