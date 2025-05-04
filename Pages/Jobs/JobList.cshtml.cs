@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SWP391_M2_BL5_G4_SP25.Constants;
+using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
@@ -32,8 +34,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
         public IList<string> Experiences { get; set; }
         public IList<string> SalaryRanges { get; set; }
 
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task OnGetAsync(int? pageNumber, string search, string location, int? category, string jobType, string experience, string salary)
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             CurrentPage = pageNumber ?? 1;
             if (CurrentPage < 1) CurrentPage = 1;
 
@@ -55,7 +59,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
             Categories = await _context.JobCategories
                 .Where(c => !c.isDelete)
                 .ToListAsync();
-
+            
 
 
             JobTypes = await _context.Jobs
