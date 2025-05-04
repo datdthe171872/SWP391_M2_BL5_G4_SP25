@@ -42,8 +42,8 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 
 			if (clientProfile == null)
 			{
-				TempData["StatusMessage"] = "You need to create a client profile first";
-				return RedirectToPage("/ClientProfiles/Create");
+				TempData["StatusMessage"] = "You need to update a client profile first";
+				return RedirectToPage("/Client/Profile");
 			}
 
 			return Page();
@@ -56,9 +56,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 			}
 
 			var user = await _userManager.GetUserAsync(User);
-			if (user == null)
+			if (user.isDelete)
 			{
-				return RedirectToPage("/Account/Login");
+				return RedirectToPage("/InActiveUser");
 			}
 
 			var clientProfile = await _context.ClientProfiles
@@ -66,9 +66,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 
 			if (clientProfile == null)
 			{
-				TempData["StatusMessage"] = "You need to create a client profile first";
-				return RedirectToPage("/ClientProfiles/Create");
-			}
+                TempData["StatusMessage"] = "You need to update a client profile first";
+                return RedirectToPage("/Client/Profile");
+            }
 
 			bool companyExists = await _context.Companies
 						.AnyAsync(c => c.CompanyName.ToLower() == Input.CompanyName.ToLower() && !c.isDelete);
@@ -99,7 +99,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 
 			_context.Companies.Add(company);
 			await _context.SaveChangesAsync();
-			return RedirectToPage("CompanyList");
+			return RedirectToPage("/Client/MyCompany");
 		}
 	}
 }

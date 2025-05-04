@@ -122,11 +122,25 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            var job = _context.Jobs.FirstOrDefault(x => x.JobID == InputManage.JobId);
+            var user = await _userManager.GetUserAsync(User);
+            var job = _context.Jobs.Include(x=>x.Company).FirstOrDefault(x => x.JobID == InputManage.JobId);
+
             if (job == null)
             {
                 return Page();
             }
+            var clientProfile = _context.ClientProfiles.FirstOrDefault(x => x.UserID == user.Id);
+
+            if (clientProfile == null)
+            {
+                return RedirectToPage("/Error");
+            }
+            if(job.Company.ClientProfileID!= clientProfile.ClientProfileID)
+            {
+                return RedirectToPage("/Error");
+            }
+
+
             if (InputManage.Type == "Delete")
             {
                 job.isDelete = true;
