@@ -1,158 +1,147 @@
-﻿@page 
+﻿@page "/Client/EditCompany"
 @model SWP391_M2_BL5_G4_SP25.Pages.Company.EditModel
 @{
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Browse Companies">
-	<meta name="keywords" content="Companies, Jobpath">
-	<link rel="shortcut-icon" href="/assets/img/favicon-16x16.png" type="image/x-icon">
-	<title>@ViewData["Title"] - Jobpath</title>
-	<link rel="stylesheet" href="/assets/fonts/icon/css/rt-icons.css">
-	<link rel="stylesheet" href="/assets/fonts/fontawesome/fontawesome.min.css">
-	<link rel="stylesheet" href="/assets/css/plugins.min.css">
-	<link rel="stylesheet" href="/assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse Companies">
+    <meta name="keywords" content="Companies, Jobpath">
+    <link rel="shortcut-icon" href="/assets/img/favicon-16x16.png" type="image/x-icon">
+    <title>@ViewData["Title"] - Jobpath</title>
+    <link rel="stylesheet" href="/assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/css/plugins.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
-<body>
-	<!-- Header -->
-	@await Html.PartialAsync("_Header",Model.Header)
-	<!-- Breadcrumb -->
-	<div class="rts__section breadcrumb__background">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 position-relative d-flex justify-content-between align-items-center">
-					<div class="breadcrumb__area max-content mx-auto breadcrumb__padding">
-						<h3 class="text-center h3 mb-0">Browse Companies</h3>
-					</div>
+<body class="template-dashboard">
+    <!-- Header -->
+    @await Html.PartialAsync("_Header", Model.Header)
+    <!-- content area -->
+    <div class="dashboard__content d-flex">
+        @await Html.PartialAsync("_NavClient")
+        <div class="dashboard__right">
+            <div class="dash__content ">
+                <!-- sidebar menu -->
+                <div class="sidebar__menu d-md-block d-lg-none">
+                    <div class="sidebar__action"><i class="fa-sharp fa-regular fa-bars"></i> Sidebar</div>
+                </div>
+                <!-- sidebar menu end -->
 
-					<div class="breadcrumb__area__shape breadcrumb__style__four d-flex gap-4 justify-content-end align-items-center">
-						<div class="shape__one common"><img src="/assets/img/breadcrumb/shape-1.svg" alt=""></div>
-						<div class="shape__two common"><img src="/assets/img/breadcrumb/shape-2.svg" alt=""></div>
-						<div class="shape__three common"><img src="/assets/img/breadcrumb/shape-3.svg" alt=""></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="my__profile__tab radius-16 bg-white">
+                    <nav>
+                        <div class="nav nav-tabs">
+                            <a class="nav-link active" href="#info"> Create Company</a>
+                        </div>
+                    </nav>
+                    <div class="my__details" id="info">
+                        @* <div class="info__top">
+                        <div class="author__image">
+                        <img class="p-4" src="assets/img/icon/google.svg" alt="">
+                        </div>
+                        <div class="select__image">
+                        <label for="file" class="file-upload__label">Upload New Photo</label>
+                        <input type="file" class="file-upload__input" id="file" required>
+                        </div>
+                        <div class="delete__data">
+                        <i class="fa-light fa-trash-can"></i>
+                        </div>
+                        </div> *@
+                        <br />
+                        <br />
+                        <div class="info__field">
+                            <form method="post" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Input.CompanyID" />
+                                <input type="hidden" asp-for="Input.ExistingImagePath" />
+                                <div class="mb-3">
+                                    <label asp-for="Input.CompanyName" class="form-label"></label>
+                                    <input asp-for="Input.CompanyName" class="form-control" />
+                                    <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+                                </div>
 
-	<!-- Company List -->
-	<div class="rts__section section__padding">
-		<div class="container">
-			<form method="post" enctype="multipart/form-data">
-				<input type="hidden" asp-for="Input.CompanyID" />
-				<input type="hidden" asp-for="Input.ExistingImagePath" />
-				<div class="mb-3">
-					<label asp-for="Input.CompanyName" class="form-label"></label>
-					<input asp-for="Input.CompanyName" class="form-control" />
-					<span asp-validation-for="Input.CompanyName" class="text-danger"></span>
-				</div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Email" class="form-label"></label>
+                                    <input asp-for="Input.Email" class="form-control" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
 
-				<div class="mb-3">
-					<label asp-for="Input.Email" class="form-label"></label>
-					<input asp-for="Input.Email" class="form-control" />
-					<span asp-validation-for="Input.Email" class="text-danger"></span>
-				</div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Description" class="form-label"></label>
+                                    <textarea asp-for="Input.Description" class="form-control"></textarea>
+                                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                                </div>
 
-				<div class="mb-3">
-					<label asp-for="Input.Description" class="form-label"></label>
-					<textarea asp-for="Input.Description" class="form-control"></textarea>
-					<span asp-validation-for="Input.Description" class="text-danger"></span>
-				</div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Link" class="form-label"></label>
+                                    <input asp-for="Input.Link" class="form-control" />
+                                    <span asp-validation-for="Input.Link" class="text-danger"></span>
+                                </div>
 
-				<div class="mb-3">
-					<label asp-for="Input.Link" class="form-label"></label>
-					<input asp-for="Input.Link" class="form-control" />
-					<span asp-validation-for="Input.Link" class="text-danger"></span>
-				</div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Location" class="form-label"></label>
+                                    <input asp-for="Input.Location" class="form-control" />
+                                    <span asp-validation-for="Input.Location" class="text-danger"></span>
+                                </div>
 
-				<div class="mb-3">
-					<label asp-for="Input.Location" class="form-label"></label>
-					<input asp-for="Input.Location" class="form-control" />
-					<span asp-validation-for="Input.Location" class="text-danger"></span>
-				</div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.ImageFile" class="form-label"></label>
+                                    <input asp-for="Input.ImageFile" type="file" class="form-control" />
+                                    <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+                                    @if (!string.IsNullOrEmpty(Model.Input.ExistingImagePath))
+                                    {
+                                        <div class="mt-2">
+                                            <p><strong>Current Image Path:</strong> @Model.Input.ExistingImagePath</p>
+                                        </div>
+                                    }
+                                </div>
 
-				<div class="mb-3">
-					<label asp-for="Input.ImageFile" class="form-label"></label>
-					<input asp-for="Input.ImageFile" type="file" class="form-control" />
-					<span asp-validation-for="Input.ImageFile" class="text-danger"></span>
-					@if (!string.IsNullOrEmpty(Model.Input.ExistingImagePath))
-					{
-						<div class="mt-2">
-							<p><strong>Current Image Path:</strong> @Model.Input.ExistingImagePath</p>
-						</div>
-					}
-				</div>
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                <a asp-page="CompanyList" class="btn btn-secondary">Cancel</a>
+                            </form>
+                            <!-- editor area -->
+                            <div class="rt-input-group">
+                                <div class="textarea"></div>
+                            </div>
+                            <!-- editor area end -->
+                        </div>
+                    </div>
+                </div>
 
-				<button type="submit" class="btn btn-success">Save Changes</button>
-				<a asp-page="CompanyList" class="btn btn-secondary">Cancel</a>
-			</form>
 
-		</div>
-	</div>
+            </div>
+            <div class="d-flex justify-content-center mt-30">
+                <p class="copyright">Copyright © 2024 All Rights Reserved by jobpath</p>
 
-	<!-- Footer -->
-	<footer class="rts__section footer__home__one">
-		<div class="container">
-			<div class="row">
-				<div class="footer__wrapper d-flex flex-wrap flex-column flex-sm-row gap-4 gap-md-0 gap-sm-3 justify-content-between pt-60 pb-60">
-					<div class="rts__footer__widget max-320">
-						<a href="/" class="footer__logo" aria-label="logo">
-							<img src="/assets/img/logo/header__one.svg" width="160" height="40" alt="logo">
-						</a>
-						<p class="mt-4">Whether you're an experienced professional or a fresh graduate eager to dive into the workforce, we have something for everyone.</p>
-					</div>
-					<div class="rts__footer__widget max-content">
-						<div class="font-20 fw-medium mb-3 h6">Links</div>
-						<ul class="list-unstyled">
-							<li><a href="/Jobs" aria-label="footer__menu__link">Browse Jobs</a></li>
-							<li><a href="/Company" aria-label="footer__menu__link">Browse Companies</a></li>
-							<li><a href="#" aria-label="footer__menu__link">Blog & News</a></li>
-							<li><a href="#" aria-label="footer__menu__link">FAQ Question</a></li>
-							<li><a href="#" aria-label="footer__menu__link">Job Alerts</a></li>
-						</ul>
-					</div>
-					<div class="rts__footer__widget max-content">
-						<div class="font-20 fw-medium mb-3 h6">Contact Us</div>
-						<ul class="list-unstyled mb-3">
-							<li><a href="#"><i class="fa-light fa-location-dot"></i>2715 Ash Dr. San Jose, USA</a></li>
-							<li><a href="callto:+880171234578"><i class="fa-light fa-phone"></i>+(61) 545-432-234</a></li>
-							<li><a href="mailto:jobpath@gmail.com"><i class="fa-light fa-envelope"></i>jobpath@gmail.com</a></li>
-						</ul>
-						<div class="font-20 fw-medium mb-20 text-dark">Social Link</div>
-						<div class="rts__social d-flex gap-4">
-							<a target="_blank" href="https://facebook.com/" aria-label="facebook"><i class="fa-brands fa-facebook"></i></a>
-							<a target="_blank" href="https://instagram.com/" aria-label="instagram"><i class="fa-brands fa-instagram"></i></a>
-							<a target="_blank" href="https://linkedin.com/" aria-label="linkedin"><i class="fa-brands fa-linkedin"></i></a>
-							<a target="_blank" href="https://pinterest.com/" aria-label="pinterest"><i class="fa-brands fa-pinterest"></i></a>
-							<a target="_blank" href="https://youtube.com/" aria-label="youtube"><i class="fa-brands fa-youtube"></i></a>
-						</div>
-					</div>
-					<div class="rts__footer__widget max-320">
-						<div class="font-20 fw-medium mb-3 h6">Subscribe Our Newsletter</div>
-						<p class="br-sm-none">Subscribe Our Newsletter get <br> Update our New Course</p>
-						<form action="#" class="d-flex align-items-center justify-content-between mt-4 newsletter">
-							<input type="email" name="semail" id="semail" placeholder="Enter your email" required>
-							<button type="submit" class="rts__btn fill__btn">Subscribe</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="rts__copyright">
-			<div class="container">
-				<p class="text-center fw-medium py-4">Copyright © 2024 All Rights Reserved by jobpath</p>
-			</div>
-		</div>
-	</footer>
+            </div>
+        </div>
+    </div>
+    <!-- content area end -->
+    <!-- THEME PRELOADER START -->
+    <div class="loader-wrapper">
+        <div class="loader">
+        </div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+    <!-- THEME PRELOADER END -->
+    <button type="button" class="rts__back__top" id="rts-back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <!-- Company List -->
+    <div class="rts__section section__padding">
+        <div class="container">
+        </div>
+    </div>
 
-	<!-- Scripts -->
-	<script src="/assets/js/plugins.min.js"></script>
-	<script src="/assets/js/main.js"></script>
-	@section Scripts {
-		<partial name="_ValidationScriptsPartial" />
-	}
+
+
+    <!-- Scripts -->
+    <script src="/assets/js/plugins.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 </body>
 </html>

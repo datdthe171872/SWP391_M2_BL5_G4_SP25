@@ -137,7 +137,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 
 			await _context.SaveChangesAsync();
 
-			return RedirectToPage("CompanyList");
+			return RedirectToPage("/Client/MyCompany");
 		}
 	}
 }
