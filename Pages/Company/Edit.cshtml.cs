@@ -30,6 +30,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 		{
 			Header.JobCategories = _context.JobCategories.Where(x => x.isDelete == false).ToList();
 			var user = await _userManager.GetUserAsync(User);
+			Header.User = user;
             if (user.isDelete)
             {
                 return RedirectToPage("/InActiveUser");

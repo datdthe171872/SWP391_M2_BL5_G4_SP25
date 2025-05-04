@@ -39,6 +39,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             {
                 return RedirectToPage("/InActiveUser");
             }
+            HeaderDTO.User = user;
             var clientProfile = await _context.ClientProfiles.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             if (clientProfile == null)

@@ -38,6 +38,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 
             Categories = await _context.JobCategories.Where(x=>x.isDelete== false).ToListAsync();
             HeaderDTO.JobCategories = Categories;
+            HeaderDTO.User = user;
             var clientProfile = await _context.ClientProfiles.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             if (clientProfile == null)

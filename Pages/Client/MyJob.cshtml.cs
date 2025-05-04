@@ -38,11 +38,11 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            
             if (user.isDelete)
             {
                 return RedirectToPage("/InActiveUser");
             }
+            Header.User = user;
             jobCategory = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             Header.JobCategories = jobCategory;
             var clientprofile = _context.ClientProfiles.FirstOrDefault(x => x.UserID == user.Id);

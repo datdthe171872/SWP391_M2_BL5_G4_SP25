@@ -43,6 +43,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
             {
                 return RedirectToPage("/InActiveUser");
             }
+            Header.User = user;
             try
             {
                 // Set default welcome message

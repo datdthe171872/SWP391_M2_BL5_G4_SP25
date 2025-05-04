@@ -40,6 +40,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             {
                 return RedirectToPage("/InActiveUser");
             }
+            Header.User = user;
             Profile.Fullname = user.FullName;
             Profile.Phone = user.PhoneNumber;
             Profile.Email = user.Email;

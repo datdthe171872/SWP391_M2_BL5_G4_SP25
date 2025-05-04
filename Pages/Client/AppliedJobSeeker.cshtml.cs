@@ -40,6 +40,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         {
             var job = _dbContext.Jobs.FirstOrDefault(x => x.JobID == JobId && x.isDelete == false);
             Header.JobCategories = _dbContext.JobCategories.Where(x=>x.isDelete==false).ToList();
+
             if (job == null)
             {
                 return Page();
@@ -48,6 +49,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             var clientProfile = await _dbContext.ClientProfiles.FirstOrDefaultAsync(x => x.ClientProfileID == company.ClientProfileID);
 
             var userLogin = await _userManager.GetUserAsync(User);
+            Header.User = userLogin;
             if (userLogin.isDelete)
             {
                 return RedirectToPage("/InActiveUser");
