@@ -40,85 +40,97 @@
 		</div>
 	</div>
 
-    <!-- Company List -->
-    <div class="rts__section section__padding">
-        <div class="container">
-            <!-- Search and Filter Form -->
-            <div class="row mb-4">
-                <div class="col-lg-12">
-                    <form method="get" class="d-flex gap-3 flex-wrap">
-                        <div class="form-group flex-grow-1">
-                            <input type="text" name="searchQuery" value="@Model.SearchQuery" class="form-control" placeholder="Search by company name..." aria-label="Search by company name" />
-                        </div>
-                        <div class="form-group">
-                            <select name="locationFilter" class="form-control" aria-label="Filter by location">
-                                <option value="All" selected="@(string.IsNullOrEmpty(Model.LocationFilter) || Model.LocationFilter == "All")">All Locations</option>
-                                @foreach (var location in Model.AvailableLocations)
-                                {
-                                    <option value="@location" selected="@(Model.LocationFilter == location)">@location</option>
-                                }
-                            </select>
-                        </div>
-                        <button type="submit" class="rts__btn fill__btn">Search</button>
-                    </form>
-                </div>
-            </div>
+	<!-- Company List -->
+	<div class="rts__section section__padding">
+		<div class="container">
+			<!-- Search and Filter Form -->
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					<form method="get" class="d-flex gap-3 flex-wrap">
+						<div class="form-group flex-grow-1">
+							<input type="text" name="searchQuery" value="@Model.SearchQuery" class="form-control" placeholder="Search by company name..." aria-label="Search by company name" />
+						</div>
+						<div class="form-group">
+							<select name="locationFilter" class="form-control" aria-label="Filter by location">
+								<option value="All" selected="@(string.IsNullOrEmpty(Model.LocationFilter) || Model.LocationFilter == "All")">All Locations</option>
+								@foreach (var location in Model.AvailableLocations)
+								{
+									<option value="@location" selected="@(Model.LocationFilter == location)">@location</option>
+								}
+							</select>
+						</div>
+						<button type="submit" class="rts__btn fill__btn">Search</button>
+					</form>
+				</div>
+			</div>
 
-            <div class="row g-30">
-                @foreach (var company in Model.Companies)
-                {
-                    <div class="col-lg-4 col-md-6">
-                        <div class="rts__job__card style__five">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="company__icon">
-                                    <img src="@company.Image" alt="@company.CompanyName" onerror="this.src='/assets/img/home-1/company/amazon.svg'">
-                                </div>
-                            </div>
-                            <div class="d-flex gap-3 mt-4 flex-wrap">
-                                <div class="d-flex gap-2 align-items-center font-sm">
-                                    <i class="fa-light fa-location-dot"></i> @company.Location
-                                </div>
-                                <div class="d-flex gap-2 align-items-center font-sm">
-                                    <i class="fa-light fa-briefcase"></i> @company.OpenJobsCount Open Jobs
-                                </div>
-                            </div>
-                            <div class="font-20 fw-medium job__title mt-3 mb-2">
-                                <a href="/Company/Details/@company.CompanyID" class="job__title">@company.CompanyName</a>
-                            </div>
-                            <p class="text-truncate-multiline">@company.Description</p>
-                        </div>
-                    </div>
-                }
-            </div>
-            <!-- Pagination -->
-            <div class="rts__pagination d-block mx-auto pt-60 max-content">
-                <ul class="d-flex gap-2">
-                    @if (Model.CurrentPage > 1)
-                    {
-                        <li>
-                            <a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage - 1, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })" class="page-link">
-                                <i class="rt-chevron-left"></i>
-                            </a>
-                        </li>
-                    }
-                    @for (int i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li>
-                            <a class="page-link @(i == Model.CurrentPage ? "active" : "")" href="@Url.Page("CompanyList", new { pageNumber = i, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })">@i</a>
-                        </li>
-                    }
-                    @if (Model.CurrentPage < Model.TotalPages)
-                    {
-                        <li>
-                            <a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage + 1, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })" class="page-link">
-                                <i class="rt-chevron-right"></i>
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
+			<div class="row g-30">
+				@if (User.Identity.IsAuthenticated)
+				{
+					<div class="d-flex justify-content-end">
+						<a href="/Company/Create" class="btn btn-success">Create</a>
+					</div>
+				}
+				@foreach (var company in Model.Companies)
+				{
+					<div class="col-lg-4 col-md-6">
+						<div class="rts__job__card style__five">
+							<div class="d-flex align-items-center justify-content-between">
+								<div class="company__icon">
+									<img src="@company.Image" alt="@company.CompanyName" onerror="this.src='/assets/img/home-1/company/amazon.svg'">
+								</div>
+							</div>
+							<div class="d-flex gap-3 mt-4 flex-wrap">
+								<div class="d-flex gap-2 align-items-center font-sm">
+									<i class="fa-light fa-location-dot"></i> @company.Location
+								</div>
+								<div class="d-flex gap-2 align-items-center font-sm">
+									<i class="fa-light fa-briefcase"></i> @company.OpenJobsCount Open Jobs
+								</div>
+							</div>
+							<div class="font-20 fw-medium job__title mt-3 mb-2">
+								<a href="/Company/Details/@company.CompanyID" class="job__title">@company.CompanyName</a>
+							</div>
+							<p class="text-truncate-multiline">@company.Description</p>
+							@if (User.Identity.IsAuthenticated)
+							{
+								<div class="d-flex justify-content-end">
+									<a asp-page="Edit" asp-route-id="@company.CompanyID" class="btn btn-success">Edit</a>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			</div>
+			<!-- Pagination -->
+			<div class="rts__pagination d-block mx-auto pt-60 max-content">
+				<ul class="d-flex gap-2">
+					@if (Model.CurrentPage > 1)
+					{
+						<li>
+							<a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage - 1, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })" class="page-link">
+								<i class="rt-chevron-left"></i>
+							</a>
+						</li>
+					}
+					@for (int i = 1; i <= Model.TotalPages; i++)
+					{
+						<li>
+							<a class="page-link @(i == Model.CurrentPage ? "active" : "")" href="@Url.Page("CompanyList", new { pageNumber = i, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })">@i</a>
+						</li>
+					}
+					@if (Model.CurrentPage < Model.TotalPages)
+					{
+						<li>
+							<a href="@Url.Page("CompanyList", new { pageNumber = Model.CurrentPage + 1, searchQuery = Model.SearchQuery, locationFilter = Model.LocationFilter })" class="page-link">
+								<i class="rt-chevron-right"></i>
+							</a>
+						</li>
+					}
+				</ul>
+			</div>
+		</div>
+	</div>
 
 	<!-- Footer -->
 	<footer class="rts__section footer__home__one">

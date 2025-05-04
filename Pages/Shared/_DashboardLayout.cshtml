@@ -119,14 +119,7 @@
                   </div>
                 </div>
                 <div class="user__info">
-                  <a href="/Admin/UserProfile/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" class="text-decoration-none">
-                    <div class="d-flex gap-3 align-items-center pointer">
-                      <div class="user__name d-none d-xl-block">
-                        <h6 class="font-20 mb-1 text-capitalize fw-medium lh-sm">@User.Identity.Name</h6>
-                        <span>@User.FindFirst("Email")?.Value</span>
-                      </div>
-                    </div>
-                  </a>
+                 
                 </div>
                 <button class="d-md-block d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fa-sharp fa-regular fa-bars"></i></button>
               </div>

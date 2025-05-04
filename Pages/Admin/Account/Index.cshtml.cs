@@ -31,7 +31,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Account
 		[BindProperty(SupportsGet = true)]
 		public int PageNumber { get; set; } = 1;
 
-		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 2 };
+		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 5 };
 
 		public async Task OnGetAsync()
 		{

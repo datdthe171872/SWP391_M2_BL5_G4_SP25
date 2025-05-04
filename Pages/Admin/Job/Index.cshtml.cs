@@ -24,7 +24,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Job
 		[BindProperty(SupportsGet = true)]
 		public JobSearchDto SearchInput { get; set; } = new JobSearchDto();
 
-		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 2 };
+		public PaginationInfo Pagination { get; set; } = new PaginationInfo { PageSize = 5 };
 
 		[BindProperty(SupportsGet = true)]
 		public int PageNumber { get; set; } = 1;
@@ -74,6 +74,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Job
 								Salary = j.Salary,
 								SkillsRequired = string.Join(", ", j.Requirements.Select(r => r.Content)),
 								JobType = j.JobType,
+								PostDate = j.PostDate,
 								Status = j.Status,
 								Company = j.Company,
 								JobCategory = j.JobCategory
