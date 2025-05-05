@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using SWP391_M2_BL5_G4_SP25.Constants;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
 {
@@ -34,7 +35,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
             // Lấy UserID của JobSeeker hiện tại
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            // Truy vấn danh sách công việc đã ứng tuyển
+            // Truy vấn danh sách công việc đã ứng tuyển, bao gồm CVFile
             var query = from ja in _context.JobApplications
                         join j in _context.Jobs on ja.JobID equals j.JobID
                         join c in _context.Companies on j.CompanyID equals c.CompanyID
@@ -45,30 +46,32 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
                             JobTitle = j.Title,
                             CompanyName = c.CompanyName,
                             CompanyLogo = c.Image,
+                            CompanyID = j.CompanyID,
                             Location = j.Location,
                             JobType = j.JobType,
                             ApplicationDate = ja.ApplicationDate,
                             Status = ja.Status,
-                            SkillsRequired = j.SkillsRequired.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
+                            SkillsRequired = j.SkillsRequired.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                            CVFile = ja.CVFile 
                         };
 
-            // Áp dụng tìm kiếm
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 query = query.Where(x => x.JobTitle.Contains(searchTerm) || x.CompanyName.Contains(searchTerm));
             }
 
-            // Áp dụng lọc theo loại công việc
+
             if (!string.IsNullOrEmpty(categoryFilter) && categoryFilter != "All Category")
             {
-                query = query.Where(x => x.JobType == categoryFilter);
+                if (categoryFilter == JoptypeOption.FULL_TIME || categoryFilter == JoptypeOption.PART_TIME)
+                {
+                    query = query.Where(x => x.JobType == categoryFilter);
+                }
             }
 
-            // Tính tổng số trang
             var totalRecords = await query.CountAsync();
             TotalPages = (int)Math.Ceiling(totalRecords / (double)PageSize);
 
-            // Lấy dữ liệu phân trang
             AppliedJobs = await query
                 .OrderByDescending(x => x.ApplicationDate)
                 .Skip((PageIndex - 1) * PageSize)
@@ -83,11 +86,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
         public string JobTitle { get; set; }
         public string CompanyName { get; set; }
         public string CompanyLogo { get; set; }
+        public int CompanyID { get; set; } 
         public string Location { get; set; }
         public string JobType { get; set; }
         public DateTime ApplicationDate { get; set; }
         public string Status { get; set; }
         public List<string> SkillsRequired { get; set; }
+        public string CVFile { get; set; } 
     }
 }
-

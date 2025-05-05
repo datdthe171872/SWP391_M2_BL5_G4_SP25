@@ -81,7 +81,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
             
             var query = _context.Jobs
                 .Include(j => j.Company)
-                .Where(j => !j.isDelete && j.Status == "Active");
+                .Where(j => !j.isDelete && j.Status == "Open");
 
             if (!string.IsNullOrEmpty(search))
             {
