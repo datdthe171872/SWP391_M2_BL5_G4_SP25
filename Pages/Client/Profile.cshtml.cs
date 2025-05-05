@@ -67,6 +67,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var today = DateTime.Now;
+            var age = today.Year - Input.dob.Year;
+            if (Input.dob.Date > today.AddYears(-age)) age--;
+            if (age > 65 || age < 18)
+            {
+                ModelState.AddModelError(string.Empty, "Date of birth must be greater than 18 and less than 65");
+                return await OnGetAsync();
+            }
+
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
@@ -77,6 +86,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
                     user.Address = Input.Location;
                     user.PhoneNumber = Input.Phone;
                 }
+                
                 if (UploadImage != null)
                 {
                     var imagePath = await _uploadImg.UploadAsync(UploadImage,"uploads/img");
