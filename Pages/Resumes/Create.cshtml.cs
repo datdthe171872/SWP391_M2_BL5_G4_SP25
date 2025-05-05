@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
@@ -24,9 +25,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
         [BindProperty]
         public IFormFile CvFile { get; set; }
 
-        [BindProperty]
-        public string Description { get; set; }
-
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
+        public async Task<IActionResult> OnGetAsync()
+        {
+            Header.User = await _userManager.GetUserAsync(User);
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            return Page();
+        }
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -67,28 +72,17 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
             // Check if user already has a JobSeekerProfile
             var existingProfile = await _context.JobSeekerProfiles
                 .FirstOrDefaultAsync(p => p.UserID == user.Id && !p.isDelete);
-
-            if (existingProfile != null)
+            if(existingProfile == null)
             {
-                // Update existing profile
-                existingProfile.Description = Description;
-                existingProfile.Link = $"/uploads/resumes/{uniqueFileName}";
-                _context.JobSeekerProfiles.Update(existingProfile);
+                return RedirectToPage("/JobSeeker/JobSeekerProfile");
             }
-            else
+            var resume = new Resume
             {
-                // Create new profile
-                var jobSeekerProfile = new JobSeekerProfile
-                {
-                    UserID = user.Id,
-                    Logo = "default.jpg",
-                    Description = Description,
-                    Link = $"/uploads/resumes/{uniqueFileName}",
-                    Dob = DateTime.Now,
-                    isDelete = false
-                };
-                _context.JobSeekerProfiles.Add(jobSeekerProfile);
-            }
+                JobSeekerProfileID = existingProfile.JobSeekerProfileID,
+                Link = $"/uploads/resumes/{uniqueFileName}",
+                IsDelete = false
+            };
+            await _context.Resumes.AddAsync(resume);
 
             await _context.SaveChangesAsync();
 

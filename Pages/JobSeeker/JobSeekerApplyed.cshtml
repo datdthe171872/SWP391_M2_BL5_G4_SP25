@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="content__flex">
                                             <div class="content">
-                                                <a href="/Jobs/Details/@job.JobID"><h6>@job.JobTitle, @job.CompanyName</h6></a>
+                                                <a href="/Jobs/Details?JobId=@job.JobID"><h6>@job.JobTitle, @job.CompanyName</h6></a>
                                                 <div class="content__info">
                                                     <span><i class="fa-light fa-location-dot"></i> @job.Location</span>
                                                     <span><i class="fa-light fa-briefcase"></i> @job.JobType</span>
@@ -148,14 +148,7 @@
                                                 {
                                                     <p><strong>CV File:</strong> <a href="@job.CVFile" target="_blank" download>Download CV</a></p>
                                                     <!-- Embed PDF viewer if CV is a PDF -->
-                                                    @if (job.CVFile.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-                                                    {
-                                                        <embed src="@job.CVFile" type="application/pdf" width="100%" height="500px" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <p>Preview not available. Please download the file to view.</p>
-                                                    }
+                                                    <embed src="@job.CVFile" type="application/pdf" width="100%" height="500px" />
                                                 }
                                                 else
                                                 {
@@ -176,7 +169,7 @@
                         }
                     </div>
 
-                    <!-- Pagination -->
+                    @* <!-- Pagination -->
                     @if (Model.TotalPages > 1)
                     {
                         <div class="rts__pagination d-block mx-auto pt-40 max-content">
@@ -199,7 +192,7 @@
                                 </li>
                             </ul>
                         </div>
-                    }
+                    } *@
                 </div>
 
                 <div class="d-flex justify-content-center mt-30">

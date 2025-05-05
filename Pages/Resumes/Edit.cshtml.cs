@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
@@ -22,55 +23,60 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
         }
 
         [BindProperty]
-        public JobSeekerProfile Profile { get; set; }
+        public Resume Resume { get; set; }
 
         [BindProperty]
         public IFormFile CvFile { get; set; }
-
-        [BindProperty]
-        public string Description { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int id)
+        public HeaderDTO Header { get; set; } =new HeaderDTO();
+        [BindProperty(SupportsGet =true)]
+        public int id {  get; set; }
+        public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user.isDelete)
             {
                 return RedirectToPage("/InActiveUser");
             }
+            Header.User = user;
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            var profile = await _context.JobSeekerProfiles
+                .FirstOrDefaultAsync(p => p.UserID == user.Id);
 
-            Profile = await _context.JobSeekerProfiles
-                .FirstOrDefaultAsync(p => p.JobSeekerProfileID == id && p.UserID == user.Id && !p.isDelete);
-
-            if (Profile == null)
+            if (profile == null)
             {
                 return RedirectToPage("/Resumes/Index");
             }
-
-            Description = Profile.Description;
+            Resume = _context.Resumes.FirstOrDefault(x => x.ResumeID == id && x.IsDelete ==false);
+            if(Resume == null)
+            {
+                return RedirectToPage("/Resumes/Index");
+            }
+            if(Resume.JobSeekerProfileID != profile.JobSeekerProfileID)
+            {
+                return RedirectToPage("/Error");
+            }
+            
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return RedirectToPage("/Account/Login");
-            }
+
 
             var existingProfile = await _context.JobSeekerProfiles
-                .FirstOrDefaultAsync(p => p.JobSeekerProfileID == Profile.JobSeekerProfileID && p.UserID == user.Id && !p.isDelete);
+                .FirstOrDefaultAsync(p => p.UserID == user.Id && !p.isDelete);
 
             if (existingProfile == null)
             {
                 return RedirectToPage("/Resumes/Index");
             }
-
-            if (string.IsNullOrEmpty(Description))
+            var resume = await _context.Resumes.FirstOrDefaultAsync(x=>x.ResumeID == id && x.IsDelete ==false); 
+            if (resume == null)
             {
-                ModelState.AddModelError("Description", "Vui lòng nhập mô tả CV.");
-                return Page();
+                return RedirectToPage("/Error");
             }
+
 
             if (CvFile != null)
             {
@@ -100,20 +106,20 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
                     await CvFile.CopyToAsync(stream);
                 }
 
-                // Delete old file
-                if (!string.IsNullOrEmpty(existingProfile.Link))
-                {
-                    var oldFilePath = Path.Combine(_environment.WebRootPath, existingProfile.Link.TrimStart('/'));
-                    if (System.IO.File.Exists(oldFilePath))
-                    {
-                        System.IO.File.Delete(oldFilePath);
-                    }
-                }
+                //// Delete old file
+                //if (!string.IsNullOrEmpty(existingProfile.Link))
+                //{
+                //    var oldFilePath = Path.Combine(_environment.WebRootPath, existingProfile.Link.TrimStart('/'));
+                //    if (System.IO.File.Exists(oldFilePath))
+                //    {
+                //        System.IO.File.Delete(oldFilePath);
+                //    }
+                //}
 
-                existingProfile.Link = $"/uploads/resumes/{uniqueFileName}";
+                resume.Link = $"/uploads/resumes/{uniqueFileName}";
             }
 
-            existingProfile.Description = Description;
+            //existingProfile.Description = Description;
             await _context.SaveChangesAsync();
 
             TempData["Message"] = "Cập nhật CV thành công!";

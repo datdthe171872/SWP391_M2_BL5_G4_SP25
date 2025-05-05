@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
@@ -21,42 +22,23 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
             _environment = environment;
         }
 
-        public IList<JobSeekerProfile> JobSeekerProfiles { get; set; }
-        public string SearchDescription { get; set; }
-        public DateTime? SearchDob { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(string searchDescription, DateTime? searchDob)
+        public List<Resume> resumes { get; set; } =new List<Resume>();
+        public HeaderDTO Header { get; set; } =new HeaderDTO();
+        public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            
+            Header.User = user;
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             if (user.isDelete)
             {
                 return RedirectToPage("/InActiveUser");
             }
-
-            var query = _context.JobSeekerProfiles
-                .Where(p => p.UserID == user.Id && !p.isDelete);
-
-            if (!string.IsNullOrEmpty(searchDescription))
+            var seekerProfile = _context.JobSeekerProfiles.FirstOrDefault(x => x.UserID == user.Id);
+            if (seekerProfile == null)
             {
-                query = query.Where(p => p.Description != null && p.Description.Contains(searchDescription));
+                return RedirectToPage("/JobSeeker/JobSeekerProfile");
             }
-
-            if (searchDob.HasValue)
-            {
-                query = query.Where(p => p.Dob.Date == searchDob.Value.Date);
-            }
-
-            JobSeekerProfiles = await query.OrderByDescending(p => p.JobSeekerProfileID).ToListAsync();
-            
-            // Debug information
-            foreach (var profile in JobSeekerProfiles)
-            {
-                Console.WriteLine($"Profile ID: {profile.JobSeekerProfileID}, User ID: {profile.UserID}");
-            }
-
-            SearchDescription = searchDescription;
-            SearchDob = searchDob;
+            resumes = _context.Resumes.Where(x=>x.JobSeekerProfileID == seekerProfile.JobSeekerProfileID).ToList();
 
             return Page();
         }
@@ -71,13 +53,18 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
 
             var profile = await _context.JobSeekerProfiles
                 .FirstOrDefaultAsync(p => p.JobSeekerProfileID == id && p.UserID == user.Id && !p.isDelete);
+            var resume = _context.Resumes.FirstOrDefault(x => x.ResumeID == id && x.IsDelete == false);
+            if (resume == null)
+            {
+                return RedirectToPage("/Error");
+            }
 
-            if (profile != null)
+            if (resume != null)
             {
                 // Delete the physical file
-                if (!string.IsNullOrEmpty(profile.Link))
+                if (!string.IsNullOrEmpty(resume.Link))
                 {
-                    var filePath = Path.Combine(_environment.WebRootPath, profile.Link.TrimStart('/'));
+                    var filePath = Path.Combine(_environment.WebRootPath, resume.Link.TrimStart('/'));
                     if (System.IO.File.Exists(filePath))
                     {
                         System.IO.File.Delete(filePath);
@@ -85,7 +72,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Resumes
                 }
 
                 // Delete from database
-                _context.JobSeekerProfiles.Remove(profile);
+                _context.Resumes.Remove(resume);
                 await _context.SaveChangesAsync();
                 TempData["Message"] = "Xóa CV thành công!";
             }

@@ -28,18 +28,15 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
         public List<AppliedJobViewModel> AppliedJobs { get; set; }
         public string SearchTerm { get; set; }
         public string CategoryFilter { get; set; }
-        public int PageIndex { get; set; } = 1;
-        public int PageSize { get; set; } = 5;
         public int TotalPages { get; set; }
         public HeaderDTO Header { get; set; } = new HeaderDTO();
-        public async Task OnGetAsync(string searchTerm, string categoryFilter, int pageIndex = 1)
+        public async Task OnGetAsync(string searchTerm, string categoryFilter)
         {
             Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
             Header.User = await _userManager.GetUserAsync(User);
 
             SearchTerm = searchTerm;
             CategoryFilter = categoryFilter;
-            PageIndex = pageIndex;
 
             // Lấy UserID của JobSeeker hiện tại
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -79,13 +76,8 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
                 }
             }
 
-            var totalRecords = await query.CountAsync();
-            TotalPages = (int)Math.Ceiling(totalRecords / (double)PageSize);
-
             AppliedJobs = await query
                 .OrderByDescending(x => x.ApplicationDate)
-                .Skip((PageIndex - 1) * PageSize)
-                .Take(PageSize)
                 .ToListAsync();
         }
     }
