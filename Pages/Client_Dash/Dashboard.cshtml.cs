@@ -46,7 +46,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
         public string Status { get; set; }
         public string Date { get; set; }
         public List<Job> ShortlistedJobs { get; set; }
-
+        public HeaderDTO Header { get; set; } =new HeaderDTO();
         public async Task<IActionResult> OnGetAsync(int? year, int? month)
         {
             Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete ==false).ToList();

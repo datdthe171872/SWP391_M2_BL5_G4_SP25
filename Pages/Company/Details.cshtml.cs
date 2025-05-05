@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +10,11 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
     public class DetailsModel : PageModel
     {
         private readonly MyDBContext _context;
-
-        public DetailsModel(MyDBContext context)
+        private readonly UserManager<User> _userManager;
+        public DetailsModel(MyDBContext context,UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public CompanyDetailDTO CompanyDetail { get; set; }
@@ -20,6 +22,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            Header.User = await _userManager.GetUserAsync(User);
             var company = await _context.Companies
                 .Where(c => c.CompanyID == id && !c.isDelete)
                 .FirstOrDefaultAsync();

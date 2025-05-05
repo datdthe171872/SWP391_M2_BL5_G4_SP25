@@ -1,4 +1,4 @@
-﻿@page "/Jobs/Details/{id:int}"
+﻿@page "/Jobs/Details"
 @model SWP391_M2_BL5_G4_SP25.Pages.Jobs.DetailsModel
 @{
     ViewData["Title"] = Model.JobDetail.Title;
@@ -198,52 +198,62 @@
                             
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <button type="button" class="rts__btn apply__btn fill__btn be-1 fw-bold" data-bs-toggle="modal" data-bs-target="#applyModal">
-                                    Apply This Position
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <!-- Modal Header -->
-                                            <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title" id="applyModalLabel">Apply for @Model.JobDetail.Title</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
+                                @if (User.IsInRole("JobSeeker"))
+                                {
+                                    <button type="button" class="rts__btn apply__btn fill__btn be-1 fw-bold" data-bs-toggle="modal" data-bs-target="#applyModal">
+                                        Apply This Position
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <!-- Modal Header -->
+                                                <div class="modal-header bg-primary text-white">
+                                                    <h5 class="modal-title" id="applyModalLabel">Apply for @Model.JobDetail.Title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
 
-                                            <!-- Modal Body -->
-                                            <div class="modal-body">
-                                                <form method="post">
-                                                    <!-- Hidden input for jobId -->
-                                                    <input type="hidden" name="jobId" value="@Model.JobDetail.JobID" />
+                                                <!-- Modal Body -->
+                                                <div class="modal-body">
+                                                    <form method="post">
+                                                        <!-- Hidden input for jobId -->
+                                                        <input type="text" hidden readonly asp-for="JobId" value="@Model.JobDetail.JobID" />
 
-                                                    <!-- Textarea for cover letter -->
-                                                    <div class="mb-3">
-                                                        <label for="coverletter" class="form-label fw-semibold">Cover Letter</label>
-                                                        <textarea id="coverletter" name="coverletter" class="form-control" rows="4" placeholder="Write your cover letter here..." required></textarea>
-                                                    </div>
+                                                        <!-- Textarea for cover letter -->
+                                                        @* <div class="mb-3">
+                                                            <label for="coverletter" class="form-label fw-semibold">Cover Letter</label>
+                                                            <textarea id="coverletter" name="coverletter" class="form-control" rows="4" placeholder="Write your cover letter here..." required></textarea>
+                                                        </div> *@
 
-                                                    <!-- Select box for uploaded CV links -->
-                                                    <div class="mb-3">
-                                                        <label for="cvLink" class="form-label fw-semibold">Select Your CV</label>
-                                                        <select id="cvLink" name="cvLink" class="form-select" required>
-                                                            <option value="" disabled selected>Select your CV</option>
-                                                            @foreach (var resume in Model.UserResumes)
-                                                            {
-                                                                <option value="@resume.Resumes.SingleOrDefault()?.Link ?? ''">@resume.Description</option>
-                                                            }
-                                                        </select>
-                                                    </div>
+                                                        <!-- Select box for uploaded CV links -->
+                                                        <div class="mb-3">
+                                                            <label for="cvLink" class="form-label fw-semibold">Select Your CV</label>
+                                                            <select id="cvLink" name="cvLink" class="form-select" required>
+                                                                <option value="" disabled selected>Select your CV</option>
+                                                                @foreach (var resume in Model.UserResumes)
+                                                                {
+                                                                    <option value="@resume.Resumes.SingleOrDefault()?.Link">@resume.Resumes.SingleOrDefault()?.Link</option>
+                                                                }
+                                                            </select>
+                                                        </div>
 
-                                                    <!-- Submit button -->
-                                                    <div class="text-end">
-                                                        <button type="submit" class="btn btn-success btn-lg fw-bold">Submit Application</button>
-                                                    </div>
-                                                </form>
+                                                        <!-- Submit button -->
+                                                        <div class="text-end">
+                                                            <button type="submit" class="btn btn-success btn-lg fw-bold">Submit Application</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+                                    <a href="/Error" class="rts__btn apply__btn fill__btn be-1 fw-bold">
+                                        Apply This Position
+                                    </a>
+                                }
+
                             }else{
                                 <a href="/Account/Login" class="rts__btn apply__btn fill__btn be-1 fw-bold">
                                     Apply This Position
@@ -264,6 +274,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group text-danger" asp-validation-summary="ModelOnly">
                     </div>
                     <div class="job__location__map">
                         <h5 class="fw-semibold mb-30">Location</h5>

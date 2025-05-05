@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
     public class JobListModel : PageModel
     {
         private readonly MyDBContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public JobListModel(MyDBContext context)
+        public JobListModel(MyDBContext context ,UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IList<Job> Jobs { get; set; }
@@ -38,6 +41,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
         public async Task OnGetAsync(int? pageNumber, string search, string location, int? category, string jobType, string experience, string salary)
         {
             Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            Header.User = await _userManager.GetUserAsync(User);
             CurrentPage = pageNumber ?? 1;
             if (CurrentPage < 1) CurrentPage = 1;
 

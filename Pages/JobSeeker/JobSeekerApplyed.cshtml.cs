@@ -6,16 +6,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using SWP391_M2_BL5_G4_SP25.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
 {
+    [Authorize(Roles ="JobSeeker")]
     public class JobSeekerApplyedModel : PageModel
     {
         private readonly MyDBContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public JobSeekerApplyedModel(MyDBContext context)
+        public JobSeekerApplyedModel(MyDBContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public List<AppliedJobViewModel> AppliedJobs { get; set; }
@@ -24,9 +29,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 5;
         public int TotalPages { get; set; }
-
+        public HeaderDTO Header { get; set; } = new HeaderDTO();
         public async Task OnGetAsync(string searchTerm, string categoryFilter, int pageIndex = 1)
         {
+            Header.JobCategories = _context.JobCategories.Where(x=>x.isDelete==false).ToList();
+            Header.User = await _userManager.GetUserAsync(User);
+
             SearchTerm = searchTerm;
             CategoryFilter = categoryFilter;
             PageIndex = pageIndex;

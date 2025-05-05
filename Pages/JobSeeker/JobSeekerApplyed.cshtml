@@ -1,4 +1,4 @@
-﻿@page "/a"
+﻿@page "/JobSeeker/AppliedJob"
 @model SWP391_M2_BL5_G4_SP25.Pages.JobSeeker.JobSeekerApplyedModel
 @{
     ViewData["Title"] = "Applied Jobs";
@@ -24,104 +24,27 @@
     <meta name="twitter:title" content="Your Ultimate Job HTML Template">
     <meta name="twitter:description" content="Your Ultimate Job HTML Template">
     <!-- Favicon -->
-    <link rel="shortcut-icon" href="assets/img/favicon-16x16.png" type="image/x-icon">
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut-icon" href="/assets/img/favicon-16x16.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon">
     <title>Jobpath - Job Seeker & Job Holder HTML Template</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
     <!-- Icons -->
-    <link rel="stylesheet" href="assets/fonts/icon/css/rt-icons.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/fonts/icon/css/rt-icons.css">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome/fontawesome.min.css">
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/plugins.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/plugins.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="template-dashboard">
     <!-- Header -->
-    @await Html.PartialAsync("_Header")
+    @await Html.PartialAsync("_Header",Model.Header)
 
     <!-- Content Area -->
     <div class="dashboard__content d-flex">
-        <div class="dashboard__left">
-            <div class="dash__menu">
-                <ul>
-                    <li class="nav-item">
-                        <a href="candidate-dashboard.html" class="nav-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="candidate-profile.html">
-                            <svg width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-resume.html" class="nav-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            My Resume
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-appliedjob.html" class="nav-link active">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Applied Job
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-shortlist.html" class="nav-link">
-                            <svg width="19" height="24" viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Jobs Shortlist
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-message.html" class="nav-link">
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Message
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-alerts.html" class="nav-link">
-                            <svg width="20" height="23" viewBox="0 0 20 23" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Job Alerts
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-follow.html" class="nav-link">
-                            <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Following Employer
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-meeting.html" class="nav-link">
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Meeting
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-passwordchange.html" class="nav-link">
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Change Password
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="candidate-deleteprofile.html" class="nav-link">
-                            <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
-                            Delete Profile
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="dash__logout">
-                <figure class="logout__image">
-                    <img src="assets/img/dashboard/logout.png" alt="Logout">
-                </figure>
-                <a class="logout__btn" href="#"><i class="rt-login"></i> Logout</a>
-            </div>
-        </div>
+        @await Html.PartialAsync("_NavSeeker")
         <div class="dashboard__right">
             <div class="dash__content">
                 <!-- Sidebar Menu -->
@@ -162,7 +85,7 @@
                                 <div class="single__applied__job">
                                     <div class="single__applied__job__content">
                                         <div class="icon">
-                                            <img src="@job.CompanyLogo" alt="@job.CompanyName" onerror="this.src='assets/img/home-1/company/amazon.svg'" />
+                                            <img src="@job.CompanyLogo" alt="@job.CompanyName" onerror="this.src='/assets/img/home-1/company/amazon.svg'" />
                                         </div>
                                         <div class="content__flex">
                                             <div class="content">
@@ -218,18 +141,18 @@
                         <div class="rts__pagination d-block mx-auto pt-40 max-content">
                             <ul class="d-flex gap-2">
                                 <li>
-                                    <a href="@Url.Page("/a", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = Model.PageIndex - 1 })" class="@(Model.PageIndex == 1 ? "inactive" : "")">
+                                    <a href="@Url.Page("/JobSeeker/AppliedJob", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = Model.PageIndex - 1 })" class="@(Model.PageIndex == 1 ? "inactive" : "")">
                                         <i class="rt-chevron-left"></i>
                                     </a>
                                 </li>
                                 @for (int i = 1; i <= Model.TotalPages; i++)
                                 {
                                     <li>
-                                        <a href="@Url.Page("/a", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = i })" class="@(Model.PageIndex == i ? "active" : "")">@i</a>
+                                        <a href="@Url.Page("/JobSeeker/AppliedJob", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = i })" class="@(Model.PageIndex == i ? "active" : "")">@i</a>
                                     </li>
                                 }
                                 <li>
-                                    <a href="@Url.Page("/a", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = Model.PageIndex + 1 })" class="@(Model.PageIndex == Model.TotalPages ? "inactive" : "")">
+                                    <a href="@Url.Page("/JobSeeker/AppliedJob", new { searchTerm = Model.SearchTerm, categoryFilter = Model.CategoryFilter, pageIndex = Model.PageIndex + 1 })" class="@(Model.PageIndex == Model.TotalPages ? "inactive" : "")">
                                         <i class="rt-chevron-right"></i>
                                     </a>
                                 </li>
@@ -249,7 +172,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
         <div class="offcanvas-header p-0 mb-5 mt-4">
             <a href="index-2.html" class="offcanvas-title" id="offcanvasLabel">
-                <img src="assets/img/logo/header__one.svg" alt="logo">
+                <img src="/assets/img/logo/header__one.svg" alt="logo">
             </a>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -289,7 +212,7 @@
     </button>
 
     <!-- Scripts -->
-    <script src="assets/js/plugins.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/plugins.min.js"></script>
+    <script src="/assets/js/main.js"></script>
 </body>
 </html>
