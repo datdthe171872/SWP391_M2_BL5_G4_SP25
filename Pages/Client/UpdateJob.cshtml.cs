@@ -242,7 +242,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Client/AppliedJob");
+            return RedirectToPage("/Client/MyJob");
         }
     }
 }

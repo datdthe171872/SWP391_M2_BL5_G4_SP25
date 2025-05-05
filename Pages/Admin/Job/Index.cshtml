@@ -13,9 +13,9 @@
 				<div class="col-md-2">
 					<select name="SearchInput.Status" class="form-select">
 						<option value="">-- Select Status --</option>
-						<option value="OPEN" selected="@((Model.SearchInput.Status == "OPEN") ? "selected" : null)">Open</option>
-						<option value="CLOSED" selected="@((Model.SearchInput.Status == "CLOSED") ? "selected" : null)">Closed</option>
-						<option value="PENDING" selected="@((Model.SearchInput.Status == "PENDING") ? "selected" : null)">Pending</option>
+						<option value="OPEN" selected="@((Model.SearchInput.Status == "Open") ? "selected" : null)">Open</option>
+						<option value="CLOSED" selected="@((Model.SearchInput.Status == "Wait") ? "selected" : null)">Wait</option>
+						<option value="PENDING" selected="@((Model.SearchInput.Status == "End") ? "selected" : null)">End</option>
 					</select>
 				</div>
 
@@ -61,9 +61,9 @@
 							<form method="post" asp-page-handler="UpdateStatus" class="d-inline">
 								<input type="hidden" name="jobId" value="@job.JobID" />
 								<select name="newStatus" onchange="this.form.submit()" class="form-select form-select-sm">
-									<option value="OPEN" selected="@((job.Status == "OPEN") ? "selected" : null)">Open</option>
-									<option value="CLOSED" selected="@((job.Status == "CLOSED") ? "selected" : null)">Closed</option>
-									<option value="PENDING" selected="@((job.Status == "PENDING") ? "selected" : null)">Pending</option>
+									<option value="OPEN" selected="@((job.Status == "Open") ? "selected" : null)">Open</option>
+									<option value="CLOSED" selected="@((job.Status == "Wait") ? "selected" : null)">Wait</option>
+									<option value="PENDING" selected="@((job.Status == "End") ? "selected" : null)">End</option>
 								</select>
 							</form>
 						</td>

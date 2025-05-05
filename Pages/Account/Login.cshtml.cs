@@ -67,6 +67,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (User.IsInRole("Admin"))
+                    {
+                        return RedirectToPage("/CLient_Dash/AdminDash");
+                    }
                     TempData["StatusMessage"] = "Login successfully!";
                     return RedirectToPage("/Index");
                 }

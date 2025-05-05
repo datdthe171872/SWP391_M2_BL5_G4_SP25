@@ -34,6 +34,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Admin.Job
 			var query = _context.Jobs
 					.Include(j => j.Company)
 					.Include(j => j.JobCategory)
+					.OrderByDescending(x=>x.PostDate)
 					.Where(j => !j.isDelete)
 					;
 			if (!string.IsNullOrEmpty(SearchInput.SearchTerm))

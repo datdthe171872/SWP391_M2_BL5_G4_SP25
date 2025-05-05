@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SWP391_M2_BL5_G4_SP25.Constants;
 using SWP391_M2_BL5_G4_SP25.DTO;
 using SWP391_M2_BL5_G4_SP25.Models;
@@ -24,10 +25,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
         [BindProperty]
         public CreateJobInput Input { get; set; }
 
-        public List<JobCategory> Categories { get; set; } =new List<JobCategory>();
+        public List<JobCategory> Categories { get; set; } = new List<JobCategory>();
         public List<Models.Company> Companies { get; set; } = new List<Models.Company>();
 
-        public  HeaderDTO HeaderDTO { get; set; } = new HeaderDTO();
+        public HeaderDTO HeaderDTO { get; set; } = new HeaderDTO();
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -36,14 +37,14 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
                 return RedirectToPage("/InActiveUser");
             }
 
-            Categories = await _context.JobCategories.Where(x=>x.isDelete== false).ToListAsync();
+            Categories = await _context.JobCategories.Where(x => x.isDelete == false).ToListAsync();
             HeaderDTO.JobCategories = Categories;
             HeaderDTO.User = user;
             var clientProfile = await _context.ClientProfiles.FirstOrDefaultAsync(x => x.UserID == user.Id);
 
             if (clientProfile == null)
             {
-               return Page();
+                return Page();
             }
 
             Companies = await _context.Companies.Where(x => x.ClientProfileID == clientProfile.ClientProfileID && x.isDelete == false).ToListAsync();
@@ -53,10 +54,10 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
             if (string.IsNullOrEmpty(Input.Company.ToString()))
             {
                 return BadRequest();
@@ -79,51 +80,61 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
 
-            // 2. Thêm requirements
-            foreach (var req in Input.Requirements)
+            if (!Input.Requirements.IsNullOrEmpty())
             {
-                if (!string.IsNullOrWhiteSpace(req))
+                // 2. Thêm requirements
+                foreach (var req in Input.Requirements)
                 {
-                    _context.Requirements.Add(new Requirement
+                    if (!string.IsNullOrWhiteSpace(req))
                     {
-                        JobID = job.JobID,
-                        Content = req,
-                        IsDelete = false
-                    });
+                        _context.Requirements.Add(new Requirement
+                        {
+                            JobID = job.JobID,
+                            Content = req,
+                            IsDelete = false
+                        });
+                    }
                 }
             }
 
-            // 3. Thêm benefits
-            foreach (var benefit in Input.Benefits)
+            if (!Input.Benefits.IsNullOrEmpty())
             {
-                if (!string.IsNullOrWhiteSpace(benefit))
+                // 3. Thêm benefits
+                foreach (var benefit in Input.Benefits)
                 {
-                    _context.Benefits.Add(new Benefit
+                    if (!string.IsNullOrWhiteSpace(benefit))
                     {
-                        JobID = job.JobID,
-                        Content = benefit,
-                        IsDelete = false
-                    });
+                        _context.Benefits.Add(new Benefit
+                        {
+                            JobID = job.JobID,
+                            Content = benefit,
+                            IsDelete = false
+                        });
+                    }
                 }
             }
 
-            // 4. Thêm responsibilities
-            foreach (var resp in Input.Responsibilities)
+            if (!Input.Responsibilities.IsNullOrEmpty())
             {
-                if (!string.IsNullOrWhiteSpace(resp))
+                // 4. Thêm responsibilities
+                foreach (var resp in Input.Responsibilities)
                 {
-                    _context.Responsibilities.Add(new Responsibility
+                    if (!string.IsNullOrWhiteSpace(resp))
                     {
-                        JobID = job.JobID,
-                        Content = resp,
-                        IsDelete = false
-                    });
+                        _context.Responsibilities.Add(new Responsibility
+                        {
+                            JobID = job.JobID,
+                            Content = resp,
+                            IsDelete = false
+                        });
+                    }
                 }
             }
 
-            await _context.SaveChangesAsync(); 
 
-            return RedirectToPage("/Client/AppliedJob");
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("/Client/MyJob");
         }
     }
 }

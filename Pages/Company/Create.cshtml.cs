@@ -72,7 +72,12 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
 
 			bool companyExists = await _context.Companies
 						.AnyAsync(c => c.CompanyName.ToLower() == Input.CompanyName.ToLower() && !c.isDelete);
-
+			bool emailExist = await _context.Companies.AnyAsync(x=>x.Email.ToLower() == Input.Email.ToLower() && !x.isDelete);
+			if (emailExist)
+			{
+                ModelState.AddModelError("Input.Email", "A company with this email already exists.");
+                return Page();
+            }
 			if (companyExists)
 			{
 				ModelState.AddModelError("Input.CompanyName", "A company with this name already exists.");
