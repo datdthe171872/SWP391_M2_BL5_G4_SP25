@@ -43,6 +43,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
                         select new AppliedJobViewModel
                         {
                             JobApplicationID = ja.JobApplicationID,
+                            JobID = j.JobID,
                             JobTitle = j.Title,
                             CompanyName = c.CompanyName,
                             CompanyLogo = c.Image,
@@ -84,6 +85,7 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
     {
         public int JobApplicationID { get; set; }
         public string JobTitle { get; set; }
+        public int JobID { get; set; }
         public string CompanyName { get; set; }
         public string CompanyLogo { get; set; }
         public int CompanyID { get; set; } 
