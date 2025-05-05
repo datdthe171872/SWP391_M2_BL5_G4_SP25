@@ -5,6 +5,7 @@
         public int JobID { get; set; }
         public string Title { get; set; }
         public string CompanyName { get; set; }
+        public int CompanyID { get; set; }
         public string Location { get; set; }
         public string JobType { get; set; }
         public DateTime PostDate { get; set; }

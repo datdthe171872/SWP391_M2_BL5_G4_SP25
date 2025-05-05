@@ -39,9 +39,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Company
                 Description = company.Description ?? "No description available",
                 Image = company.Image ?? "/assets/img/home-1/company/default.svg",
                 Location = company.Location ?? "Unknown",
-                //Email = company.Email ?? "Not provided",
+                Email = company.Email ?? "Not provided",
                 //Phone = company.Phone ?? "Not provided",
-                //Website = company.Website ?? "Not provided",
+                Website = company.Link ?? "Not provided",
                 //FoundedDate = company.FoundedDate,
                 //Industry = company.Industry ?? "Not specified",
                 //EmployeeCount = company.EmployeeCount

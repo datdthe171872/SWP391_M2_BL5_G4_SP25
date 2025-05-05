@@ -39,7 +39,7 @@
 
         <!-- Main Content -->
         <div class="dashboard__right">
-            <div class="container">
+            <div class="my__profile__tab radius-16 bg-white">
                 <h2 class="mb-4">Job Seeker Profile</h2>
                 @if (!User.Identity.IsAuthenticated)
                 {
@@ -93,7 +93,10 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Save Profile</button>
+                                <div class="info__field" >
+                                    <button type="submit" class="rts__btn fill__btn mx-0">Save Profile</button>
+                                </div>
+                               
                             </div>
                         </div>
                     </form>

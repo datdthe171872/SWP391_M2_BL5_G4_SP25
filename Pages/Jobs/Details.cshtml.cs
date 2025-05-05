@@ -44,11 +44,24 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
                 return NotFound();
             }
 
+            var requirements = await _context.Requirements
+                .Where(r => r.JobID == id && !r.IsDelete)
+                .Select(r => r.Content)
+                .ToListAsync();
+            var requirementsContent = requirements.Any() ? string.Join("<br>", requirements) : "No requirements available.";
+
+            var responsibilities = await _context.Responsibilities
+                .Where(r => r.JobID == id && !r.IsDelete)
+                .Select(r => r.Content)
+                .ToListAsync();
+            var responsibilitiesContent = responsibilities.Any() ? string.Join("<br>", responsibilities) : "No responsibilities available.";
+
             JobDetail = new JobDetailDTO
             {
                 JobID = job.JobID,
                 Title = job.Title,
                 CompanyName = job.Company?.CompanyName ?? "Unknown",
+                CompanyID = job.CompanyID,
                 Location = job.Location,
                 JobType = job.JobType,
                 PostDate = job.PostDate,
@@ -57,7 +70,9 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Jobs
                 CategoryName = job.JobCategory?.CategoryName ?? "Uncategorized",
                 Exp = job.Exp,
                 SkillsRequired = job.SkillsRequired,
-                Gender = "Both"
+                Gender = "Both",
+                Requirements = requirementsContent, 
+                Responsibilities = responsibilitiesContent 
             };
 
             if(user != null)
