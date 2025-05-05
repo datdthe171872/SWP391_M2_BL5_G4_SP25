@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Client;
@@ -6,6 +7,7 @@ using SWP391_M2_BL5_G4_SP25.Service;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 {
+    [Authorize(Roles = "Admin")]
     public class AdminDashModel : PageModel
     {
         private readonly AdminDashService _adminDashService;

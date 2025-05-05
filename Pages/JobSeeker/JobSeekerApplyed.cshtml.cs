@@ -7,9 +7,11 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using SWP391_M2_BL5_G4_SP25.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.JobSeeker
 {
+    [Authorize(Roles = "JobSeeker")]
     public class JobSeekerApplyedModel : PageModel
     {
         private readonly MyDBContext _context;

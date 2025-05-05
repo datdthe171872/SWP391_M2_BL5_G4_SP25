@@ -12,6 +12,8 @@ using SWP391_M2_BL5_G4_SP25.Common;
 
 namespace SWP391_M2_BL5_G4_SP25.Pages.Client_Dash
 {
+    [Authorize(Roles = "Client")]
+
     public class DashboardModel : PageModel
     {
         private readonly MyDBContext _context;
