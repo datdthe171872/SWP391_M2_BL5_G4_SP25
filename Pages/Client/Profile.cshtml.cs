@@ -75,6 +75,13 @@ namespace SWP391_M2_BL5_G4_SP25.Pages.Client
                 ModelState.AddModelError(string.Empty, "Date of birth must be greater than 18 and less than 65");
                 return await OnGetAsync();
             }
+            if (Input.Phone.Length > 11 || Input.Phone.Length <9)
+            {
+                ModelState.AddModelError(string.Empty, "Phone must be greater than 8 and less than 12");
+                return await OnGetAsync();
+            }
+
+
 
             await using var transaction = await _context.Database.BeginTransactionAsync();
             try
